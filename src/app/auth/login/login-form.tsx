@@ -19,7 +19,7 @@ import { FormWrapper } from '@/components/form-wrapper';
 import Link from 'next/link';
 import SocialLogin from '@/components/social';
 import { LoginSchema, LoginSchemaType } from '@/schema/login';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { LoginAction } from './action';
 
 export function LoginForm() {
@@ -36,14 +36,14 @@ export function LoginForm() {
   function onSubmit(values: LoginSchemaType) {
     startTransition(() => {
       LoginAction(values).then((data) => {
-        if (data.error) {
+        if (data?.error) {
           toast({
             title: 'Error',
             description: data.error,
           });
         }
 
-        if (data.success) {
+        if (data?.success) {
           toast({
             title: 'Success',
             description: data.success,
