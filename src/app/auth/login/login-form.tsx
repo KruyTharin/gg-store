@@ -104,7 +104,7 @@ export function LoginForm() {
             className="flex justify-center"
             disabled={isPending}
           >
-            <Link href="/register">Didn't have account?</Link>
+            <Link href="/auth/register">Didn't have account?</Link>
           </Button>
         </form>
       </Form>

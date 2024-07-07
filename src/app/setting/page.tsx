@@ -6,7 +6,7 @@ async function SettingPage() {
   const session = await auth();
   return (
     <div>
-      {JSON.stringify(session)}
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       <form
         action={async () => {
           'use server';
