@@ -21,9 +21,15 @@ import SocialLogin from '@/components/social';
 import { LoginSchema, LoginSchemaType } from '@/schema/login';
 import { useTransition } from 'react';
 import { LoginAction } from './action';
+import { useSearchParams } from 'next/navigation';
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const errorMessage =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'This email is already use in another provider!'
+      : '';
 
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
@@ -92,6 +98,7 @@ export function LoginForm() {
             )}
           />
 
+          <span className="text-rose-500 pt-5">{errorMessage}</span>
           <Button type="submit" className="w-full">
             Login
           </Button>

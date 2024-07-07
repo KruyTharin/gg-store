@@ -4,6 +4,9 @@ import { LoginSchema, LoginSchemaType } from '@/schema/login';
 import { signIn } from '@/auth';
 import { ROUTES } from '@/route';
 import { AuthError } from 'next-auth';
+import { generateVerificationToken } from '@/services/token';
+import { getUserByEmail } from '@/services/user';
+import { sendVerificationEmail } from '@/services/mail';
 
 export const LoginAction = async (values: LoginSchemaType) => {
   const validationField = LoginSchema.safeParse(values);
@@ -13,6 +16,24 @@ export const LoginAction = async (values: LoginSchemaType) => {
   }
 
   const { password, email } = validationField.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: 'Email is not exist' };
+  }
+
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    );
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+
+    return { success: 'Confirmation email sent!' };
+  }
 
   try {
     await signIn('credentials', {

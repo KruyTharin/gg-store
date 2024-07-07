@@ -9,7 +9,12 @@ export const ROUTES = {
    * An array of routes that are accessible to public routes
    * @type {string[]}
    */
-  AUTH_ROUTES: ['/auth/login', '/auth/register'],
+  AUTH_ROUTES: [
+    '/auth/login',
+    '/auth/register',
+    '/auth/error',
+    '/auth/new-verification',
+  ],
 
   /**
    * The prefix for the authentication routes

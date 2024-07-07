@@ -3,6 +3,8 @@
 import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { RegisterSchema, RegisterSchemaType } from '@/schema/register';
+import { generateVerificationToken } from '@/services/token';
+import { sendVerificationEmail } from '@/services/mail';
 
 export const RegisterAction = async (values: RegisterSchemaType) => {
   const validationField = RegisterSchema.safeParse(values);
@@ -31,5 +33,9 @@ export const RegisterAction = async (values: RegisterSchemaType) => {
       password: hashPassword,
     },
   });
-  return { success: 'Successfully!' };
+
+  const verificationToken = await generateVerificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+
+  return { success: 'Confirmation sent!' };
 };
