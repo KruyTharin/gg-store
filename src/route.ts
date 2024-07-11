@@ -14,6 +14,8 @@ export const ROUTES = {
     '/auth/register',
     '/auth/error',
     '/auth/new-verification',
+    '/auth/forgot-password',
+    '/auth/new-password',
   ],
 
   /**

@@ -14,34 +14,40 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
 import { FormWrapper } from '@/components/form-wrapper';
 import Link from 'next/link';
-import SocialLogin from '@/components/social';
-import { LoginSchema, LoginSchemaType } from '@/schema/login';
+import {
+  NewPasswordSchema,
+  NewPasswordSchemaType,
+} from '@/schema/new-password';
 import { useTransition } from 'react';
-import { LoginAction } from './action';
+import { NewPasswordAction } from './action';
 import { useSearchParams } from 'next/navigation';
+import { toast } from '@/components/ui/use-toast';
 
-export function LoginForm() {
+export function NewPasswordForm() {
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const errorMessage =
-    searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'This email is already use in another provider!'
-      : '';
 
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(LoginSchema),
+  const token = searchParams?.get('token');
+
+  const form = useForm<NewPasswordSchemaType>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
-  function onSubmit(values: LoginSchemaType) {
+  function onSubmit(values: NewPasswordSchemaType) {
+    if (!token)
+      return toast({
+        title: 'Error',
+        description: 'Missing token!',
+      });
+
     startTransition(() => {
-      LoginAction(values).then((data) => {
+      NewPasswordAction(values, token).then((data) => {
         if (data?.error) {
           toast({
             title: 'Error',
@@ -67,48 +73,48 @@ export function LoginForm() {
           className="w-1/3 space-y-6 border p-5 shadow-md rounded-md"
         >
           <h2 className="font-bold text-3xl uppercase text-center underline">
-            Login Form
+            New Password Form
           </h2>
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="example@gmail.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" type="password" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="new password..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <span className="text-rose-500 pt-5">{errorMessage}</span>
-
-          <Button asChild variant={'link'} className="flex justify-end">
-            <Link href="/auth/forgot-password">Forgot password?</Link>
-          </Button>
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Confirm password..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit" className="w-full">
-            Login
+            Reset Password
           </Button>
-
-          <SocialLogin />
 
           <Button
             asChild
@@ -116,7 +122,7 @@ export function LoginForm() {
             className="flex justify-center"
             disabled={isPending}
           >
-            <Link href="/auth/register">Didn't have account?</Link>
+            <Link href="/auth/login">Back to login</Link>
           </Button>
         </form>
       </Form>
