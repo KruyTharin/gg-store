@@ -26,6 +26,8 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled  Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+
+  order  Order[]
  
   @@map("users")
 }
@@ -85,4 +87,113 @@ userId String
 user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
 @@unique([userId])
+}
+
+// model Store{
+//   id String @id @default(cuid())
+//   name String
+//   userId String @unique
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+model Billboard{
+id String @id @default(cuid())
+label String
+imageUrl String
+// category Category[]
+createAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}
+
+model Category{
+  id String @id @default(cuid())
+  name String
+  imageUrl String
+  // billboardId String 
+  // billbord Billboard @relation(fields: [billboardId], references: [id])
+  products Product[] @relation("CategoryToProduct")
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // @@index([billboardId])
+}
+
+model Size{
+  id String @id @default(cuid())
+  name String
+  value String
+  products Product[] 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Color{
+  id String @id @default(cuid())
+  name String
+  value String
+  products Product[] 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product{
+  id String @id @default(cuid())
+  categoryId String
+  category Category @relation("CategoryToProduct", fields: [categoryId], references: [id]) 
+  name String
+  price Decimal
+  isFeatured Boolean @default(false)
+  productInventoryId String @unique
+  productinventory ProductInventory @relation(fields: [productInventoryId], references: [id])
+  sizeId String
+  size Size @relation(fields: [sizeId], references: [id])
+  colorId String
+  color Color @relation(fields: [colorId], references: [id])
+  images Image[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sizeId])
+  @@index([colorId])
+}
+
+model ProductInventory{
+  id String @id @default(cuid())
+  products Product?
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image{
+  id String @id @default(cuid())
+  productId String @unique
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order{
+  id String     @id          @default(cuid())
+  userId String   
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItem     OrderItem[]
+  isPaid        Boolean      @default(false)
+  phoneNumber   String       @default("")
+  address       String       @default("")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+ 
+}
+
+model OrderItem{
+  id            String  @id @default(cuid())
+  orderId       String  @unique
+  order         Order   @relation(fields: [orderId] , references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
