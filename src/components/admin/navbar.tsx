@@ -26,7 +26,7 @@ function AdminNavbar() {
     },
   ];
   return (
-    <div className="sticky top-0 z-50">
+    <div className="sticky top-0 z-50 bg-white">
       <div className="container p-3 flex justify-between items-center">
         <div className="space-x-3">
           {routes.map((route) => (

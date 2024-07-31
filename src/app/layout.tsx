@@ -4,6 +4,7 @@ import './globals.css';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from '@/components/ui/toaster';
+import { TanStackProvider } from '@/providers/tanstack-query';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,12 +22,14 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
-          {children}
-          <Toaster />
-        </body>
-      </html>
+      <TanStackProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            {children}
+            <Toaster />
+          </body>
+        </html>
+      </TanStackProvider>
     </SessionProvider>
   );
 }

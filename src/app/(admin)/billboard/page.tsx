@@ -1,38 +1,39 @@
 import { db } from '@/lib/db';
 import React from 'react';
 import { DataTable } from './data-table';
+import { DEFAULT_PAGE, DEFAULT_PER_PAGE } from '@/constants';
 
 export const getPaginatedResults = async ({
   sortType,
   column,
-  searchQuery,
-  currentPage,
-  itemsPerPage,
+  search,
+  page,
+  perPage,
 }: {
   sortType?: string | undefined | null;
   column: string;
-  searchQuery: string;
-  currentPage: number;
-  itemsPerPage: number;
+  search: string;
+  page: number;
+  perPage: number;
 }) => {
-  const skip = (currentPage - 1) * itemsPerPage;
+  const skip = (page - 1) * perPage;
 
   const submission = await db.$transaction([
     db.billboard.count({
       where: {
         [column]: {
           mode: 'insensitive',
-          contains: searchQuery,
+          contains: search,
         },
       },
     }),
     db.billboard.findMany({
       skip: skip,
-      take: itemsPerPage,
+      take: perPage,
       where: {
         [column]: {
           mode: 'insensitive',
-          contains: searchQuery,
+          contains: search,
         },
       },
       orderBy: {
@@ -41,36 +42,43 @@ export const getPaginatedResults = async ({
     }),
   ]);
 
-  const totalItems = submission[1].length ?? 0;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalItems = submission[0] ?? 0;
+  const totalPages = Math.ceil(totalItems / perPage);
 
   // Ensure currentPage is within bounds
-  const _currentPage = Math.min(Math.max(1, currentPage), totalPages);
-
-  // Calculate start and end indices for items on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  const currentPage = Math.min(Math.max(1, page), totalPages);
 
   return {
     meta: {
       totalItems,
       totalPages,
-      itemsPerPage,
-      currentPage: _currentPage,
+      currentPage,
+      itemsPerPage: perPage,
     },
     data: submission[1],
   };
 };
 
-async function BillboardPage() {
+async function BillboardPage({
+  searchParams,
+}: {
+  searchParams: {
+    status: string;
+    page: string;
+    per_page: string;
+    search: string;
+  };
+}) {
+  const search = searchParams.search;
+  const page = Number(searchParams.page) || DEFAULT_PAGE;
+  const perPage = Number(searchParams.per_page) || DEFAULT_PER_PAGE;
+
   const billboards = await getPaginatedResults({
     column: 'label',
-    searchQuery: '',
-    currentPage: 1,
-    itemsPerPage: 5,
+    search,
+    page,
+    perPage,
   });
-
-  console.log(billboards);
 
   return <DataTable data={billboards.data} meta={billboards.meta} />;
 }

@@ -48,6 +48,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 variant={'destructive'}
                 onClick={() => onRemove(url)}
                 size={'icon'}
+                type="button"
               >
                 <Trash className="h-4 w-4" />
               </Button>

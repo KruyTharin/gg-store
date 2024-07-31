@@ -26,16 +26,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-// import { Meta } from '@/types/interface';
 import Search from '@/components/search';
-// import { TableSelect, TableFooter } from '@/components/table';
 import useUnitColumn from './columns';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { Meta } from '@/types/interface';
+import { TableFooter } from '@/components/table/footer';
+import { AuthRender } from '@/components/auth-render';
+import { AlertDeleteDialog } from '@/components/alert/delete';
 
 interface DataTableProps<TData> {
   data: TData[];
-  meta: any;
+  meta: Meta;
 }
 
 export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
@@ -63,23 +65,27 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
   });
 
   return (
-    <React.Fragment>
-      <div className="container mt-5">
+    <div className="container z-10">
+      <div className="mt-5">
         <div className="flex justify-between">
           <div>
-            <h2 className="font-bold text-2xl">Billboards (0)</h2>
+            <h2 className="font-bold text-2xl">
+              Billboards ({meta.totalItems})
+            </h2>
             <span>Manage billboard for your store.</span>
           </div>
-          <Button asChild variant={'default'}>
-            <Link href={'/billboard/create'}>
-              <Plus className="w-5 h-5" />
-              <span>Add</span>
-            </Link>
-          </Button>
+          <AuthRender role="ADMIN">
+            <Button asChild variant={'default'}>
+              <Link href={'/billboard/create'}>
+                <Plus className="w-5 h-5" />
+                <span>Add</span>
+              </Link>
+            </Button>
+          </AuthRender>
         </div>
         <div className="bg-gray-200 w-full h-[1px] mt-5"></div>
       </div>
-      <div className="flex items-center py-4 justify-between w-full mt-5">
+      <div className="flex items-center py-4 justify-between w-full mt-5 ">
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -162,11 +168,13 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
         </Table>
       </div>
 
-      {/* <TableFooter
+      <TableFooter
         meta={meta}
         currentItems={data.length}
         totalRows={table.getRowModel().rows?.length}
-      /> */}
-    </React.Fragment>
+      />
+
+      <AlertDeleteDialog />
+    </div>
   );
 }

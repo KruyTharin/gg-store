@@ -22,36 +22,39 @@ import {
 import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { CreateBillboardAction } from '@/actions/billboard';
+import { IBillboard } from '@/types/interface';
+import { EditBillboardAction } from '@/actions/billboard';
 
-export function CreateBillboardForm() {
+export function EditBillboardForm({
+  defaultValues,
+}: {
+  defaultValues: IBillboard | null;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const form = useForm<CreateBillboardSchemaType>({
     resolver: zodResolver(CreateBillboardSchema),
     defaultValues: {
-      label: '',
-      imageUrl: '',
+      label: defaultValues?.label,
+      imageUrl: defaultValues?.imageUrl,
     },
   });
 
   function onSubmit(values: CreateBillboardSchemaType) {
     startTransition(() => {
-      CreateBillboardAction(values).then((data) => {
+      EditBillboardAction(values, defaultValues!.id).then((data) => {
         if (data?.error) {
           toast({
             title: 'Error',
             description: data.error,
           });
         }
-
         if (data?.success) {
           toast({
             title: 'Success',
             description: data.success,
           });
-
           router.push('/billboard');
         }
       });
@@ -62,8 +65,8 @@ export function CreateBillboardForm() {
     <div className="container my-5">
       <div className="flex justify-between">
         <div>
-          <h2 className="font-bold text-2xl"> Create Billboards</h2>
-          <span>add new billboard</span>
+          <h2 className="font-bold text-2xl"> Edit Billboards</h2>
+          <span>edit the new billboard</span>
         </div>
       </div>
       <div className="bg-gray-200 w-full h-[1px] mt-5"></div>
@@ -106,7 +109,7 @@ export function CreateBillboardForm() {
             />
           </div>
           <Button type="submit" disabled={isPending}>
-            Submit
+            Edit
           </Button>
         </form>
       </Form>

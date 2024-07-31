@@ -14,7 +14,11 @@ export interface Meta {
 
 interface IBaseType {
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
+  createAt: string | Date;
+  updatedAt: string | Date;
+}
+
+export interface IBillboard extends IBaseType {
+  label: string;
+  imageUrl: string;
 }

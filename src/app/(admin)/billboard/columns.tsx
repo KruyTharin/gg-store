@@ -2,11 +2,17 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { useRouter } from 'next/navigation';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Trash2 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { Meta } from '@/types/interface';
+import Image from 'next/image';
+import { BillboardActionButton } from '@/components/button-action/billboard';
+import { AuthRender } from '@/components/auth-render';
+import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
+import { useMutation } from '@tanstack/react-query';
+import { BillboardDeleteAction } from '@/actions/billboard';
+import { toast } from '@/components/ui/use-toast';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -14,12 +20,44 @@ export type UnitColumn = {
   id: string;
   no: number;
   name: string;
+  imageUrl: string;
   updatedAt: string | Date;
   isActive: boolean;
 };
 
 export default function useUnitColumn() {
-  const { data: session } = useSession();
+  const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
+  const onShowClose = useDeleteAlertStore((state) => state.onClose);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
+
+  const { mutate: onDeleteConfirm } = useMutation({
+    mutationFn: async (id: string) => await BillboardDeleteAction(id),
+
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast({
+          title: 'Success',
+          description: data.success,
+        });
+      }
+
+      if (data?.error) {
+        toast({
+          title: 'Error',
+          description: data.error,
+        });
+      }
+
+      // Reset page to default
+      params.set('page', '1');
+      router.replace(`${pathname}?${params.toString()}`);
+      onShowClose();
+    },
+  });
 
   function gerColumns({ meta }: { meta: Meta }): ColumnDef<UnitColumn>[] {
     const offset = (meta.currentPage - 1) * meta.itemsPerPage;
@@ -37,8 +75,49 @@ export default function useUnitColumn() {
         header: 'Label',
       },
       {
-        accessorKey: 'unitLevel.name',
-        header: ' Unit Level',
+        accessorKey: 'imageUrl:',
+        header: 'Background Image',
+        cell: ({ row }) => {
+          return (
+            <Image
+              src={row.original.imageUrl}
+              alt="product"
+              width={70}
+              height={500}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover aspect-1"
+            />
+          );
+        },
+      },
+      {
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => {
+          const id = row.original.id;
+
+          return (
+            <BillboardActionButton
+              onEdit={() => router.push(`/billboard/${id}/edit`)}
+            >
+              <AuthRender role="ADMIN">
+                <DropdownMenuItem
+                  onClick={() =>
+                    onDeleteShow({
+                      text: 'Delete Unit',
+                      onAccept: () => onDeleteConfirm(id),
+                    })
+                  }
+                >
+                  <div className="flex items-center space-x-1 cursor-pointer">
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                    <span>Delete</span>
+                  </div>
+                </DropdownMenuItem>
+              </AuthRender>
+            </BillboardActionButton>
+          );
+        },
       },
     ];
   }
