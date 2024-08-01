@@ -18,7 +18,7 @@ import ImageUpload from '@/components/ui/image-upload';
 import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { Category } from '@prisma/client';
+import { Billboard, Category } from '@prisma/client';
 import {
   CreateCategorySchema,
   CreateCategorySchemaType,
@@ -28,11 +28,20 @@ import { Trash } from 'lucide-react';
 import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
 import { useMutation } from '@tanstack/react-query';
 import { AlertDeleteDialog } from '@/components/alert/delete';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function EditCategoryForm({
   defaultValues,
+  billboards,
 }: {
   defaultValues: Category | null;
+  billboards: Billboard[] | null;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -65,6 +74,7 @@ export function EditCategoryForm({
   const form = useForm<CreateCategorySchemaType>({
     resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
+      billboardId: defaultValues?.billboardId as string,
       name: defaultValues?.name,
       imageUrl: defaultValues?.imageUrl,
     },
@@ -145,6 +155,40 @@ export function EditCategoryForm({
                   <FormDescription>
                     This is your category name of the store.
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="billboardId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billboard</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!billboards?.length}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a billboard" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards?.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {!billboards?.length && (
+                    <FormDescription>
+                      You need to create at least one billboard.
+                    </FormDescription>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}

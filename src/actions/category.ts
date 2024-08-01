@@ -39,7 +39,11 @@ export const CreateCategoryAction = async (
     return { error: 'Invalid field!' };
   }
 
-  const { imageUrl, name } = validationField.data;
+  const { imageUrl, name, billboardId } = validationField.data;
+
+  if (!billboardId) {
+    return { error: 'billboardId is required!' };
+  }
 
   const session = await auth();
 
@@ -53,6 +57,7 @@ export const CreateCategoryAction = async (
 
   await db.category.create({
     data: {
+      billboardId,
       name,
       imageUrl,
     },
@@ -77,7 +82,11 @@ export const EditCategoryAction = async (
     return { error: 'Missing billboard ID!' };
   }
 
-  const { imageUrl, name } = validationField.data;
+  const { imageUrl, name, billboardId } = validationField.data;
+
+  if (!billboardId) {
+    return { error: 'billboardId is required!' };
+  }
 
   const session = await auth();
 
@@ -94,6 +103,7 @@ export const EditCategoryAction = async (
       id,
     },
     data: {
+      billboardId,
       name,
       imageUrl,
     },

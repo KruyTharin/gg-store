@@ -102,7 +102,7 @@ model Billboard{
 id String @id @default(cuid())
 label String
 imageUrl String
-// category Category[]
+category Category[]
 createAt DateTime @default(now())
 updatedAt DateTime @updatedAt
 }
@@ -111,13 +111,13 @@ model Category{
   id String @id @default(cuid())
   name String
   imageUrl String
-  // billboardId String 
-  // billbord Billboard @relation(fields: [billboardId], references: [id])
+  billboardId String? 
+  billbord Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
   products Product[] @relation("CategoryToProduct")
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // @@index([billboardId])
+  @@index([billboardId])
 }
 
 model Size{

@@ -11,5 +11,7 @@ export default async function EditCategoryPage({
     where: { id: params.id },
   });
 
-  return <EditCategoryForm defaultValues={data} />;
+  const billboards = await db.billboard.findMany();
+
+  return <EditCategoryForm defaultValues={data} billboards={billboards} />;
 }

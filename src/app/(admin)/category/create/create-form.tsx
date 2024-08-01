@@ -13,17 +13,29 @@ import {
 } from '@/components/ui/form';
 import ImageUpload from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
 import {
   CreateCategorySchema,
   CreateCategorySchemaType,
 } from '@/schema/category';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Billboard } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
-function CreateCategoryForm() {
+function CreateCategoryForm({
+  billboards,
+}: {
+  billboards: Billboard[] | null;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -97,6 +109,40 @@ function CreateCategoryForm() {
                     <Input placeholder="Category name" {...field} />
                   </FormControl>
                   <FormDescription>This is your category name.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="billboardId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billboard</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!!billboards?.length}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a billboard" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards?.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {!!billboards?.length && (
+                    <FormDescription>
+                      You need to create a least billboard.
+                    </FormDescription>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
