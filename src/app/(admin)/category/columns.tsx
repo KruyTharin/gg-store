@@ -6,17 +6,17 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Trash2 } from 'lucide-react';
 import { Meta } from '@/types/interface';
 import Image from 'next/image';
-import { BillboardActionButton } from '@/components/button-action/billboard';
 import { AuthRender } from '@/components/auth-render';
 import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
 import { useMutation } from '@tanstack/react-query';
-import { BillboardDeleteAction } from '@/actions/billboard';
 import { toast } from '@/components/ui/use-toast';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Billboard as BillboardColumn } from '@prisma/client';
+import { Category as CategoryColumn } from '@prisma/client';
 import { formatDateTime } from '@/lib/date';
+import { CategoryActionButton } from '@/components/button-action/category';
+import { CategoryDeleteAction } from '@/actions/category';
 
-export default function useBillboardColumn() {
+export default function useCategoryColumn() {
   const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
   const onShowClose = useDeleteAlertStore((state) => state.onClose);
 
@@ -26,7 +26,7 @@ export default function useBillboardColumn() {
   const params = new URLSearchParams(searchParams);
 
   const { mutate: onDeleteConfirm } = useMutation({
-    mutationFn: async (id: string) => await BillboardDeleteAction(id),
+    mutationFn: async (id: string) => await CategoryDeleteAction(id),
 
     onSuccess: (data) => {
       if (data?.success) {
@@ -50,7 +50,7 @@ export default function useBillboardColumn() {
     },
   });
 
-  function gerColumns({ meta }: { meta: Meta }): ColumnDef<BillboardColumn>[] {
+  function gerColumns({ meta }: { meta: Meta }): ColumnDef<CategoryColumn>[] {
     const offset = (meta.currentPage - 1) * meta.itemsPerPage;
 
     return [
@@ -62,11 +62,11 @@ export default function useBillboardColumn() {
         },
       },
       {
-        accessorKey: 'label',
-        header: 'Label',
+        accessorKey: 'name',
+        header: 'Name',
       },
       {
-        accessorKey: 'imageUrl:',
+        accessorKey: 'imageUrl',
         header: 'Background Image',
         cell: ({ row }) => {
           return (
@@ -95,14 +95,14 @@ export default function useBillboardColumn() {
           const id = row.original.id;
 
           return (
-            <BillboardActionButton
-              onEdit={() => router.push(`/billboard/${id}/edit`)}
+            <CategoryActionButton
+              onEdit={() => router.push(`/category/${id}/edit`)}
             >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({
-                      text: 'Delete Billboard',
+                      text: 'Delete Category',
                       onAccept: () => onDeleteConfirm(id),
                     })
                   }
@@ -113,7 +113,7 @@ export default function useBillboardColumn() {
                   </div>
                 </DropdownMenuItem>
               </AuthRender>
-            </BillboardActionButton>
+            </CategoryActionButton>
           );
         },
       },

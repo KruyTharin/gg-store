@@ -24,6 +24,12 @@ function AdminNavbar() {
       label: 'billboard',
       active: pathname.startsWith('/billboard'),
     },
+
+    {
+      href: `/category`,
+      label: 'category',
+      active: pathname.startsWith('/category'),
+    },
   ];
   return (
     <div className="sticky top-0 z-50 bg-white">

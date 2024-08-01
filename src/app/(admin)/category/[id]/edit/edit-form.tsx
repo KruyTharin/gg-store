@@ -15,36 +15,32 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import ImageUpload from '@/components/ui/image-upload';
-import {
-  CreateBillboardSchema,
-  CreateBillboardSchemaType,
-} from '@/schema/billboard';
 import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { IBillboard } from '@/types/interface';
+import { Category } from '@prisma/client';
 import {
-  BillboardDeleteAction,
-  EditBillboardAction,
-} from '@/actions/billboard';
+  CreateCategorySchema,
+  CreateCategorySchemaType,
+} from '@/schema/category';
+import { CategoryDeleteAction, EditCategoryAction } from '@/actions/category';
 import { Trash } from 'lucide-react';
 import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
 import { useMutation } from '@tanstack/react-query';
 import { AlertDeleteDialog } from '@/components/alert/delete';
 
-export function EditBillboardForm({
+export function EditCategoryForm({
   defaultValues,
 }: {
-  defaultValues: IBillboard | null;
+  defaultValues: Category | null;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
   const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
   const onShowClose = useDeleteAlertStore((state) => state.onClose);
 
   const { mutate: onDeleteConfirm } = useMutation({
-    mutationFn: async (id: string) => await BillboardDeleteAction(id),
+    mutationFn: async (id: string) => await CategoryDeleteAction(id),
 
     onSuccess: (data) => {
       if (data?.success) {
@@ -61,22 +57,22 @@ export function EditBillboardForm({
         });
       }
 
-      router.push('/billboard');
+      router.push('/category');
       onShowClose();
     },
   });
 
-  const form = useForm<CreateBillboardSchemaType>({
-    resolver: zodResolver(CreateBillboardSchema),
+  const form = useForm<CreateCategorySchemaType>({
+    resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
-      label: defaultValues?.label,
+      name: defaultValues?.name,
       imageUrl: defaultValues?.imageUrl,
     },
   });
 
-  function onSubmit(values: CreateBillboardSchemaType) {
+  function onSubmit(values: CreateCategorySchemaType) {
     startTransition(() => {
-      EditBillboardAction(values, defaultValues!.id).then((data) => {
+      EditCategoryAction(values, defaultValues!.id).then((data) => {
         if (data?.error) {
           toast({
             title: 'Error',
@@ -88,7 +84,7 @@ export function EditBillboardForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/billboard');
+          router.push('/category');
         }
       });
     });
@@ -98,10 +94,9 @@ export function EditBillboardForm({
     <div className="container my-5">
       <div className="flex justify-between">
         <div>
-          <h2 className="font-bold text-2xl"> Edit Billboards</h2>
-          <span>edit the new billboard</span>
+          <h2 className="font-bold text-2xl"> Edit Category</h2>
+          <span>edit the new category</span>
         </div>
-
         <Button
           variant={'destructive'}
           className="space-x-1"
@@ -140,15 +135,15 @@ export function EditBillboardForm({
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="label"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Label</FormLabel>
                   <FormControl>
-                    <Input placeholder="billboard label" {...field} />
+                    <Input placeholder="Category name" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This is your public display name.
+                    This is your category name of the store.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

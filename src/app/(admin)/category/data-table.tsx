@@ -33,7 +33,7 @@ import { Meta } from '@/types/interface';
 import { TableFooter } from '@/components/table/footer';
 import { AuthRender } from '@/components/auth-render';
 import { AlertDeleteDialog } from '@/components/alert/delete';
-import useBillboardColumn from './columns';
+import useCategoryColumn from './columns';
 
 interface DataTableProps<TData> {
   data: TData[];
@@ -41,7 +41,7 @@ interface DataTableProps<TData> {
 }
 
 export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
-  const { gerColumns } = useBillboardColumn();
+  const { gerColumns } = useCategoryColumn();
 
   const columns: any = React.useMemo(
     () => gerColumns({ meta: meta }),
@@ -70,13 +70,13 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
         <div className="flex justify-between">
           <div>
             <h2 className="font-bold text-2xl">
-              Billboards ({meta.totalItems})
+              Categories ({meta.totalItems})
             </h2>
-            <span>Manage billboard for your store.</span>
+            <span>Manage categories for your store.</span>
           </div>
           <AuthRender role="ADMIN">
             <Button asChild variant={'default'}>
-              <Link href={'/billboard/create'}>
+              <Link href={'/category/create'}>
                 <Plus className="w-5 h-5" />
                 <span>Add</span>
               </Link>

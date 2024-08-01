@@ -13,7 +13,7 @@ interface GroupAction extends PropsWithChildren {
   onEdit: () => void;
 }
 
-export const BillboardActionButton: React.FC<GroupAction> = ({
+export const CategoryActionButton: React.FC<GroupAction> = ({
   children,
   onEdit,
 }) => {
@@ -36,13 +36,13 @@ export const BillboardActionButton: React.FC<GroupAction> = ({
         </AuthRender>
 
         {/* <AuthRender role="ADMIN">
-          <DropdownMenuItem onClick={onView}>
-            <div className="flex items-center space-x-1 cursor-pointer">
-              <Eye className="w-4 h-4" />
-              <span>View</span>
-            </div>
-          </DropdownMenuItem>
-        </AuthRender> */}
+            <DropdownMenuItem onClick={onView}>
+              <div className="flex items-center space-x-1 cursor-pointer">
+                <Eye className="w-4 h-4" />
+                <span>View</span>
+              </div>
+            </DropdownMenuItem>
+          </AuthRender> */}
         {children}
       </DropdownMenuContent>
     </DropdownMenu>
