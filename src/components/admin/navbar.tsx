@@ -30,6 +30,11 @@ function AdminNavbar() {
       label: 'category',
       active: pathname.startsWith('/category'),
     },
+    {
+      href: `/size`,
+      label: 'size',
+      active: pathname.startsWith('/size'),
+    },
   ];
   return (
     <div className="sticky top-0 z-50 bg-white">

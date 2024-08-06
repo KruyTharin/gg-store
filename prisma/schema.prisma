@@ -125,7 +125,7 @@ model Size{
   name String
   value String
   products Product[] 
-  createdAt DateTime @default(now())
+  createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -134,7 +134,7 @@ model Color{
   name String
   value String
   products Product[] 
-  createdAt DateTime @default(now())
+  createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -152,7 +152,7 @@ model Product{
   colorId String
   color Color @relation(fields: [colorId], references: [id])
   images Image[]
-  createdAt DateTime @default(now())
+  createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([sizeId])
@@ -163,7 +163,7 @@ model ProductInventory{
   id String @id @default(cuid())
   products Product?
   quantity Int
-  createdAt DateTime @default(now())
+  createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -172,7 +172,7 @@ model Image{
   productId String @unique
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   url String
-  createdAt DateTime @default(now())
+  createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -184,7 +184,7 @@ model Order{
   isPaid        Boolean      @default(false)
   phoneNumber   String       @default("")
   address       String       @default("")
-  createdAt     DateTime     @default(now())
+  createAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
  
@@ -194,6 +194,6 @@ model OrderItem{
   id            String  @id @default(cuid())
   orderId       String  @unique
   order         Order   @relation(fields: [orderId] , references: [id])
-  createdAt     DateTime     @default(now())
+  createAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 }

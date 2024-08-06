@@ -32,9 +32,9 @@ import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 function CreateCategoryForm({
-  billboards,
+  categories,
 }: {
-  billboards: Billboard[] | null;
+  categories: Billboard[] | null;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -123,7 +123,7 @@ function CreateCategoryForm({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={!!billboards?.length}
+                    disabled={!categories?.length}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -131,14 +131,14 @@ function CreateCategoryForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {billboards?.map((billboard) => (
+                      {categories?.map((billboard) => (
                         <SelectItem key={billboard.id} value={billboard.id}>
                           {billboard.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  {!!billboards?.length && (
+                  {!categories?.length && (
                     <FormDescription>
                       You need to create a least billboard.
                     </FormDescription>

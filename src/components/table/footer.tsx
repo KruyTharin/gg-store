@@ -23,6 +23,7 @@ export const TableFooter = (props: Props) => {
   const pathname = usePathname();
 
   const offset = (meta.currentPage - 1) * meta.itemsPerPage;
+
   const startColumn = offset + 1;
   const endColumn = offset + currentItems;
 
@@ -79,11 +80,13 @@ export const TableFooterDisplayItems = ({
   totalItems: number;
 }) => {
   return (
-    <div>
-      <span>
-        Show from {startColumn} to {endColumn} of {''}
-        {totalItems} Total
-      </span>
-    </div>
+    !!totalItems && (
+      <div>
+        <span>
+          Show from {startColumn} to {endColumn} of {''}
+          {totalItems} Total
+        </span>
+      </div>
+    )
   );
 };

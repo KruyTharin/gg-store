@@ -6,7 +6,7 @@ const ProductList = async () => {
       <h3>Feature Products</h3>
 
       {/* Card List */}
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
         <ProductCard />
         <ProductCard />
         <ProductCard />
