@@ -35,6 +35,11 @@ function AdminNavbar() {
       label: 'size',
       active: pathname.startsWith('/size'),
     },
+    {
+      href: `/color`,
+      label: 'color',
+      active: pathname.startsWith('/color'),
+    },
   ];
   return (
     <div className="sticky top-0 z-50 bg-white">
