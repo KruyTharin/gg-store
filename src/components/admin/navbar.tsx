@@ -40,6 +40,11 @@ function AdminNavbar() {
       label: 'color',
       active: pathname.startsWith('/color'),
     },
+    {
+      href: `/product`,
+      label: 'product',
+      active: pathname.startsWith('/product'),
+    },
   ];
   return (
     <div className="sticky top-0 z-50 bg-white">

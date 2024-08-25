@@ -19,7 +19,7 @@ export const getPaginatedResults = async ({
   const skip = (page - 1) * perPage;
 
   const submission = await db.$transaction([
-    db.color.count({
+    db.product.count({
       where: {
         [column]: {
           mode: 'insensitive',
@@ -27,7 +27,7 @@ export const getPaginatedResults = async ({
         },
       },
     }),
-    db.color.findMany({
+    db.product.findMany({
       skip: skip,
       take: perPage,
       where: {
@@ -35,6 +35,11 @@ export const getPaginatedResults = async ({
           mode: 'insensitive',
           contains: search,
         },
+      },
+      include: {
+        color: true,
+        size: true,
+        category: true,
       },
       orderBy: {
         [column]: sortType ?? 'asc',
@@ -59,7 +64,7 @@ export const getPaginatedResults = async ({
   };
 };
 
-async function SizePage({
+async function ProductPage({
   searchParams,
 }: {
   searchParams: {
@@ -73,14 +78,28 @@ async function SizePage({
   const page = Number(searchParams.page) || DEFAULT_PAGE;
   const perPage = Number(searchParams.per_page) || DEFAULT_PER_PAGE;
 
-  const colors = await getPaginatedResults({
+  const products = await getPaginatedResults({
     column: 'name',
     search,
     page,
     perPage,
   });
 
-  return <DataTable data={colors.data} meta={colors.meta} />;
+  const productFormatted = products?.data?.map((product) => ({
+    id: product.id,
+    name: product.name,
+    isFeatured: product.isFeatured,
+    isArchived: product.isArchived,
+    price: product.price,
+    category: product.category.name,
+    size: product.size.name,
+    color: product.color.name,
+    createAt: product.createAt,
+  }));
+
+  console.log(productFormatted);
+
+  return <DataTable data={productFormatted} meta={products.meta} />;
 }
 
-export default SizePage;
+export default ProductPage;

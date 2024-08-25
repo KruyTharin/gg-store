@@ -145,8 +145,9 @@ model Product{
   name String
   price Decimal
   isFeatured Boolean @default(false)
-  productInventoryId String @unique
-  productinventory ProductInventory @relation(fields: [productInventoryId], references: [id])
+  isArchived Boolean @default(false)
+  // productInventoryId String @unique
+  // productinventory ProductInventory @relation(fields: [productInventoryId], references: [id])
   sizeId String
   size Size @relation(fields: [sizeId], references: [id])
   colorId String
@@ -157,23 +158,26 @@ model Product{
 
   @@index([sizeId])
   @@index([colorId])
+  @@index([categoryId])
 }
 
-model ProductInventory{
-  id String @id @default(cuid())
-  products Product?
-  quantity Int
-  createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model ProductInventory{
+//   id String @id @default(cuid())
+//   products Product?
+//   quantity Int
+//   createAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Image{
   id String @id @default(cuid())
-  productId String @unique
+  productId String 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   url String
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([productId])
 }
 
 model Order{

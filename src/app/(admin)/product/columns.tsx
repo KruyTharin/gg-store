@@ -10,10 +10,19 @@ import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from '@/components/ui/use-toast';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Color as ColorColumn } from '@prisma/client';
 import { formatDateTime } from '@/lib/date';
-import { ColorDeleteAction } from '@/actions/color';
-import { ColorActionButton } from '@/components/button-action/color';
+import { ProductDeleteAction } from '@/actions/product';
+import { ProductActionButton } from '@/components/button-action/product';
+
+interface ProductColumn {
+  id: string;
+  name: string;
+  size: string;
+  category: string;
+  color: string;
+  isFeatured: boolean;
+  createAt: string;
+}
 
 export default function useColorColumn() {
   const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
@@ -25,7 +34,7 @@ export default function useColorColumn() {
   const params = new URLSearchParams(searchParams);
 
   const { mutate: onDeleteConfirm } = useMutation({
-    mutationFn: async (id: string) => await ColorDeleteAction(id),
+    mutationFn: async (id: string) => await ProductDeleteAction(id),
 
     onSuccess: (data) => {
       if (data?.success) {
@@ -49,7 +58,7 @@ export default function useColorColumn() {
     },
   });
 
-  function getColumns({ meta }: { meta: Meta }): ColumnDef<ColorColumn>[] {
+  function getColumns({ meta }: { meta: Meta }): ColumnDef<ProductColumn>[] {
     const offset = (meta.currentPage - 1) * meta.itemsPerPage;
 
     return [
@@ -65,20 +74,33 @@ export default function useColorColumn() {
         header: 'Name',
       },
       {
+        accessorKey: 'category',
+        header: 'Category',
+      },
+      {
+        accessorKey: 'size',
+        header: 'Size',
+      },
+      {
         accessorKey: 'value',
         header: 'Color',
         cell: ({ row }) => {
-          const color = row.original.value;
+          const color = row.original.color;
           return (
             <div className="flex gap-2 items-center">
               <div
                 className={`size-3 rounded-full border`}
                 style={{ backgroundColor: `${color}` }}
               />
-              <span>{row.original.value}</span>
+              <span>{row.original.color}</span>
             </div>
           );
         },
+      },
+
+      {
+        accessorKey: 'isFeatured',
+        header: 'isFeatured',
       },
       {
         accessorKey: 'createAt',
@@ -94,12 +116,14 @@ export default function useColorColumn() {
           const id = row.original.id;
 
           return (
-            <ColorActionButton onEdit={() => router.push(`/color/${id}/edit`)}>
+            <ProductActionButton
+              onEdit={() => router.push(`/product/${id}/edit`)}
+            >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({
-                      text: 'Color Size',
+                      text: 'Products',
                       onAccept: () => onDeleteConfirm(id),
                     })
                   }
@@ -110,7 +134,7 @@ export default function useColorColumn() {
                   </div>
                 </DropdownMenuItem>
               </AuthRender>
-            </ColorActionButton>
+            </ProductActionButton>
           );
         },
       },
