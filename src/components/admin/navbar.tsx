@@ -21,29 +21,34 @@ function AdminNavbar() {
 
     {
       href: `/billboard`,
-      label: 'billboard',
+      label: 'billboards',
       active: pathname.startsWith('/billboard'),
     },
 
     {
       href: `/category`,
-      label: 'category',
+      label: 'categories',
       active: pathname.startsWith('/category'),
     },
     {
       href: `/size`,
-      label: 'size',
+      label: 'sizes',
       active: pathname.startsWith('/size'),
     },
     {
       href: `/color`,
-      label: 'color',
+      label: 'colors',
       active: pathname.startsWith('/color'),
     },
     {
       href: `/product`,
-      label: 'product',
+      label: 'products',
       active: pathname.startsWith('/product'),
+    },
+    {
+      href: `/order`,
+      label: 'orders',
+      active: pathname.startsWith('/order'),
     },
   ];
   return (

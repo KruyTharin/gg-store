@@ -19,6 +19,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "@tanstack/react-query": "^5.51.15",
@@ -27,6 +28,7 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.2.0",
     "lucide-react": "^0.399.0",
     "moment": "^2.30.1",
     "next": "14.2.4",
@@ -40,6 +42,7 @@
     "react-paginate": "^8.2.0",
     "react-spinners": "^0.14.1",
     "resend": "^3.4.0",
+    "stripe": "^16.9.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.1",
@@ -48,6 +51,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
