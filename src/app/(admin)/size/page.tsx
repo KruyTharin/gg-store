@@ -80,8 +80,6 @@ async function SizePage({
     perPage,
   });
 
-  console.log(sizes);
-
   return <DataTable data={sizes.data} meta={sizes.meta} />;
 }
 

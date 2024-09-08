@@ -58,8 +58,6 @@ export function EditProductForm({
   });
 
   function onSubmit(values: ProductSchemaType) {
-    console.log(values);
-
     startTransition(() => {
       EditProductAction(values, defaultValues!.id).then((data) => {
         if (data?.error) {

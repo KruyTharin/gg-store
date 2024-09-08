@@ -21,10 +21,7 @@ export const NewPasswordAction = async (
 
   const { password } = validationField.data;
 
-  console.log('called');
   const existingToken = await getPasswordResetByToken(token);
-
-  console.log(existingToken, '====>');
 
   if (!existingToken) {
     return { error: 'Invalid token!' };

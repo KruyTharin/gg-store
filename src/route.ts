@@ -26,6 +26,12 @@ export const ROUTES = {
   API_AUTH_PREFIX: '/api/auth',
 
   /**
+   * The prefix for the webhook routes
+   * @type {string}
+   */
+  API_WEBHOOK: '/api/webhook',
+
+  /**
    * The routes that redirect to after a successful login
    */
   DEFAULT_LOGIN_REDIRECT_URL: '/setting',

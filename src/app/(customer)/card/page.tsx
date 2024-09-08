@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { CheckOutAction } from '@/actions/checkout';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -31,13 +31,10 @@ function CardPage() {
   };
 
   const onCheckOut = async () => {
-    const response = await fetch(
-      `${process.env.SUCCESS_PAYMENT_URL}/api/checkout`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ productIds: items.map((item) => item.id) }),
-      }
-    );
+    const response = await fetch(`http://localhost:3000/api/checkout`, {
+      method: 'POST',
+      body: JSON.stringify({ productIds: items.map((item) => item.id) }),
+    });
 
     const res = await response.json();
     window.location = res.url;

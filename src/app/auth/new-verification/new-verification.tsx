@@ -15,7 +15,6 @@ function NewVerificationTokenForm() {
 
   const onSubmit = useCallback(() => {
     if (!token) {
-      console.log('token');
       setError('No token provided');
       return;
     }

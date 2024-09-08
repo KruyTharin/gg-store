@@ -18,8 +18,6 @@ export async function OPTIONS() {
 export async function POST(req: Request) {
   const { productIds } = await req.json();
 
-  console.log(productIds, 'productIds');
-
   const session = await auth();
 
   if (!session) {
@@ -80,8 +78,8 @@ export async function POST(req: Request) {
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${process.env.SUCCESS_PAYMENT_URL}/card?success=1`,
-    cancel_url: `${process.env.SUCCESS_PAYMENT_URL}/card?cancelled=1`,
+    success_url: `${process.env.SUCCESS_PAYMENT_URL}/payment-success`,
+    cancel_url: `${process.env.SUCCESS_PAYMENT_URL}/payment-failed`,
     metadata: {
       orderId: order.id,
     },

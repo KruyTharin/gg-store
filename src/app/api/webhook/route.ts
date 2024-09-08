@@ -1,21 +1,21 @@
 import Stripe from 'stripe';
-import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
 import { db } from '@/lib/db';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
-  const body = await req.text();
-  const signature = headers().get('Stripe-Signature') as string;
+export async function POST(req: NextRequest) {
+  const payload = await req.text();
+  const signature = req.headers.get('Stripe-Signature') as string;
 
   let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      body,
+      payload,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET_KEY!
+      process.env.STRIPE_WEBHOOK_SECRET!
     );
+    console.log('Received event type:', event.type);
   } catch (error: any) {
     return new NextResponse(`Webhook Error:  ${error.message}`, {
       status: 400,
@@ -35,9 +35,8 @@ export async function POST(req: Request) {
 
   const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
-  console.log('call======================>');
-
   if (event.type === 'checkout.session.completed') {
+    console.log('Charge succeeded event received');
     const order = await db.order.update({
       where: {
         id: session?.metadata?.orderId,
@@ -50,19 +49,6 @@ export async function POST(req: Request) {
       },
       include: {
         orderItem: true,
-      },
-    });
-
-    const productIds = order.orderItem.map((order) => order.productId);
-
-    await db.product.updateMany({
-      where: {
-        id: {
-          in: productIds,
-        },
-      },
-      data: {
-        isArchived: true,
       },
     });
   }

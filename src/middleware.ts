@@ -9,10 +9,11 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoutes = nextUrl.pathname.startsWith(ROUTES.API_AUTH_PREFIX);
+  const isWebHookRoute = nextUrl.pathname.startsWith(ROUTES.API_WEBHOOK);
   const isPublicRoute = ROUTES.PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = ROUTES.AUTH_ROUTES.includes(nextUrl.pathname);
 
-  if (isApiAuthRoutes) {
+  if (isApiAuthRoutes || isWebHookRoute) {
     return;
   }
 

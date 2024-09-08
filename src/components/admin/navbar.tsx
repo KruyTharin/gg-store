@@ -3,20 +3,19 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useSession } from 'next-auth/react';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 function AdminNavbar() {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const params = useParams();
 
   const routes = [
     {
-      href: `/dashboard`,
+      href: `/overview`,
       label: 'Overview',
-      active: pathname.startsWith('/dashboard'),
+      active: pathname.startsWith('/overview'),
     },
 
     {

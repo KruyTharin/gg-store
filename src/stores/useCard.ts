@@ -21,6 +21,7 @@ export const useCardStore = create(
         if (existingItem) {
           return toast({
             title: 'Warning',
+            variant: 'error',
             description: 'Item is already in card',
           });
         }
@@ -35,6 +36,7 @@ export const useCardStore = create(
       removeItem: (id: string) => {
         set({ items: [...get().items.filter((item) => item.id !== id)] });
         toast({
+          variant: 'default',
           title: 'Success',
           description: 'Item removed from card',
         });

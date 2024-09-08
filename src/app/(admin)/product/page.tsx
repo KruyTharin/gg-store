@@ -97,8 +97,6 @@ async function ProductPage({
     createAt: product.createAt,
   }));
 
-  console.log(productFormatted);
-
   return <DataTable data={productFormatted} meta={products.meta} />;
 }
 

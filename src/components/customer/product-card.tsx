@@ -18,7 +18,7 @@ export const ProductCard: React.FC<Props> = (props) => {
   const { colors, images, name, price, id } = props;
 
   const addToCard = () => {
-    card.addItem(props);
+    card.addItem(props as any);
   };
 
   const card = useCardStore();

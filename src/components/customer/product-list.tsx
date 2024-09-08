@@ -14,7 +14,6 @@ const ProductList = async () => {
     },
   });
 
-  console.log(products);
   return (
     <div className="mt-12 container">
       <h3 className="text-2xl font-bold my-5">Feature Products</h3>

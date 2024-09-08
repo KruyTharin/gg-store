@@ -56,8 +56,6 @@ function CreateProductForm({
   });
 
   function onSubmit(values: ProductSchemaType) {
-    console.log(values);
-
     startTransition(() => {
       CreateProductAction(values).then((data) => {
         if (data?.error) {
