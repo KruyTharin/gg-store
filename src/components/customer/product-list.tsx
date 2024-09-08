@@ -31,8 +31,6 @@ const ProductList = async () => {
           />
         ))}
       </div>
-
-      {/* Pagination */}
     </div>
   );
 };

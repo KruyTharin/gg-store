@@ -1,10 +1,29 @@
+'use client';
+
 import Link from 'next/link';
 import SearchBar from '@/components/customer/search-bar';
 import NavIcons from './navicons';
+import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 const CustomerNavbar = () => {
+  const pathname = usePathname();
+
+  const routes = [
+    {
+      href: `/home`,
+      label: 'Home',
+      active: pathname.startsWith('/home'),
+    },
+
+    {
+      href: `/filter`,
+      label: 'Filter',
+      active: pathname.startsWith('/filter'),
+    },
+  ];
   return (
-    <div className="h-20 container relative">
+    <div className="h-20 container sticky top-0 z-50 bg-white shadow-sm">
       <div className="h-full flex items-center justify-between md:hidden">
         <Link href="/">
           <div className="text-2xl tracking-wide">LAMA</div>
@@ -16,7 +35,17 @@ const CustomerNavbar = () => {
             <div className="text-2xl tracking-wide">GG</div>
           </Link>
           <div className="hidden xl:flex gap-4">
-            <Link href="/">Home</Link>
+            {routes.map((route) => (
+              <Link
+                key={route.label}
+                href={route.href}
+                className={cn({
+                  'font-bold': route.active,
+                })}
+              >
+                {route.label}
+              </Link>
+            ))}
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { Image as ImageType } from '@prisma/client';
 import { useCardStore } from '@/stores/useCard';
+import { Button } from '../ui/button';
 
 interface Props {
   price: number;
@@ -45,7 +46,7 @@ export const ProductCard: React.FC<Props> = (props) => {
         <div className="size-4  border" style={{ backgroundColor: colors }} />
       </div>
 
-      <button onClick={addToCard}>ADD TO CARD</button>
+      <Button onClick={addToCard}>ADD TO CARD</Button>
     </div>
   );
 };
