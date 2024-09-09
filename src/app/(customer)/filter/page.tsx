@@ -11,8 +11,16 @@ import { httpClient } from '@/lib/axios';
 import { useQuery } from '@tanstack/react-query';
 import FilterBySize from '@/components/filter/filter-by-size';
 import FilterByColor from '@/components/filter/filter-by-color';
+import { useSearchParams } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function FilterPage() {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const colorParams = params.getAll('color');
+  const sizeParams = params.getAll('size');
+
   const { data: colors } = useQuery({
     queryKey: ['colors'],
     queryFn: async () => {
@@ -37,15 +45,19 @@ export default function FilterPage() {
     },
   });
 
-  const { data: products, refetch } = useQuery({
-    queryKey: ['products'],
+  const { data: products, isLoading } = useQuery({
+    queryKey: ['products', colorParams, sizeParams],
     queryFn: async () => {
-      const response = await httpClient.get('/api/product');
+      const response = await httpClient.get('/api/product', {
+        params: {
+          color: colorParams,
+          size: sizeParams,
+        },
+      });
       return response.data;
     },
+    staleTime: 3000,
   });
-
-  const onSubmit = () => refetch();
 
   return (
     <main className="container">
@@ -101,7 +113,16 @@ export default function FilterPage() {
           </div>
           <div className="col-span-9">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-5 ">
-              {products?.length &&
+              {isLoading &&
+                Array.from({ length: 8 }, (_, index) => (
+                  <div className="flex items-center space-x-4" key={index}>
+                    <div className="space-y-2">
+                      <Skeleton className="h-[200px] w-full" />
+                      <Skeleton className="h-6 w-[200px]" />
+                    </div>
+                  </div>
+                ))}
+              {!!products?.length ? (
                 products?.map((product: any) => (
                   <ProductCard
                     key={product.id}
@@ -111,7 +132,10 @@ export default function FilterPage() {
                     images={product.images}
                     colors={product.color.value}
                   />
-                ))}
+                ))
+              ) : (
+                <div>No data</div>
+              )}
             </div>
           </div>
         </div>

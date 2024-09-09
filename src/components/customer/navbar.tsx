@@ -11,12 +11,6 @@ const CustomerNavbar = () => {
 
   const routes = [
     {
-      href: `/home`,
-      label: 'Home',
-      active: pathname.startsWith('/home'),
-    },
-
-    {
       href: `/filter`,
       label: 'Filter',
       active: pathname.startsWith('/filter'),
