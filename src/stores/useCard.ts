@@ -4,10 +4,16 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface CardStore {
-  items: Product[];
+  items: CartProduct[];
   addItem: (item: Product) => void;
+  addQty: (item: Product) => void;
+  removeQty: (item: Product) => void;
   removeItem: (id: string) => void;
   removeAllItems: () => void;
+}
+
+interface CartProduct extends Product {
+  quantity: number; // Add quantity field to product in cart
 }
 
 export const useCardStore = create(
@@ -26,7 +32,7 @@ export const useCardStore = create(
           });
         }
 
-        set({ items: [...get().items, data] });
+        set({ items: [...get().items, { ...data, quantity: 1 }] });
         toast({
           title: 'Success',
           description: 'Item is already added to card',
@@ -44,6 +50,35 @@ export const useCardStore = create(
 
       removeAllItems: () => {
         set({ items: [] });
+      },
+
+      addQty: (data: Product) => {
+        const currentItems = get().items;
+        const existingItemIndex = currentItems.findIndex(
+          (item) => item.id === data.id
+        );
+
+        if (existingItemIndex !== -1) {
+          const updatedItems = [...currentItems];
+          updatedItems[existingItemIndex].quantity += 1;
+
+          set({ items: updatedItems });
+        }
+      },
+
+      removeQty: (data: Product) => {
+        const currentItems = get().items;
+        const existingItemIndex = currentItems.findIndex(
+          (item) => item.id === data.id
+        );
+
+        if (existingItemIndex !== -1) {
+          const updatedItems = [...currentItems];
+          if (updatedItems[existingItemIndex].quantity > 1) {
+            updatedItems[existingItemIndex].quantity -= 1;
+          }
+          set({ items: updatedItems });
+        }
       },
     }),
     {

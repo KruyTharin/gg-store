@@ -3,12 +3,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Meta } from '@/types/interface';
-import { Order as OrderColumn } from '@prisma/client';
 import { formatDateTime } from '@/lib/date';
 import { Badge } from '@/components/ui/badge';
 
 export default function useOrderColumn() {
-  function getColumns({ meta }: { meta: Meta }): ColumnDef<OrderColumn>[] {
+  function getColumns({ meta }: { meta: Meta }): ColumnDef<any>[] {
     const offset = (meta.currentPage - 1) * meta.itemsPerPage;
 
     return [
@@ -22,6 +21,13 @@ export default function useOrderColumn() {
       {
         accessorKey: 'products',
         header: 'Products',
+        cell: ({ row }) => {
+          const product = row.original.orderItem.map(
+            (item: any) => item.product.name
+          );
+
+          return <span className="line-clamp-1">{product.join(', ')}</span>;
+        },
       },
       {
         accessorKey: 'phoneNumber',
@@ -34,6 +40,15 @@ export default function useOrderColumn() {
       {
         accessorKey: 'totalPrice',
         header: 'Total Price',
+        cell: ({ row }) => {
+          const totalPrice = row.original.orderItem.reduce(
+            (total: any, item: any) =>
+              total + item.quantity * Number(item.product.price),
+            0
+          );
+
+          return <span>$ {totalPrice}</span>;
+        },
       },
       {
         accessorKey: 'isPaid',

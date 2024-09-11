@@ -140,18 +140,19 @@ model Color{
 
 model Product{
   id String @id @default(cuid())
-  categoryId String
-  category Category @relation("CategoryToProduct", fields: [categoryId], references: [id]) 
+  categoryId String?
+  category Category? @relation("CategoryToProduct", fields: [categoryId], references: [id], onDelete: SetNull) 
   name String
   price Decimal
   isFeatured Boolean @default(false)
   isArchived Boolean @default(false)
+  isFavarited Boolean @default(false)
   // productInventoryId String @unique
   // productinventory ProductInventory @relation(fields: [productInventoryId], references: [id])
-  sizeId String
-  size Size @relation(fields: [sizeId], references: [id])
-  colorId String
-  color Color @relation(fields: [colorId], references: [id])
+  sizeId String?
+  size Size? @relation(fields: [sizeId], references: [id], onDelete: SetNull)
+  colorId String?
+  color Color? @relation(fields: [colorId], references: [id], onDelete: SetNull)
   images Image[]
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -197,10 +198,11 @@ model Order{
 
 model OrderItem{
   id            String  @id @default(cuid())
-  orderId       String  
+  orderId       String    
   order         Order   @relation(fields: [orderId] , references: [id], onDelete: Cascade)
   productId    String
-  product      Product      @relation(fields: [productId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity      Int      @default(1)   
   createAt     DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 

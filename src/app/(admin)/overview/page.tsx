@@ -1,33 +1,47 @@
 'use client';
 
-import { useState } from 'react';
-import { CreditCard, DollarSign, ShoppingCart, Users } from 'lucide-react';
+import { DollarSign, FolderClosed, Package } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { db } from '@/lib/db';
 
-const data = [
-  { name: 'Jan', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Feb', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Mar', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Apr', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'May', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Jun', total: Math.floor(Math.random() * 5000) + 1000 },
-];
-
-export default function Component() {
-  const [date, setDate] = useState<{ from: Date; to: Date }>({
-    from: new Date(2023, 0, 1),
-    to: new Date(),
+export default async function OverviewPage() {
+  const stocks = await db.product.count({
+    where: {
+      isArchived: false,
+    },
   });
+
+  const saleCount = await db.order.count({
+    where: {
+      isPaid: true,
+    },
+  });
+
+  const orders = await db.order.findMany({
+    where: {
+      isPaid: true,
+    },
+    include: {
+      orderItem: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+
+  const totalRevenue = orders.reduce(
+    (total: any, item: any) =>
+      total +
+      item.orderItem.reduce(
+        (total: any, item: any) =>
+          total + item.quantity * Number(item.product.price),
+        0
+      ),
+    0
+  );
 
   return (
     <div className="flex-col md:flex container">
@@ -38,61 +52,58 @@ export default function Component() {
             <Button>Download</Button>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="p-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Revenue
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
-              <p className="text-xs text-muted-foreground">
-                +20.1% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="p-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Orders</CardTitle>
-              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+2350</div>
-              <p className="text-xs text-muted-foreground">
-                +180.1% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="p-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Customers</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
-              <p className="text-xs text-muted-foreground">
-                +19% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="p-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Conversion Rate
-              </CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">3.2%</div>
-              <p className="text-xs text-muted-foreground">
-                +2.4% from last month
-              </p>
-            </CardContent>
-          </Card>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <OverviewCard
+            title="Total Revenue"
+            amount={`$${totalRevenue}`}
+            description="show the total of revenue"
+          >
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </OverviewCard>
+
+          <OverviewCard
+            title="Sales"
+            amount={`${saleCount}`}
+            description="products that sold"
+          >
+            <FolderClosed className="h-4 w-4 text-muted-foreground" />
+          </OverviewCard>
+          <OverviewCard
+            title="Stocks"
+            amount={`${stocks}`}
+            description="product in stock"
+          >
+            <Package className="h-4 w-4 text-muted-foreground" />
+          </OverviewCard>
         </div>
       </div>
     </div>
   );
 }
+
+interface Props {
+  title: string;
+  description: string;
+  amount: string;
+  children: React.ReactNode;
+}
+
+export const OverviewCard: React.FC<Props> = ({
+  amount,
+  description,
+  title,
+  children,
+}) => {
+  return (
+    <Card className="p-3">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        {children}
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{amount}</div>
+        <p className="text-xs text-muted-foreground">{description}</p>
+      </CardContent>
+    </Card>
+  );
+};

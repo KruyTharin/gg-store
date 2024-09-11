@@ -16,19 +16,21 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
-  const { productIds } = await req.json();
+  const { items } = await req.json();
+
+  const productIds = items.map((item: any) => item.id);
+
+  if (!productIds || productIds.length === 0) {
+    return new NextResponse('Product not found', {
+      status: 400,
+    });
+  }
 
   const session = await auth();
 
   if (!session) {
     return new NextResponse('unAuthorize!', {
       status: 401,
-    });
-  }
-
-  if (!productIds || productIds.length === 0) {
-    return new NextResponse('Product not found', {
-      status: 400,
     });
   }
 
@@ -43,8 +45,10 @@ export async function POST(req: Request) {
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
   products.forEach((product) => {
+    const quantity = items.find((i) => i.id === product.id)?.quantity || 1;
+
     line_items.push({
-      quantity: 1,
+      quantity: quantity,
       price_data: {
         currency: 'USD',
         product_data: {
@@ -66,6 +70,7 @@ export async function POST(req: Request) {
               id: productId,
             },
           },
+          quantity: items.find((i) => i.id === productId)?.quantity || 1,
         })),
       },
     },

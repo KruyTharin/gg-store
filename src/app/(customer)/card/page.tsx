@@ -22,7 +22,7 @@ function CardPage() {
   const searchParams = useSearchParams();
 
   const totalPrice = items.reduce(
-    (total, item) => total + Number(item.price),
+    (total, item) => total + Number(item.price) * item.quantity,
     0
   );
 
@@ -33,7 +33,7 @@ function CardPage() {
   const onCheckOut = async () => {
     const response = await fetch(`http://localhost:3000/api/checkout`, {
       method: 'POST',
-      body: JSON.stringify({ productIds: items.map((item) => item.id) }),
+      body: JSON.stringify({ items }),
     });
 
     const res = await response.json();
@@ -79,11 +79,20 @@ function CardPage() {
                 </div>
                 <div className="flex gap-5 items-center justify-center">
                   <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="icon">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => cardStore.removeQty(item)}
+                      disabled={item.quantity <= 1}
+                    >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <span>1</span>
-                    <Button variant="outline" size="icon">
+                    <span>{item.quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => cardStore.addQty(item)}
+                    >
                       <Plus className="h-4 w-4" />
                     </Button>
                     <span className="font-semibold">${item.price}</span>
@@ -103,15 +112,7 @@ function CardPage() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>$259.98</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Shipping</span>
-              <span>$9.99</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Tax</span>
-              <span>$26.00</span>
+              <span>${totalPrice}</span>
             </div>
           </div>
           <Separator />

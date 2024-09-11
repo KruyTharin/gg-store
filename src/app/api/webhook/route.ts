@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-    console.log('Received event type:', event.type);
   } catch (error: any) {
     return new NextResponse(`Webhook Error:  ${error.message}`, {
       status: 400,
@@ -36,7 +35,6 @@ export async function POST(req: NextRequest) {
   const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
   if (event.type === 'checkout.session.completed') {
-    console.log('Charge succeeded event received');
     const order = await db.order.update({
       where: {
         id: session?.metadata?.orderId,

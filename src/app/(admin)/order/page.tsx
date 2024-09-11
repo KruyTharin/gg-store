@@ -40,7 +40,11 @@ export const getPaginatedResults = async ({
         [column]: sortType ?? 'asc',
       },
       include: {
-        orderItem: true,
+        orderItem: {
+          include: {
+            product: true,
+          },
+        },
       },
     }),
   ]);
