@@ -56,7 +56,7 @@ function CardPage() {
     }
   }, []);
   return (
-    <div className="container">
+    <div className="container mt-5">
       <Card className="p-5">
         <CardHeader>
           <CardTitle>Order Summary</CardTitle>
@@ -74,7 +74,7 @@ function CardPage() {
                   className="w-16 h-16 rounded object-cover"
                 />
                 <div className="flex-1 space-y-1">
-                  <h3 className="font-semibold">Wireless Earbuds</h3>
+                  <h3 className="font-semibold">{item.name}</h3>
                   <p className="text-sm text-gray-500">Black</p>
                 </div>
                 <div className="flex gap-5 items-center justify-center">

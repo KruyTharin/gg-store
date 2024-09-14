@@ -8,6 +8,10 @@ import { useCardStore } from '@/stores/useCard';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '../ui/card';
+import { cn } from '@/lib/utils';
+import { FavoriteAction } from '@/actions/product';
+import { toast } from '../ui/use-toast';
+import { useMutation } from '@tanstack/react-query';
 
 interface Props {
   price: number;
@@ -15,24 +19,50 @@ interface Props {
   colors: string;
   images: ImageType[];
   id: string;
+  isFavarited: boolean;
 }
 
 export const ProductCard: React.FC<Props> = (props) => {
-  const { colors, images, name, price, id } = props;
+  const { colors, images, name, price, id: productId, isFavarited } = props;
+
+  const router = useRouter();
+  const card = useCardStore();
 
   const addToCard = () => {
     card.addItem(props as any);
   };
 
-  const router = useRouter();
+  const { mutate: toggleFavorite } = useMutation({
+    mutationFn: async ({
+      isFavorite,
+      id,
+    }: {
+      isFavorite: boolean;
+      id: string;
+    }) => await FavoriteAction(isFavorite, id),
 
-  const card = useCardStore();
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast({
+          title: 'Success',
+          description: data.success,
+        });
+      }
+
+      if (data?.error) {
+        toast({
+          title: 'Error',
+          description: data.error,
+        });
+      }
+    },
+  });
+
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="aspect-w-1 aspect-h-1">
+      <CardContent className="p-4 relative">
+        <div className="aspect-w-1 aspect-h-1 relative">
           <Image
-            onClick={() => router.push(`/product/${id}/detail`)}
             src={images[0].url}
             alt="product"
             width={500}
@@ -41,12 +71,25 @@ export const ProductCard: React.FC<Props> = (props) => {
             className="object-cover "
           />
         </div>
-        <div className="flex justify-between mb-5">
+        <Heart
+          className={cn('size-6 absolute top-2 right-3 cursor-pointer', {
+            'text-rose-500': isFavarited === true,
+            'text-black': isFavarited === false,
+          })}
+          onClick={() =>
+            toggleFavorite({ isFavorite: isFavarited, id: productId })
+          }
+        />
+        <div className="flex justify-between mb-5 mt-3">
           <div>
             <h4 className="font-bold text-sm">US {price}$</h4>
-            <span className="text-sm line-clamp-1">{name}</span>
+            <span
+              onClick={() => router.push(`/product/${productId}/detail`)}
+              className="text-sm line-clamp-1 hover:underline cursor-pointer"
+            >
+              {name}
+            </span>
           </div>
-          <Heart />
         </div>
 
         <Button className="w-full" onClick={addToCard}>

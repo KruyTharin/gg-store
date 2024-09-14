@@ -49,6 +49,11 @@ function AdminNavbar() {
       label: 'orders',
       active: pathname.startsWith('/order'),
     },
+    {
+      href: `/config`,
+      label: 'config',
+      active: pathname.startsWith('/config'),
+    },
   ];
   return (
     <div className="sticky top-0 z-50 bg-white">

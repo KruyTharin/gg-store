@@ -144,3 +144,41 @@ export const EditProductAction = async (
 
   return { success: 'Product updated successfully!' };
 };
+
+export const FavoriteAction = async (value: boolean, id: string) => {
+  console.log(value, id, '==========>');
+
+  try {
+    if (value === false) {
+      await db.product.update({
+        data: {
+          isFavarited: true,
+        },
+
+        where: {
+          id,
+        },
+      });
+
+      revalidatePath('/product', 'page');
+
+      return { success: 'Product added to your favorite' };
+    } else {
+      await db.product.update({
+        data: {
+          isFavarited: false,
+        },
+
+        where: {
+          id,
+        },
+      });
+
+      revalidatePath('/product', 'page');
+
+      return { success: 'Product removed from your favorite' };
+    }
+  } catch (error) {
+    return { error: 'Something went wrong!' };
+  }
+};

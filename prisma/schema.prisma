@@ -210,3 +210,16 @@ model OrderItem{
   @@index([productId])
   @@index([orderId])
 }
+
+model Config{
+  id String     @id          @default(cuid())
+  phoneNumber String
+  email       String       @default("")
+  slogan String
+  location String 
+  locationUrl String
+  facebookUrl String
+  telegramUrl String
+  createAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
