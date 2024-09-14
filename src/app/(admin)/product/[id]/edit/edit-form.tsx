@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import { ProductSchema, ProductSchemaType } from '@/schema/product';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -50,6 +51,7 @@ export function EditProductForm({
       categoryId: defaultValues?.categoryId,
       colorId: defaultValues?.colorId,
       sizeId: defaultValues?.sizeId,
+      description: defaultValues?.description,
       images: (defaultValues as any)?.images,
       isFeatured: defaultValues?.isFeatured,
       isArchived: defaultValues?.isArchived,
@@ -298,9 +300,27 @@ export function EditProductForm({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="write description of the product"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <Button type="submit" disabled={isPending}>
-            Create
+            Edit
           </Button>
         </form>
       </Form>

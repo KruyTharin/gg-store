@@ -69,8 +69,8 @@ function CardPage() {
                 key={item.id}
               >
                 <img
-                  src={item.images[0].url}
-                  alt={item.images[0].id}
+                  src={item?.images[0]?.url}
+                  alt={item?.images[0]?.id}
                   className="w-16 h-16 rounded object-cover"
                 />
                 <div className="flex-1 space-y-1">

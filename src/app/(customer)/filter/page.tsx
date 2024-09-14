@@ -72,7 +72,7 @@ export default function FilterPage() {
           {/* Filters */}
           <div className="hidden lg:block col-span-3">
             <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-              {categories?.length &&
+              {!!categories?.length &&
                 categories.map((category: any) => (
                   <li key={category.name}>
                     <button className="disabled:cursor-not-allowed disabled:opacity-60">

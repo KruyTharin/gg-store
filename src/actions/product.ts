@@ -22,6 +22,7 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
     isFeatured,
     price,
     sizeId,
+    description,
   } = validationField.data;
 
   if (!images || !images.length) {
@@ -52,6 +53,7 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
       },
       isFeatured,
       sizeId,
+      description,
     },
   });
 
@@ -104,6 +106,7 @@ export const EditProductAction = async (
     name,
     price,
     sizeId,
+    description,
   } = validationField.data;
 
   const session = await auth();
@@ -133,6 +136,7 @@ export const EditProductAction = async (
       },
       isFeatured,
       sizeId,
+      description,
     },
   });
 

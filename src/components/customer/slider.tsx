@@ -31,7 +31,7 @@ export const Billboard: React.FC<{ data: Props[] }> = ({ data }) => {
   }, [api]);
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <Carousel
         setApi={setApi}
         className="w-full "

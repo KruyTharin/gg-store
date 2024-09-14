@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const ProductSchema = z.object({
   name: z.string().min(1),
+  description: z.string().min(1),
   images: z
     .object({
       url: z.string(),

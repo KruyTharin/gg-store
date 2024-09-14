@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import { ProductSchema, ProductSchemaType } from '@/schema/product';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,6 +46,7 @@ function CreateProductForm({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       name: '',
+      description: '',
       categoryId: '',
       colorId: '',
       images: [],
@@ -120,7 +122,6 @@ function CreateProductForm({
                   <FormControl>
                     <Input placeholder="Product name" {...field} />
                   </FormControl>
-                  <FormDescription>This is your product name.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -131,7 +132,7 @@ function CreateProductForm({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Price</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Price"
@@ -293,6 +294,24 @@ function CreateProductForm({
                       This product will archived product from page
                     </FormDescription>
                   </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us a little bit about yourself"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

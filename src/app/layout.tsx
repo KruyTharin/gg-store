@@ -26,7 +26,7 @@ export default async function RootLayout({
       <TanStackProvider>
         <html lang="en">
           <body className={inter.className}>
-            <AuthLayout>{children}</AuthLayout>
+            {children}
             <Toaster />
           </body>
         </html>

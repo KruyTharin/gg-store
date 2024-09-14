@@ -15,8 +15,6 @@ export default function CategoryList() {
     },
   });
 
-  console.log(categories, 'category list');
-
   return (
     <div className="mt-12 ">
       <h3 className="text-2xl font-bold my-5 container">Product Category</h3>
