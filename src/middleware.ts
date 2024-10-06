@@ -1,10 +1,11 @@
 import NextAuth from 'next-auth';
 import authConfig from './auth.config';
 import { ROUTES } from './route';
+import { getUserByEmail } from './services/user';
 
 export const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
@@ -12,6 +13,7 @@ export default auth((req) => {
   const isWebHookRoute = nextUrl.pathname.startsWith(ROUTES.API_WEBHOOK);
   const isPublicRoute = ROUTES.PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = ROUTES.AUTH_ROUTES.includes(nextUrl.pathname);
+  const isAdminRoute = nextUrl.pathname.startsWith(ROUTES.ADMIN_ROUTES);
 
   if (isApiAuthRoutes || isWebHookRoute) {
     return;
@@ -25,6 +27,10 @@ export default auth((req) => {
     }
 
     return;
+  }
+
+  if (isAdminRoute && isLoggedIn) {
+    console.log(req.auth?.user.email, 'req=============');
   }
 
   if (!isLoggedIn && !isPublicRoute) {

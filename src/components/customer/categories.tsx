@@ -23,7 +23,7 @@ export default function CategoryList() {
       <div className="px-4 overflow-x-scroll scrollbar-hide">
         <div className="flex gap-5 ">
           {!!categories?.length &&
-            categories.map((cat) => (
+            categories?.map((cat) => (
               <CategoryCard
                 key={cat.id}
                 title={cat.name}

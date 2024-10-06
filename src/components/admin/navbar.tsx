@@ -13,46 +13,46 @@ function AdminNavbar() {
 
   const routes = [
     {
-      href: `/overview`,
+      href: `/admin/overview`,
       label: 'Overview',
       active: pathname.startsWith('/overview'),
     },
 
     {
-      href: `/billboard`,
+      href: `/admin/billboard`,
       label: 'billboards',
-      active: pathname.startsWith('/billboard'),
+      active: pathname.startsWith('/admin/billboard'),
     },
 
     {
-      href: `/category`,
+      href: `/admin/category`,
       label: 'categories',
-      active: pathname.startsWith('/category'),
+      active: pathname.startsWith('/admin/category'),
     },
     {
-      href: `/size`,
+      href: `/admin/size`,
       label: 'sizes',
-      active: pathname.startsWith('/size'),
+      active: pathname.startsWith('/admin/size'),
     },
     {
-      href: `/color`,
+      href: `/admin/color`,
       label: 'colors',
-      active: pathname.startsWith('/color'),
+      active: pathname.startsWith('/admin/color'),
     },
     {
-      href: `/product`,
+      href: `/admin/product`,
       label: 'products',
-      active: pathname.startsWith('/product'),
+      active: pathname.startsWith('/admin/product'),
     },
     {
-      href: `/order`,
+      href: `/admin/order`,
       label: 'orders',
-      active: pathname.startsWith('/order'),
+      active: pathname.startsWith('/admin/order'),
     },
     {
-      href: `/config`,
+      href: `/admin/config`,
       label: 'config',
-      active: pathname.startsWith('/config'),
+      active: pathname.startsWith('/admin/config'),
     },
   ];
   return (

@@ -89,14 +89,6 @@ user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 @@unique([userId])
 }
 
-// model Store{
-//   id String @id @default(cuid())
-//   name String
-//   userId String @unique
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
 
 model Billboard{
 id String @id @default(cuid())
@@ -148,8 +140,6 @@ model Product{
   isFeatured Boolean @default(false)
   isArchived Boolean @default(false)
   isFavarited Boolean @default(false)
-  // productInventoryId String @unique
-  // productinventory ProductInventory @relation(fields: [productInventoryId], references: [id])
   sizeId String?
   size Size? @relation(fields: [sizeId], references: [id], onDelete: SetNull)
   colorId String?
@@ -163,14 +153,6 @@ model Product{
   @@index([colorId])
   @@index([categoryId])
 }
-
-// model ProductInventory{
-//   id String @id @default(cuid())
-//   products Product?
-//   quantity Int
-//   createAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
 
 model Image{
   id String @id @default(cuid())

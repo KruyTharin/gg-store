@@ -56,7 +56,7 @@ export default function useOrderColumn() {
         cell: ({ row }) => {
           return (
             <Badge variant={row.original.isPaid ? 'secondary' : 'destructive'}>
-              Badge
+              {row.original.isPaid ? 'success' : 'failed'}
             </Badge>
           );
         },

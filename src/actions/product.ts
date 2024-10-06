@@ -146,8 +146,6 @@ export const EditProductAction = async (
 };
 
 export const FavoriteAction = async (value: boolean, id: string) => {
-  console.log(value, id, '==========>');
-
   try {
     if (value === false) {
       await db.product.update({

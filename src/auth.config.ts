@@ -1,10 +1,10 @@
 import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from './schema/login';
-import { db } from './lib/db';
 import bcrypt from 'bcryptjs';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
+import { getUserByEmail } from './services/user';
 
 // Notice this is only an object, not a full Auth.js instance
 export default {
@@ -26,9 +26,7 @@ export default {
         if (validationField.success) {
           const { email, password } = validationField.data;
 
-          const user = await db.user.findUnique({
-            where: { email },
-          });
+          const user = await getUserByEmail(email);
 
           if (!user || !user.password) return null;
 

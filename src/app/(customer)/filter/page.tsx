@@ -6,13 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Slider } from '@/components/ui/slider';
 import { httpClient } from '@/lib/axios';
 import { useQuery } from '@tanstack/react-query';
 import FilterBySize from '@/components/filter/filter-by-size';
 import FilterByColor from '@/components/filter/filter-by-color';
 import { useSearchParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FilterByPrice } from '@/components/filter/filter-by-price';
 
 export default function FilterPage() {
   const searchParams = useSearchParams();
@@ -73,7 +73,7 @@ export default function FilterPage() {
           <div className="hidden lg:block col-span-3">
             <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
               {!!categories?.length &&
-                categories.map((category: any) => (
+                categories?.map((category: any) => (
                   <li key={category.name}>
                     <button className="disabled:cursor-not-allowed disabled:opacity-60">
                       {category.name}
@@ -106,7 +106,8 @@ export default function FilterPage() {
                 <span className="font-medium text-gray-900">Price</span>
 
                 <div className="mt-5">
-                  <Slider defaultValue={[33]} max={100} step={1} />
+                  {/* <Slider defaultValue={[33]} max={100} step={1} /> */}
+                  <FilterByPrice />
                 </div>
               </div>
             </Accordion>
@@ -131,6 +132,7 @@ export default function FilterPage() {
                     price={product.price as any}
                     images={product.images}
                     colors={product.color.value}
+                    isFavarited={product.isFavarited}
                   />
                 ))
               ) : (

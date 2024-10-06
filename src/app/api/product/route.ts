@@ -30,8 +30,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(products, 'product  ');
-
     return NextResponse.json(products, {
       status: 200,
     });

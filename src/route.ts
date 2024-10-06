@@ -2,8 +2,9 @@ export const ROUTES = {
   /**
    * These routes do not require authentication
    * @type {string[]}
+   * Example: ['/']
    */
-  PUBLIC_ROUTES: ['/'],
+  PUBLIC_ROUTES: [''],
 
   /**
    * An array of routes that are accessible to public routes
@@ -34,8 +35,11 @@ export const ROUTES = {
   /**
    * The routes that redirect to after a successful login
    */
-  DEFAULT_LOGIN_REDIRECT_URL: '/setting',
+  DEFAULT_LOGIN_REDIRECT_URL: '/',
 
   //Auth
   LOGIN: '/auth/login',
+
+  //Admin routes
+  ADMIN_ROUTES: '/admin',
 };

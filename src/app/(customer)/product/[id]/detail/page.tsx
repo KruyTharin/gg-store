@@ -3,8 +3,6 @@ import { db } from '@/lib/db';
 import React from 'react';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  console.log(params.id);
-
   const productDetail = await db.product.findUnique({
     where: { id: params.id },
     include: {
