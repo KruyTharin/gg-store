@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import authConfig from './auth.config';
 import { ROUTES } from './route';
-import { getUserByEmail } from './services/user';
+import { UserRole } from '@prisma/client';
 
 export const { auth } = NextAuth(authConfig);
 
@@ -30,7 +30,11 @@ export default auth(async (req) => {
   }
 
   if (isAdminRoute && isLoggedIn) {
-    console.log(req.auth?.user.email, 'req=============');
+    if ((req.auth!.user.role as any) !== UserRole.ADMIN) {
+      return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
+    }
+
+    return;
   }
 
   if (!isLoggedIn && !isPublicRoute) {
