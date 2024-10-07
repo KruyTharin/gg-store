@@ -1,37 +1,36 @@
 'use client';
 
 import { Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
-const SearchBar = () => {
-  const router = useRouter();
+export default function SearchBar() {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-
-    if (name) {
-      router.push(`/filter?name=${name}`);
+  const handleSearch = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
     }
-  };
+    replace(`/filter?${params.toString()}`);
+  }, 300);
 
   return (
-    <form
-      className="flex items-center justify-between gap-4 bg-gray-100 p-2 rounded-md flex-1"
-      onSubmit={handleSearch}
-    >
+    <div className="flex items-center justify-between gap-4 bg-gray-100 p-2 rounded-md flex-1">
       <input
         type="text"
         name="name"
-        placeholder="Search"
+        placeholder="Looking for products..."
         className="flex-1 bg-transparent outline-none"
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        defaultValue={searchParams.get('query')?.toString()}
       />
-      <button className="cursor-pointer">
-        <Search />
-      </button>
-    </form>
+      <Search />
+    </div>
   );
-};
-
-export default SearchBar;
+}
