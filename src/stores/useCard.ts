@@ -5,7 +5,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface CardStore {
   items: CartProduct[];
-  addItem: (item: Product) => void;
+  addItem: (item: Product | Product[]) => void;
   addQty: (item: Product) => void;
   removeQty: (item: Product) => void;
   removeItem: (id: string) => void;
@@ -20,23 +20,33 @@ export const useCardStore = create(
   persist<CardStore>(
     (set, get) => ({
       items: [],
-      addItem: (data: Product) => {
-        const currentItem = get().items;
-        const existingItem = currentItem.find((item) => item.id === data.id);
+      addItem: (data: Product | Product[]) => {
+        const currentItems = get().items;
 
-        if (existingItem) {
-          return toast({
-            title: 'Warning',
-            variant: 'error',
-            description: 'Item is already in card',
-          });
-        }
+        // Convert to an array if it's a single product
+        const products = Array.isArray(data) ? data : [data];
 
-        set({ items: [...get().items, { ...data, quantity: 1 }] });
-        toast({
-          title: 'Success',
-          description: 'Item is already added to card',
+        products.forEach((product) => {
+          const existingItem = currentItems.find(
+            (item) => item.id === product.id
+          );
+
+          if (existingItem) {
+            toast({
+              title: 'Warning',
+              variant: 'error',
+              description: `Item "${product.name}" is already in cart`,
+            });
+          } else {
+            currentItems.push({ ...product, quantity: 1 });
+            toast({
+              title: 'Success',
+              description: `Item "${product.name}" added to cart`,
+            });
+          }
         });
+
+        set({ items: [...currentItems] });
       },
 
       removeItem: (id: string) => {

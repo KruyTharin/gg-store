@@ -22,10 +22,16 @@ const CustomerNavbar = () => {
       label: 'Favorite',
       active: pathname.startsWith('/favorite'),
     },
+
+    {
+      href: `/order-history`,
+      label: 'Order History',
+      active: pathname.startsWith('/order-history'),
+    },
   ];
   return (
-    <div className="h-20 container sticky top-0 z-50 bg-white shadow-sm">
-      <div className="hidden md:flex items-center justify-between gap-8 h-full">
+    <div className="h-20  sticky top-0 z-50 bg-white shadow-sm">
+      <div className="flex items-center justify-between gap-8 h-full container">
         <div className="w-1/3 xl:w-1/2 flex items-center gap-12">
           <Link href="/" className="flex items-center gap-3">
             <Image
@@ -37,7 +43,7 @@ const CustomerNavbar = () => {
               className="object-cover aspect-1"
             />
           </Link>
-          <div className="hidden xl:flex gap-4">
+          <div className="flex gap-4">
             {routes.map((route) => (
               <Link
                 key={route.label}

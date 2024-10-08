@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = (props) => {
-  const { colors, images, name, price, id: productId, isFavarited } = props;
+  const { images, name, price, id: productId, isFavarited } = props;
 
   const router = useRouter();
   const card = useCardStore();
