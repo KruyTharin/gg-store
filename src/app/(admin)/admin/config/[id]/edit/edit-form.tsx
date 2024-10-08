@@ -1,6 +1,8 @@
 'use client';
 
-import { CreateConfigAction } from '@/actions/config';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -11,34 +13,58 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
+import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { CreateConfigSchema, CreateConfigSchemaType } from '@/schema/config';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Color, Size } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
+import { Config } from '@prisma/client';
+import { Trash } from 'lucide-react';
+import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
+import { useMutation } from '@tanstack/react-query';
+import { AlertDeleteDialog } from '@/components/alert/delete';
+import { CreateConfigSchema, CreateConfigSchemaType } from '@/schema/config';
+import { ConfigDeleteAction, EditConfigAction } from '@/actions/config';
 
-function CreateConfigForm() {
+export function EditColorForm({
+  defaultValues,
+}: {
+  defaultValues: Config | null;
+}) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
+  const onShowClose = useDeleteAlertStore((state) => state.onClose);
+
+  const { mutate: onDeleteConfirm } = useMutation({
+    mutationFn: async (id: string) => await ConfigDeleteAction(id),
+
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast({
+          title: 'Success',
+          description: data.success,
+        });
+      }
+
+      if (data?.error) {
+        toast({
+          title: 'Error',
+          description: data.error,
+        });
+      }
+
+      router.push('/admin/config');
+      onShowClose();
+    },
+  });
 
   const form = useForm<CreateConfigSchemaType>({
     resolver: zodResolver(CreateConfigSchema),
-    defaultValues: {
-      email: '',
-      facebookUrl: '',
-      location: '',
-      locationUrl: '',
-      phoneNumber: '',
-      slogan: '',
-      telegramUrl: '',
-    },
+    defaultValues: defaultValues!,
   });
 
   function onSubmit(values: CreateConfigSchemaType) {
     startTransition(() => {
-      CreateConfigAction(values).then((data) => {
+      EditConfigAction(values, defaultValues!.id).then((data) => {
         if (data?.error) {
           toast({
             title: 'Error',
@@ -50,6 +76,7 @@ function CreateConfigForm() {
             title: 'Success',
             description: data.success,
           });
+          router.push('/admin/config');
         }
       });
     });
@@ -59,9 +86,22 @@ function CreateConfigForm() {
     <div className="container my-5">
       <div className="flex justify-between">
         <div>
-          <h2 className="font-bold text-2xl"> Create Config</h2>
-          <span>manage your config</span>
+          <h2 className="font-bold text-2xl"> Edit config</h2>
+          <span>edit the configuration</span>
         </div>
+        <Button
+          variant={'destructive'}
+          className="space-x-1"
+          onClick={() =>
+            onDeleteShow({
+              text: 'Delete Color',
+              onAccept: () => onDeleteConfirm(defaultValues!.id),
+            })
+          }
+        >
+          <span>Delete</span>
+          <Trash className="size-4" />
+        </Button>
       </div>
       <div className="bg-gray-200 w-full h-[1px] mt-5"></div>
       <Form {...form}>
@@ -170,8 +210,8 @@ function CreateConfigForm() {
           </Button>
         </form>
       </Form>
+
+      <AlertDeleteDialog />
     </div>
   );
 }
-
-export default CreateConfigForm;
