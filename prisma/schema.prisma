@@ -15,6 +15,13 @@ enum UserRole {
   USER
 }
 
+enum OrderStatus {
+  PROCESSING
+  DELIVERED
+  SHIPPED
+  CANCELLED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -171,6 +178,7 @@ model Order{
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderItem     OrderItem[]
   isPaid        Boolean      @default(false)
+  status        OrderStatus  @default(PROCESSING)
   phoneNumber   String       @default("")
   address       String       @default("")
   createAt     DateTime     @default(now())

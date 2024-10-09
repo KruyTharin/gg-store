@@ -2,17 +2,7 @@
 import { auth } from '@/auth';
 import OrderHistoryCard from '@/components/customer/order-history-card';
 import NoOrderHistory from '@/components/no-order-history';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { db } from '@/lib/db';
-import { ArrowRightIcon, ShoppingBagIcon } from 'lucide-react';
 
 export default async function OrderHistory() {
   const session = await auth();

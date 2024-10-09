@@ -37,13 +37,13 @@ export default function OrderHistoryCard({ data }: { data: any }) {
   }));
   const getStatusIcon = (status: any) => {
     switch (status) {
-      case 'Processing':
+      case 'PROCESSING':
         return <PackageIcon className="h-5 w-5 text-blue-500" />;
-      case 'Shipped':
+      case 'SHIPPED':
         return <TruckIcon className="h-5 w-5 text-yellow-500" />;
-      case 'Delivered':
+      case 'DELIVERED':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
-      case 'Cancelled':
+      case 'CANCELLED':
         return <XCircleIcon className="h-5 w-5 text-red-500" />;
       default:
         return null;
@@ -81,8 +81,8 @@ export default function OrderHistoryCard({ data }: { data: any }) {
           <CardTitle className="text-2xl">Order {data?.id ?? 'N/A'}</CardTitle>
           <div className="space-x-2">
             <Badge variant={'outline'}>
-              {getStatusIcon('Processing')}
-              <span className="ml-2">Processing</span>
+              {getStatusIcon(data.status)}
+              <span className="ml-2">{data.status}</span>
             </Badge>
 
             <Badge variant={'outline'}>
