@@ -32,7 +32,7 @@ function CardPage() {
   };
 
   const onCheckOut = async () => {
-    const response = await fetch(`http://localhost:3000/api/checkout`, {
+    const response = await fetch(process.env.STRIPE_CHECKOUT_API!, {
       method: 'POST',
       body: JSON.stringify({ items }),
     });
