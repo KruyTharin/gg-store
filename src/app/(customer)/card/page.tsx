@@ -32,13 +32,10 @@ function CardPage() {
   };
 
   const onCheckOut = async () => {
-    const response = await fetch(
-      'https://gg-store-git-develop-kruytharins-projects.vercel.app/api/checkout',
-      {
-        method: 'POST',
-        body: JSON.stringify({ items }),
-      }
-    );
+    const response = await fetch(process.env.NEXT_STRIPE_CHECKOUT_API!, {
+      method: 'POST',
+      body: JSON.stringify({ items }),
+    });
 
     const res = await response.json();
     window.location = res.url;
