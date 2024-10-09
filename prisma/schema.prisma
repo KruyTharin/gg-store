@@ -1,0 +1,215 @@
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum OrderStatus {
+  PROCESSING
+  DELIVERED
+  SHIPPED
+  CANCELLED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          UserRole @default(USER)
+  accounts      Account[]
+  isTwoFactorEnabled  Boolean @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+
+  order  Order[]
+ 
+  @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model VerificationToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model ResetPasswordToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email,token])
+}
+
+
+model TwoFactorToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email,token])
+}
+
+model TwoFactorConfirmation{
+id String @id @default(cuid())
+
+userId String
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+@@unique([userId])
+}
+
+
+model Billboard{
+id String @id @default(cuid())
+label String
+imageUrl String
+category Category[]
+createAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}
+
+model Category{
+  id String @id @default(cuid())
+  name String
+  imageUrl String
+  billboardId String? 
+  billbord Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
+  products Product[] @relation("CategoryToProduct")
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([billboardId])
+}
+
+model Size{
+  id String @id @default(cuid())
+  name String
+  value String
+  products Product[] 
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Color{
+  id String @id @default(cuid())
+  name String
+  value String
+  products Product[] 
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product{
+  id String @id @default(cuid())
+  categoryId String?
+  category Category? @relation("CategoryToProduct", fields: [categoryId], references: [id], onDelete: SetNull) 
+  name String
+  description String?
+  price Decimal
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+  isFavarited Boolean @default(false)
+  sizeId String?
+  size Size? @relation(fields: [sizeId], references: [id], onDelete: SetNull)
+  colorId String?
+  color Color? @relation(fields: [colorId], references: [id], onDelete: SetNull)
+  images Image[]
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  OrderItem OrderItem[]
+
+  @@index([sizeId])
+  @@index([colorId])
+  @@index([categoryId])
+}
+
+model Image{
+  id String @id @default(cuid())
+  productId String 
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url String
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model Order{
+  id String     @id          @default(cuid())
+  userId String   
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItem     OrderItem[]
+  isPaid        Boolean      @default(false)
+  status        OrderStatus  @default(PROCESSING)
+  phoneNumber   String       @default("")
+  address       String       @default("")
+  createAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+ 
+}
+
+model OrderItem{
+  id            String  @id @default(cuid())
+  orderId       String    
+  order         Order   @relation(fields: [orderId] , references: [id], onDelete: Cascade)
+  productId    String
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity      Int      @default(1)   
+  createAt     DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([productId])
+  @@index([orderId])
+}
+
+model Config{
+  id String     @id          @default(cuid())
+  phoneNumber String
+  email       String       @default("")
+  slogan String
+  location String 
+  locationUrl String
+  facebookUrl String
+  telegramUrl String
+  createAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
