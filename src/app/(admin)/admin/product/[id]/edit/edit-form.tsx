@@ -73,7 +73,7 @@ export function EditProductForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/product');
+          router.push('/admin/product');
         }
       });
     });

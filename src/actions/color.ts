@@ -32,7 +32,7 @@ export const CreateColorAction = async (values: CreateColorSchemaType) => {
     },
   });
 
-  revalidatePath('/color', 'page');
+  revalidatePath('/admin/color', 'page');
 
   return { success: 'Color created successfully!' };
 };
@@ -50,7 +50,7 @@ export async function ColorDeleteAction(id: string) {
       where: { id },
     });
 
-    revalidatePath('/color', 'page');
+    revalidatePath('/admin/color', 'page');
 
     return { success: 'Color successfully deleted!' };
   } catch (error) {
@@ -94,7 +94,7 @@ export const EditColorAction = async (
     },
   });
 
-  revalidatePath('/color', 'page');
+  revalidatePath('/admin/color', 'page');
 
   return { success: 'Color updated successfully!' };
 };

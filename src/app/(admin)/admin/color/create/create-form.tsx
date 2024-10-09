@@ -46,7 +46,7 @@ function CreateColorForm() {
             title: 'Success',
             description: data.success,
           });
-          router.push('/color');
+          router.push('/admin/color');
         }
       });
     });

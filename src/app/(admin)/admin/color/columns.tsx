@@ -94,7 +94,9 @@ export default function useColorColumn() {
           const id = row.original.id;
 
           return (
-            <ColorActionButton onEdit={() => router.push(`/color/${id}/edit`)}>
+            <ColorActionButton
+              onEdit={() => router.push(`/admin/color/${id}/edit`)}
+            >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem
                   onClick={() =>

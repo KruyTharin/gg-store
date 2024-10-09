@@ -75,7 +75,7 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
           </div>
           <AuthRender role="ADMIN">
             <Button asChild variant={'default'}>
-              <Link href={'/color/create'}>
+              <Link href={'/admin/color/create'}>
                 <Plus className="w-5 h-5" />
                 <span>Add</span>
               </Link>

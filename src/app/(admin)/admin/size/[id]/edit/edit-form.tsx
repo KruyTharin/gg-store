@@ -54,7 +54,7 @@ export function EditSizeForm({
         });
       }
 
-      router.push('/size');
+      router.push('/admin/size');
       onShowClose();
     },
   });
@@ -81,7 +81,7 @@ export function EditSizeForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/size');
+          router.push('/admin/size');
         }
       });
     });

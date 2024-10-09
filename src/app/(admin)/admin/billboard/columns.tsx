@@ -96,7 +96,7 @@ export default function useBillboardColumn() {
 
           return (
             <BillboardActionButton
-              onEdit={() => router.push(`/billboard/${id}/edit`)}
+              onEdit={() => router.push(`/admin/billboard/${id}/edit`)}
             >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem

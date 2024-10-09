@@ -82,7 +82,9 @@ export default function useSizeColumn() {
           const id = row.original.id;
 
           return (
-            <SizeActionButton onEdit={() => router.push(`/size/${id}/edit`)}>
+            <SizeActionButton
+              onEdit={() => router.push(`/admin/size/${id}/edit`)}
+            >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem
                   onClick={() =>

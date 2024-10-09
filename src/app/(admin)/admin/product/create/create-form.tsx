@@ -71,7 +71,7 @@ function CreateProductForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/product');
+          router.push('/admin/product');
         }
       });
     });

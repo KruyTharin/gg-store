@@ -22,7 +22,7 @@ export async function BillboardDeleteAction(id: string) {
       where: { id },
     });
 
-    revalidatePath('/billboard', 'page');
+    revalidatePath('/admin/billboard', 'page');
 
     return { success: 'Billboard successfully deleted!' };
   } catch (error) {
@@ -58,7 +58,7 @@ export const CreateBillboardAction = async (
     },
   });
 
-  revalidatePath('/billboard', 'page');
+  revalidatePath('/admin/billboard', 'page');
 
   return { success: 'Billboard created successfully!' };
 };
@@ -99,7 +99,7 @@ export const EditBillboardAction = async (
     },
   });
 
-  revalidatePath('/billboard', 'page');
+  revalidatePath('/admin/billboard', 'page');
 
   return { success: 'Billboard updated successfully!' };
 };

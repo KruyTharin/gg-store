@@ -32,7 +32,7 @@ export const CreateSizeAction = async (values: CreateSizeSchemaType) => {
     },
   });
 
-  revalidatePath('/size', 'page');
+  revalidatePath('/admin/size', 'page');
 
   return { success: 'Size created successfully!' };
 };
@@ -50,7 +50,7 @@ export async function SizeDeleteAction(id: string) {
       where: { id },
     });
 
-    revalidatePath('/size', 'page');
+    revalidatePath('/admin/size', 'page');
 
     return { success: 'Size successfully deleted!' };
   } catch (error) {
@@ -94,7 +94,7 @@ export const EditSizeAction = async (
     },
   });
 
-  revalidatePath('/size', 'page');
+  revalidatePath('/admin/size', 'page');
 
   return { success: 'Size updated successfully!' };
 };

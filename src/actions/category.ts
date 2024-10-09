@@ -22,7 +22,7 @@ export async function CategoryDeleteAction(id: string) {
       where: { id },
     });
 
-    revalidatePath('/category', 'page');
+    revalidatePath('/admin/category', 'page');
 
     return { success: 'Category successfully deleted!' };
   } catch (error) {
@@ -63,7 +63,7 @@ export const CreateCategoryAction = async (
     },
   });
 
-  revalidatePath('/category', 'page');
+  revalidatePath('/admin/category', 'page');
 
   return { success: 'Category created successfully!' };
 };
@@ -109,7 +109,7 @@ export const EditCategoryAction = async (
     },
   });
 
-  revalidatePath('/category', 'page');
+  revalidatePath('/admin/category', 'page');
 
   return { success: 'Category updated successfully!' };
 };

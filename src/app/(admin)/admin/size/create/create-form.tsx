@@ -45,7 +45,7 @@ function CreateSizeForm() {
             title: 'Success',
             description: data.success,
           });
-          router.push('/size');
+          router.push('/admin/size');
         }
       });
     });
