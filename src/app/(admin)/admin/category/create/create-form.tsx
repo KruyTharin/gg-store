@@ -63,7 +63,7 @@ function CreateCategoryForm({
             description: data.success,
           });
 
-          router.push('/category');
+          router.push('/admin/category');
         }
       });
     });

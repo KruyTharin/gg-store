@@ -1,6 +1,5 @@
 import { DollarSign, FolderClosed, Package } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { db } from '@/lib/db';
 
@@ -80,7 +79,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const OverviewCard: React.FC<Props> = ({
+const OverviewCard: React.FC<Props> = ({
   amount,
   description,
   title,

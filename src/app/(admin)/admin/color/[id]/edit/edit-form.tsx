@@ -54,7 +54,7 @@ export function EditColorForm({
         });
       }
 
-      router.push('/color');
+      router.push('/admin/color');
       onShowClose();
     },
   });
@@ -81,7 +81,7 @@ export function EditColorForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/color');
+          router.push('/admin/color');
         }
       });
     });

@@ -57,7 +57,7 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
     },
   });
 
-  revalidatePath('/product', 'page');
+  revalidatePath('/admin/product', 'page');
 
   return { success: 'Product created successfully!' };
 };
@@ -75,7 +75,7 @@ export async function ProductDeleteAction(id: string) {
       where: { id },
     });
 
-    revalidatePath('/product', 'page');
+    revalidatePath('/admin/product', 'page');
 
     return { success: 'Product successfully deleted!' };
   } catch (error) {
@@ -140,7 +140,7 @@ export const EditProductAction = async (
     },
   });
 
-  revalidatePath('/product', 'page');
+  revalidatePath('/admin/product', 'page');
 
   return { success: 'Product updated successfully!' };
 };
@@ -158,7 +158,7 @@ export const FavoriteAction = async (value: boolean, id: string) => {
         },
       });
 
-      revalidatePath('/product', 'page');
+      revalidatePath('/admin/product', 'page');
 
       return { success: 'Product added to your favorite' };
     } else {
@@ -172,7 +172,7 @@ export const FavoriteAction = async (value: boolean, id: string) => {
         },
       });
 
-      revalidatePath('/product', 'page');
+      revalidatePath('/admin/product', 'page');
 
       return { success: 'Product removed from your favorite' };
     }

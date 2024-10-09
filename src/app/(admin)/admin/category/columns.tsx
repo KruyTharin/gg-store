@@ -96,7 +96,7 @@ export default function useCategoryColumn() {
 
           return (
             <CategoryActionButton
-              onEdit={() => router.push(`/category/${id}/edit`)}
+              onEdit={() => router.push(`/admin/category/${id}/edit`)}
             >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem

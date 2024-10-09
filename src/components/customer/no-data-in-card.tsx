@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import React from 'react';
@@ -25,7 +26,7 @@ function NoDataInCard() {
       <CardContent className="text-center">
         <div className="mb-4">
           <p className="text-lg text-muted-foreground">
-            Looks like you haven't added any items to your cart yet.
+            Looks like you have't added any items to your cart yet.
           </p>
         </div>
         <div className="flex justify-center">

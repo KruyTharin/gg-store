@@ -3,7 +3,7 @@ import React from 'react';
 import { DEFAULT_PAGE, DEFAULT_PER_PAGE } from '@/constants';
 import { DataTable } from './data-table';
 
-export const getPaginatedResults = async ({
+const getPaginatedResults = async ({
   sortType,
   column,
   search,

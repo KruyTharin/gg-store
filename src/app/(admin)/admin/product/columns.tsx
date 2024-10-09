@@ -117,7 +117,7 @@ export default function useColorColumn() {
 
           return (
             <ProductActionButton
-              onEdit={() => router.push(`/product/${id}/edit`)}
+              onEdit={() => router.push(`/admin/product/${id}/edit`)}
             >
               <AuthRender role="ADMIN">
                 <DropdownMenuItem

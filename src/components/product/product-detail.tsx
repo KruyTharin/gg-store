@@ -82,7 +82,7 @@ export default function ProductDetail({
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {relatedProducts.map((product) => (
+          {relatedProducts.map((product: any) => (
             <ProductCard
               key={product.id}
               id={product.id}
@@ -90,6 +90,7 @@ export default function ProductDetail({
               price={product.price as any}
               images={product.images}
               colors={product.color.value}
+              isFavarited={product.isFavarited}
             />
           ))}
         </div>

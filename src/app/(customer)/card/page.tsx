@@ -32,10 +32,13 @@ function CardPage() {
   };
 
   const onCheckOut = async () => {
-    const response = await fetch(`http://localhost:3000/api/checkout`, {
-      method: 'POST',
-      body: JSON.stringify({ items }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_API!}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      }
+    );
 
     const res = await response.json();
     window.location = res.url;
@@ -65,7 +68,7 @@ function CardPage() {
           </CardHeader>
           <CardContent className="space-y-4 mt-5">
             <div className="space-y-4">
-              {cardStore.items.map((item) => (
+              {cardStore.items.map((item: any) => (
                 <div
                   className="flex justify-between items-center space-x-4"
                   key={item.id}

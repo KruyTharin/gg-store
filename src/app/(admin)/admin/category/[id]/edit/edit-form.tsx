@@ -66,7 +66,7 @@ export function EditCategoryForm({
         });
       }
 
-      router.push('/category');
+      router.push('/admin/category');
       onShowClose();
     },
   });
@@ -94,7 +94,7 @@ export function EditCategoryForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/category');
+          router.push('/admin/category');
         }
       });
     });

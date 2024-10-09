@@ -48,10 +48,10 @@ export function EditProductForm({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       name: defaultValues?.name,
-      categoryId: defaultValues?.categoryId,
-      colorId: defaultValues?.colorId,
-      sizeId: defaultValues?.sizeId,
-      description: defaultValues?.description,
+      categoryId: defaultValues?.categoryId!,
+      colorId: defaultValues?.colorId!,
+      sizeId: defaultValues?.sizeId!,
+      description: defaultValues?.description!,
       images: (defaultValues as any)?.images,
       isFeatured: defaultValues?.isFeatured,
       isArchived: defaultValues?.isArchived,
@@ -73,7 +73,7 @@ export function EditProductForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/product');
+          router.push('/admin/product');
         }
       });
     });

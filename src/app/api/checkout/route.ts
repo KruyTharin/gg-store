@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
   products.forEach((product) => {
-    const quantity = items.find((i) => i.id === product.id)?.quantity || 1;
+    const quantity = items.find((i: any) => i.id === product.id)?.quantity || 1;
 
     line_items.push({
       quantity: quantity,
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
               id: productId,
             },
           },
-          quantity: items.find((i) => i.id === productId)?.quantity || 1,
+          quantity: items.find((i: any) => i.id === productId)?.quantity || 1,
         })),
       },
     },

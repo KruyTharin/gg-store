@@ -52,7 +52,7 @@ export function CreateBillboardForm() {
             description: data.success,
           });
 
-          router.push('/billboard');
+          router.push('/admin/billboard');
         }
       });
     });

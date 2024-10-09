@@ -19,7 +19,7 @@ export default async function OrderHistory() {
   // Perform separate fetch for each product by its productId
   for (const order of orders) {
     for (const item of order.orderItem) {
-      item.product = await db.product.findUnique({
+      (item as any).product = await db.product.findUnique({
         where: {
           id: item.productId,
         },

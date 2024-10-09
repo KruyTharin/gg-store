@@ -61,7 +61,7 @@ export function EditBillboardForm({
         });
       }
 
-      router.push('/billboard');
+      router.push('/admin/billboard');
       onShowClose();
     },
   });
@@ -88,7 +88,7 @@ export function EditBillboardForm({
             title: 'Success',
             description: data.success,
           });
-          router.push('/billboard');
+          router.push('/admin/billboard');
         }
       });
     });
