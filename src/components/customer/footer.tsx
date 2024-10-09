@@ -2,7 +2,6 @@ import { FaFacebook, FaTelegram } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 import { db } from '@/lib/db';
-import { cn } from '@/lib/utils';
 
 const CustomerFooter = async () => {
   const config = await db.config.findFirst({});

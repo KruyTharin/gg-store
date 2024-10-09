@@ -16,7 +16,7 @@ export default function CategoryList() {
   });
 
   return (
-    <div className="mt-12 ">
+    <div className="mt-12 " id="categories">
       <h3 className="text-2xl font-bold my-5 container">Product Category</h3>
 
       {/* !TODO: make it scrollable */}

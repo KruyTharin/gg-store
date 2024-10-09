@@ -13,7 +13,6 @@ import FilterBySize from '@/components/filter/filter-by-size';
 import FilterByColor from '@/components/filter/filter-by-color';
 import { useSearchParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
-import debounce from 'lodash.debounce';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { useCallback, useState } from 'react';
@@ -25,6 +24,34 @@ export default function FilterPage() {
   const colorParams = params.getAll('color');
   const sizeParams = params.getAll('size');
   const query = params.get('query');
+
+  const MAX_PRICE = 500;
+  const MIN_PRICE = 0;
+
+  const DEFAULT_CUSTOM_PRICE = [0, MAX_PRICE] as [number, number];
+
+  const [filter, setFilter] = useState<any>({
+    price: { isCustom: false, range: DEFAULT_CUSTOM_PRICE },
+  });
+
+  const PRICE_FILTERS = {
+    id: 'price',
+    name: 'Price',
+    options: [
+      { value: [MIN_PRICE, MAX_PRICE], label: 'Any price' },
+      {
+        value: [MIN_PRICE, 50],
+        label: 'Under 50$',
+      },
+      {
+        value: [MIN_PRICE, 100],
+        label: 'Under 100$',
+      },
+    ],
+  } as const;
+
+  const minPrice = Math.min(filter.price.range[0], filter.price.range[1]);
+  const maxPrice = Math.max(filter.price.range[0], filter.price.range[1]);
 
   const { data: colors } = useQuery({
     queryKey: ['colors'],
@@ -56,7 +83,7 @@ export default function FilterPage() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ['products', colorParams, sizeParams, query],
+    queryKey: ['products', colorParams, sizeParams, query, filter],
     queryFn: async () => {
       const response = await httpClient.get('/api/product', {
         params: {
@@ -71,38 +98,10 @@ export default function FilterPage() {
     staleTime: 3000,
   });
 
-  const MAX_PRICE = 500;
-  const MIN_PRICE = 0;
-
-  const PRICE_FILTERS = {
-    id: 'price',
-    name: 'Price',
-    options: [
-      { value: [MIN_PRICE, MAX_PRICE], label: 'Any price' },
-      {
-        value: [MIN_PRICE, 50],
-        label: 'Under 50$',
-      },
-      {
-        value: [MIN_PRICE, 100],
-        label: 'Under 100$',
-      },
-    ],
-  } as const;
-
-  const DEFAULT_CUSTOM_PRICE = [0, MAX_PRICE] as [number, number];
-
-  const [filter, setFilter] = useState<any>({
-    price: { isCustom: false, range: DEFAULT_CUSTOM_PRICE },
-  });
-
-  const minPrice = Math.min(filter.price.range[0], filter.price.range[1]);
-  const maxPrice = Math.max(filter.price.range[0], filter.price.range[1]);
-
   const onSubmit = () => refetch();
 
-  const debouncedSubmit = debounce(onSubmit, 400);
-  const _debouncedSubmit = useCallback(debouncedSubmit, []);
+  // const debouncedSubmit = debounce(onSubmit, 400);
+  const _debouncedSubmit = useCallback(onSubmit, []);
 
   return (
     <main className="container">
