@@ -65,7 +65,7 @@ function CardPage() {
           </CardHeader>
           <CardContent className="space-y-4 mt-5">
             <div className="space-y-4">
-              {cardStore.items.map((item) => (
+              {cardStore.items.map((item: any) => (
                 <div
                   className="flex justify-between items-center space-x-4"
                   key={item.id}

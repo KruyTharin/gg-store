@@ -29,7 +29,7 @@ const ProductList = async () => {
               name={product.name}
               price={product.price as any}
               images={product.images}
-              colors={product?.color.value}
+              colors={product?.color?.value!}
               isFavarited={product.isFavarited}
             />
           ))}
