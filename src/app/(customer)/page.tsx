@@ -9,11 +9,13 @@ export default async function Home() {
     skip: 0,
   });
 
+  const categories = await db.category.findMany({});
+
   return (
     <div>
       <Billboard data={sliders} />
       <ProductList />
-      <CategoryList />
+      <CategoryList data={categories} />
     </div>
   );
 }

@@ -6,15 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function CategoryList() {
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const response = await httpClient.get('/api/category');
-      return response.data as Category[];
-    },
-  });
-
+export default function CategoryList({ data }: { data: Category[] }) {
   return (
     <div className="mt-12 " id="categories">
       <h3 className="text-2xl font-bold my-5 container">Product Category</h3>
@@ -22,8 +14,8 @@ export default function CategoryList() {
       {/* !TODO: make it scrollable */}
       <div className="px-4 overflow-x-scroll scrollbar-hide">
         <div className="flex gap-5 ">
-          {!!categories?.length &&
-            categories?.map((cat) => (
+          {!!data?.length &&
+            data?.map((cat) => (
               <CategoryCard
                 key={cat.id}
                 title={cat.name}
