@@ -80,7 +80,7 @@ function CardPage() {
                   />
                   <div className="flex-1 space-y-1">
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-500">Black</p>
+                    <p className="text-sm text-gray-500">{item.colors}</p>
                   </div>
                   <div className="flex gap-5 items-center justify-center">
                     <div className="flex items-center space-x-2">

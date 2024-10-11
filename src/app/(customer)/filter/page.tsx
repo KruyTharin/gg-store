@@ -138,7 +138,12 @@ export default function FilterPage() {
                 categories?.map((category: any) => (
                   <li key={category.name}>
                     <button
-                      className="disabled:cursor-not-allowed disabled:opacity-60"
+                      className={cn(
+                        'disabled:cursor-not-allowed disabled:opacity-60',
+                        {
+                          'font-bold': category.id === categoryParams,
+                        }
+                      )}
                       onClick={() => filterByCat(category.id)}
                     >
                       {category.name}
@@ -299,7 +304,7 @@ export default function FilterPage() {
                     name={product.name}
                     price={product.price as any}
                     images={product.images}
-                    colors={product.color.value}
+                    colors={product.color.name}
                     isFavarited={product.isFavarited}
                   />
                 ))

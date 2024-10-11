@@ -49,6 +49,8 @@ export async function POST(req: NextRequest) {
         orderItem: true,
       },
     });
+
+    console.log(event, '=============>');
   }
 
   return new NextResponse(null, { status: 200 });
