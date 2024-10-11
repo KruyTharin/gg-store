@@ -82,7 +82,7 @@ export const ProductCard: React.FC<Props> = (props) => {
         />
         <div className="flex justify-between mb-5 mt-3">
           <div>
-            <h4 className="font-bold text-sm">US {price}$</h4>
+            <h4 className="font-bold text-sm">Price {price}$</h4>
             <span
               onClick={() => router.push(`/product/${productId}/detail`)}
               className="text-sm line-clamp-1 hover:underline cursor-pointer"

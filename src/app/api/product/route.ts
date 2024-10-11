@@ -11,12 +11,13 @@ export async function GET(req: NextRequest) {
     req.nextUrl.searchParams.get('price[range][1]') || 'Infinity'
   );
   const query = req.nextUrl.searchParams.get('query') || ''; // Default to empty string if query is not provided
-
+  const category = req.nextUrl.searchParams.get('category');
   try {
     const products = await db.product.findMany({
       include: {
         images: true,
         color: true,
+        category: true,
       },
       where: {
         ...(colors.length > 0 && {
@@ -39,6 +40,12 @@ export async function GET(req: NextRequest) {
           gte: startPrice, // Greater than or equal to startPrice
           lte: endPrice, // Less than or equal to endPrice
         },
+
+        ...(category && {
+          category: {
+            id: category,
+          },
+        }),
 
         ...(query && {
           name: {

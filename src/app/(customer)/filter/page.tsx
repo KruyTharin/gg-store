@@ -11,7 +11,7 @@ import { httpClient } from '@/lib/axios';
 import { useQuery } from '@tanstack/react-query';
 import FilterBySize from '@/components/filter/filter-by-size';
 import FilterByColor from '@/components/filter/filter-by-color';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
@@ -24,6 +24,8 @@ export default function FilterPage() {
   const colorParams = params.getAll('color');
   const sizeParams = params.getAll('size');
   const query = params.get('query');
+  const categoryParams = params.get('cat');
+  const router = useRouter();
 
   const MAX_PRICE = 500;
   const MIN_PRICE = 0;
@@ -83,7 +85,14 @@ export default function FilterPage() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ['products', colorParams, sizeParams, query, filter],
+    queryKey: [
+      'products',
+      colorParams,
+      sizeParams,
+      query,
+      filter,
+      categoryParams,
+    ],
     queryFn: async () => {
       const response = await httpClient.get('/api/product', {
         params: {
@@ -91,6 +100,7 @@ export default function FilterPage() {
           size: sizeParams,
           price: filter.price,
           query,
+          category: categoryParams,
         },
       });
       return response.data;
@@ -102,6 +112,14 @@ export default function FilterPage() {
 
   // const debouncedSubmit = debounce(onSubmit, 400);
   const _debouncedSubmit = useCallback(onSubmit, []);
+
+  const filterByCat = (cat: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('cat', cat);
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    router.replace(newUrl); // Update the URL without reloading
+  };
 
   return (
     <main className="container">
@@ -119,7 +137,10 @@ export default function FilterPage() {
               {!!categories?.length &&
                 categories?.map((category: any) => (
                   <li key={category.name}>
-                    <button className="disabled:cursor-not-allowed disabled:opacity-60">
+                    <button
+                      className="disabled:cursor-not-allowed disabled:opacity-60"
+                      onClick={() => filterByCat(category.id)}
+                    >
                       {category.name}
                     </button>
                   </li>
@@ -258,19 +279,20 @@ export default function FilterPage() {
             </Accordion>
           </div>
           <div className="col-span-9">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-5 ">
-              {isLoading ||
-                (isFetching &&
-                  Array.from({ length: 20 }, (_, index) => (
-                    <div className="flex items-center space-x-4" key={index}>
-                      <div className="space-y-2">
-                        <Skeleton className="h-[200px] w-full" />
-                        <Skeleton className="h-6 w-[200px]" />
-                      </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-5">
+              {/* Show skeletons while loading */}
+              {isLoading || isFetching ? (
+                Array.from({ length: 20 }, (_, index) => (
+                  <div className="flex items-center space-x-4" key={index}>
+                    <div className="space-y-2">
+                      <Skeleton className="h-[200px] w-full" />
+                      <Skeleton className="h-6 w-[200px]" />
                     </div>
-                  )))}
-              {!!products?.length ? (
-                products?.map((product: any) => (
+                  </div>
+                ))
+              ) : !!products?.length ? (
+                /* Show products if available */
+                products.map((product: any) => (
                   <ProductCard
                     key={product.id}
                     id={product.id}
@@ -282,6 +304,7 @@ export default function FilterPage() {
                   />
                 ))
               ) : (
+                /* Show "No data" if no products */
                 <div>No data</div>
               )}
             </div>
