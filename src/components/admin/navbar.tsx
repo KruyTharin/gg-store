@@ -25,7 +25,7 @@ function AdminNavbar() {
     {
       href: `/admin/overview`,
       label: 'Overview',
-      active: pathname.startsWith('/overview'),
+      active: pathname.startsWith('/admin/overview'),
     },
 
     {
