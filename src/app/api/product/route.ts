@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
   );
   const query = req.nextUrl.searchParams.get('query') || ''; // Default to empty string if query is not provided
   const category = req.nextUrl.searchParams.get('category');
+
   try {
     const products = await db.product.findMany({
       include: {

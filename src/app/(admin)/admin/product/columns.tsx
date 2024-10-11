@@ -13,6 +13,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formatDateTime } from '@/lib/date';
 import { ProductDeleteAction } from '@/actions/product';
 import { ProductActionButton } from '@/components/button-action/product';
+import Image from 'next/image';
 
 interface ProductColumn {
   id: string;
@@ -72,6 +73,22 @@ export default function useColorColumn() {
       {
         accessorKey: 'name',
         header: 'Name',
+      },
+      {
+        accessorKey: 'url',
+        header: 'image',
+        cell: ({ row }) => {
+          return (
+            <Image
+              src={(row.original as any)?.url}
+              alt="product"
+              width={70}
+              height={500}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover aspect-1"
+            />
+          );
+        },
       },
       {
         accessorKey: 'category',
