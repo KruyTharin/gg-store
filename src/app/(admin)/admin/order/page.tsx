@@ -81,7 +81,7 @@ async function OrderPage({
   const perPage = Number(searchParams.per_page) || DEFAULT_PER_PAGE;
 
   const orders = await getPaginatedResults({
-    column: 'address',
+    column: 'id',
     search,
     page,
     perPage,
