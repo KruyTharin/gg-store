@@ -40,6 +40,7 @@ const getPaginatedResults = async ({
         color: true,
         size: true,
         category: true,
+        images: true,
       },
       orderBy: {
         [column]: sortType ?? 'asc',
@@ -85,6 +86,8 @@ async function ProductPage({
     perPage,
   });
 
+  console.log(products.data[0].images[0]);
+
   const productFormatted = products?.data?.map((product) => ({
     id: product.id,
     name: product.name,
@@ -95,6 +98,7 @@ async function ProductPage({
     size: product?.size?.name!,
     color: product?.color?.name!,
     createAt: product.createAt,
+    url: product.images[0].url,
   }));
 
   return <DataTable data={productFormatted} meta={products.meta} />;

@@ -27,7 +27,7 @@ export default function FilterPage() {
   const categoryParams = params.get('cat');
   const router = useRouter();
 
-  const MAX_PRICE = 500;
+  const MAX_PRICE = 1000000;
   const MIN_PRICE = 0;
 
   const DEFAULT_CUSTOM_PRICE = [0, MAX_PRICE] as [number, number];
