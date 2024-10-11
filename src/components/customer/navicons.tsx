@@ -1,7 +1,13 @@
 'use client';
 
 import { useCardStore } from '@/stores/useCard';
-import { CalendarDays, LogOut, Mail, ShoppingCart } from 'lucide-react';
+import {
+  CalendarDays,
+  LogOut,
+  Mail,
+  Settings,
+  ShoppingCart,
+} from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -47,6 +53,11 @@ function NavIcons() {
               <Link href={'/admin/overview'}>Dashboard</Link>
             </DropdownMenuItem>
           )}
+
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <Link href={'/setting'}>Setting</Link>
+          </DropdownMenuItem>
 
           <DropdownMenuItem>
             <Mail className="mr-2 h-4 w-4" />

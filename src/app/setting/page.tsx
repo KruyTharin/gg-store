@@ -1,30 +1,18 @@
 'use client';
 
-import { RoleGate } from '@/components/role-gate';
-import { UserRole } from '@prisma/client';
-import { signOut, useSession } from 'next-auth/react';
-import React from 'react';
+import '../globals.css';
 
-function SettingPage() {
-  // const session = await auth();
+import Setting from '@/components/setting';
+import { useSession } from 'next-auth/react';
+
+function SettingsPage() {
   const { data: session } = useSession();
+
   return (
     <div>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
-      <button
-        onClick={() =>
-          signOut({
-            callbackUrl: '/auth/login',
-          })
-        }
-      >
-        Sign out
-      </button>
-      <RoleGate role={UserRole.ADMIN}>
-        <div>Hello</div>
-      </RoleGate>
+      <Setting user={session!.user} />
     </div>
   );
 }
 
-export default SettingPage;
+export default SettingsPage;

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { UserRole } from '@prisma/client';
-import { CalendarDays, LogOut, Mail } from 'lucide-react';
+import { CalendarDays, LogOut, Mail, Settings } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 
 function AdminNavbar() {
@@ -106,6 +106,11 @@ function AdminNavbar() {
                 <Link href={'/'}>Home</Link>
               </DropdownMenuItem>
             )}
+
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <Link href={'/setting'}>Setting</Link>
+            </DropdownMenuItem>
 
             <DropdownMenuItem>
               <Mail className="mr-2 h-4 w-4" />
