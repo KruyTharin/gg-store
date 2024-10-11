@@ -109,6 +109,10 @@ export const EditProductAction = async (
     description,
   } = validationField.data;
 
+  if (!images || !images.length) {
+    return { error: 'Images is required!' };
+  }
+
   const session = await auth();
 
   if (!session) {
@@ -130,13 +134,25 @@ export const EditProductAction = async (
       colorId,
       isArchived,
       images: {
-        createMany: {
-          data: [...images.map((image: { url: string }) => image)],
-        },
+        deleteMany: {},
       },
       isFeatured,
       sizeId,
       description,
+    },
+  });
+
+  const product = await db.product.update({
+    where: {
+      id,
+    },
+
+    data: {
+      images: {
+        createMany: {
+          data: [...images.map((image: { url: string }) => image)],
+        },
+      },
     },
   });
 

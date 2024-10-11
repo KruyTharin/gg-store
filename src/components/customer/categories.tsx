@@ -1,8 +1,6 @@
 'use client';
 
-import { httpClient } from '@/lib/axios';
 import { Category } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -19,6 +17,7 @@ export default function CategoryList({ data }: { data: Category[] }) {
               <CategoryCard
                 key={cat.id}
                 title={cat.name}
+                id={cat.id}
                 imageUrl={cat.imageUrl}
               />
             ))}
@@ -30,13 +29,14 @@ export default function CategoryList({ data }: { data: Category[] }) {
 
 interface CategoryCardProps {
   title: string;
+  id: string;
   imageUrl: string;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ imageUrl, title }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ imageUrl, title, id }) => {
   return (
     <Link
-      href={`/filter?cat=${title}`}
+      href={`/filter?cat=${id}`}
       className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6"
     >
       <div className="aspect-w-4 aspect-h-5">
