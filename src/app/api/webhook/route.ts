@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { sendOrder } from '@/services/mail';
 
 export async function POST(req: NextRequest) {
   const payload = await req.text();
@@ -35,6 +36,11 @@ export async function POST(req: NextRequest) {
   const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
   if (event.type === 'checkout.session.completed') {
+    // // Fetch the PaymentIntent to get the charge details
+    // const transaction = await stripe.issuing.transactions.retrieve(
+    //   'ipi_1MzFN1K8F4fqH0lBmFq8CjbU'
+    // );
+
     const order = await db.order.update({
       where: {
         id: session?.metadata?.orderId,
@@ -50,7 +56,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log(event, '=============>');
+    await sendOrder(event?.data?.object?.payment_intent as string, order.id);
   }
 
   return new NextResponse(null, { status: 200 });

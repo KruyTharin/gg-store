@@ -34,3 +34,15 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
     html: `<p>Your 2FA code: ${token} </p>`,
   });
 };
+
+export const sendOrder = async (paymentID: string, orderID: string) => {
+  await resend.emails.send({
+    from: 'mail@ggstor.online',
+    to: 'kruytharin17@gmail.com',
+    subject: 'GG Store Order',
+    html: `
+        <p>PaymentID: <b>${paymentID}</b> </p>
+        <p>OrderID: <b>${orderID}</b> </p>
+    `,
+  });
+};
