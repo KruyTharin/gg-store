@@ -89,7 +89,7 @@ export default function ProductDetail({
               name={product.name}
               price={product.price as any}
               images={product.images}
-              colors={product.color.value}
+              colors={product.color.name}
               isFavarited={product.isFavarited}
             />
           ))}

@@ -306,7 +306,7 @@ function CreateProductForm({
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about yourself"
+                      placeholder="Please enter description"
                       className="resize-none"
                       {...field}
                     />
