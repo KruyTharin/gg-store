@@ -5,6 +5,7 @@ const ProductList = async () => {
   const products = await db.product.findMany({
     where: {
       isFeatured: true,
+      isFavarited: false,
     },
 
     include: {

@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { FavoriteAction } from '@/actions/product';
 import { toast } from '../ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
 interface Props {
   price: number;
@@ -27,9 +28,26 @@ export const ProductCard: React.FC<Props> = (props) => {
 
   const router = useRouter();
   const card = useCardStore();
+  const { data: session } = useSession();
 
   const addToCard = () => {
+    if (!session?.user) return router.push('/auth/login');
     card.addItem(props as any);
+  };
+
+  // Handle redirection before triggering the mutation
+  const handleToggleFavorite = ({
+    isFavorite,
+    id,
+  }: {
+    isFavorite: boolean;
+    id: string;
+  }) => {
+    if (!session?.user) {
+      router.push('/auth/login');
+      return;
+    }
+    toggleFavorite({ isFavorite, id });
   };
 
   const { mutate: toggleFavorite } = useMutation({
@@ -63,12 +81,13 @@ export const ProductCard: React.FC<Props> = (props) => {
       <CardContent className="p-4 relative">
         <div className="aspect-w-1 aspect-h-1 relative">
           <Image
+            onClick={() => router.push(`/product/${productId}/detail`)}
             src={images[0].url}
             alt="product"
             width={500}
             height={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover "
+            className="object-cover cursor-pointer"
           />
         </div>
         <Heart
@@ -77,16 +96,13 @@ export const ProductCard: React.FC<Props> = (props) => {
             'text-black': isFavarited === false,
           })}
           onClick={() =>
-            toggleFavorite({ isFavorite: isFavarited, id: productId })
+            handleToggleFavorite({ isFavorite: isFavarited, id: productId })
           }
         />
         <div className="flex justify-between mb-5 mt-3">
           <div>
             <h4 className="font-bold text-sm">Price {price}$</h4>
-            <span
-              onClick={() => router.push(`/product/${productId}/detail`)}
-              className="text-sm line-clamp-1 hover:underline cursor-pointer"
-            >
+            <span className="text-sm line-clamp-1 hover:underline cursor-pointer">
               {name}
             </span>
           </div>
