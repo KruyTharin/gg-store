@@ -14,8 +14,8 @@ export default async function Home() {
   return (
     <div>
       <Billboard data={sliders} />
-      <ProductList />
       <CategoryList data={categories} />
+      <ProductList />
     </div>
   );
 }

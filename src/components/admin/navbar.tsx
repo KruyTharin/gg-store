@@ -60,9 +60,9 @@ function AdminNavbar() {
       active: pathname.startsWith('/admin/order'),
     },
     {
-      href: `/admin/config`,
-      label: 'config',
-      active: pathname.startsWith('/admin/config'),
+      href: `/admin/footer`,
+      label: 'footer',
+      active: pathname.startsWith('/admin/footer'),
     },
   ];
   return (

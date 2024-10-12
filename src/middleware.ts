@@ -19,11 +19,24 @@ export default auth(async (req) => {
     return;
   }
 
+  if (!isLoggedIn && !isPublicRoute) {
+    if (isAdminRoute) {
+      return Response.redirect(
+        new URL(ROUTES.DEFAULT_LOGIN_REDIRECT_URL, nextUrl)
+      );
+    }
+
+    console.log('called', isAdminRoute);
+    // return;
+  }
+
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(
         new URL(ROUTES.DEFAULT_LOGIN_REDIRECT_URL, nextUrl)
       );
+
+      return;
     }
 
     return;
@@ -35,10 +48,6 @@ export default auth(async (req) => {
     }
 
     return;
-  }
-
-  if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
   }
 
   return;

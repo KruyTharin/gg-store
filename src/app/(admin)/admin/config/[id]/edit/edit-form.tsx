@@ -206,7 +206,7 @@ export function EditColorForm({
             />
           </div>
           <Button type="submit" disabled={isPending}>
-            Submit
+            Save
           </Button>
         </form>
       </Form>

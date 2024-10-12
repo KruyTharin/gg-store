@@ -156,7 +156,7 @@ export function EditBillboardForm({
             />
           </div>
           <Button type="submit" disabled={isPending}>
-            Edit
+            Save
           </Button>
         </form>
       </Form>
