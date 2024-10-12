@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Image as ImageType } from '@prisma/client';
 import { useCardStore } from '@/stores/useCard';
 import { ProductCard } from '../customer/product-card';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function ProductDetail({
   data,
@@ -16,10 +18,13 @@ export default function ProductDetail({
   relatedProducts: any;
 }) {
   const [currentImage, setCurrentImage] = useState(0);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const { images, ...res } = data;
 
   const addToCard = () => {
+    if (!session?.user) return router.push('/auth/login');
     card.addItem(data as any);
   };
 

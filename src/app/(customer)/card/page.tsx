@@ -14,13 +14,17 @@ import { Separator } from '@/components/ui/separator';
 import { toast } from '@/components/ui/use-toast';
 import { useCardStore } from '@/stores/useCard';
 import { CreditCard, Minus, Plus, Trash } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 function CardPage() {
   const cardStore = useCardStore();
   const items = useCardStore((state) => state.items);
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const totalPrice = items.reduce(
     (total, item) => total + Number(item.price) * item.quantity,
@@ -32,6 +36,7 @@ function CardPage() {
   };
 
   const onCheckOut = async () => {
+    if (!session?.user) router.push('/auth/login');
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_API!}`,
       {
