@@ -2,15 +2,24 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendVerificationEmail = async (email: string, token: string) => {
+export const sendVerificationEmail = async (
+  email: string,
+  token: string,
+  password: string
+) => {
   const confirmLink = `${process.env
-    .NEXT_PUBLIC_RESEND_BASE_URL!}/auth/new-verification?token=${token}`;
+    .NEXT_PUBLIC_RESEND_BASE_URL!}/auth/new-verification?token=${token}&email=${email}&password=${password}`;
 
   await resend.emails.send({
     from: 'mail@ggstor.online',
     to: email,
     subject: 'Confirm Verification Email',
-    html: `<p>Click <a href=${confirmLink}>here</a> to verified your email!</p>`,
+    html: `
+       <img src="https://gg-store-two.vercel.app/_next/image?url=%2Flogo.png&w=750&q=75" alt="Confirmation Image" style="width:300px;" />
+       <h1>Thank you for registering! Please confirm your email address by clicking the link below:</h1>
+       <p>Click <a href=${confirmLink}>here</a> to verified your email!</p>
+       <p>If you did not request this, please ignore this email.</p>
+      `,
   });
 };
 

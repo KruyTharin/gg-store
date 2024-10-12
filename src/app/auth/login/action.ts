@@ -35,7 +35,8 @@ export const LoginAction = async (values: LoginSchemaType) => {
     );
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
+      password
     );
 
     return { success: 'Confirmation email sent!' };
