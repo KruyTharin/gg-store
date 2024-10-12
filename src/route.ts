@@ -4,7 +4,7 @@ export const ROUTES = {
    * @type {string[]}
    * Example: ['/']
    */
-  PUBLIC_ROUTES: [''],
+  PUBLIC_ROUTES: ['/', '/favorite'],
 
   /**
    * An array of routes that are accessible to public routes

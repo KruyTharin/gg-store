@@ -7,6 +7,7 @@ import {
   Mail,
   Settings,
   ShoppingCart,
+  LogIn,
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -32,48 +33,71 @@ function NavIcons() {
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer">
             <AvatarImage src={session?.user.image} />
-            <AvatarFallback>{session?.user.name.at(0)}</AvatarFallback>
+            <AvatarFallback>{session?.user.name.at(0) ?? 'G'}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel className="font-normal">
-            <Link href={'/setting'} className="flex flex-col space-y-1">
+            <Link
+              href={session?.user ? '/setting' : '#'}
+              className="flex flex-col space-y-1"
+            >
               <p className="text-sm font-medium leading-none">
-                {session?.user.name}
+                {session?.user.name || 'Guest'}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                @{session?.user?.role}
+                @{session?.user?.role || 'guest'}
               </p>
             </Link>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {session?.user.role === UserRole.ADMIN && (
+
+          {session?.user && session?.user.role === UserRole.ADMIN && (
             <DropdownMenuItem>
               <CalendarDays className="mr-2 h-4 w-4" />
               <Link href={'/admin/overview'}>Dashboard</Link>
             </DropdownMenuItem>
           )}
 
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <Link href={'/setting'}>Setting</Link>
-          </DropdownMenuItem>
+          {session?.user && (
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <Link href={'/setting'}>Setting</Link>
+            </DropdownMenuItem>
+          )}
 
-          <DropdownMenuItem>
-            <Mail className="mr-2 h-4 w-4" />
-            <span>{session?.user.email}</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              signOut({
-                callbackUrl: '/auth/login',
-              })
-            }
-            className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
-          </DropdownMenuItem>
+          {session?.user && (
+            <DropdownMenuItem>
+              <Mail className="mr-2 h-4 w-4" />
+              <span>{session?.user.email}</span>
+            </DropdownMenuItem>
+          )}
+
+          {session?.user ? (
+            <DropdownMenuItem
+              onClick={() =>
+                signOut({
+                  callbackUrl: '/auth/login',
+                })
+              }
+              className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem
+              onClick={() =>
+                signOut({
+                  callbackUrl: '/auth/login',
+                })
+              }
+              className="text-black focus:text-black focus:bg-red-50 cursor-pointer"
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              <span>Login</span>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 

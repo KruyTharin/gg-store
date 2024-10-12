@@ -320,7 +320,7 @@ export function EditProductForm({
             />
           </div>
           <Button type="submit" disabled={isPending}>
-            Edit
+            Save
           </Button>
         </form>
       </Form>
