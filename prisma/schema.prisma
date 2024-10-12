@@ -11,8 +11,10 @@ generator client {
 }
 
 enum UserRole {
+  SUPER_ADMIN
   ADMIN
   USER
+  DELIVERY
 }
 
 enum OrderStatus {

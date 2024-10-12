@@ -2,14 +2,18 @@
 
 import { useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BeatLoader } from 'react-spinners';
+import { MoonLoader } from 'react-spinners';
 import { newVerification } from './action';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { LoginAction } from '../login/action';
 
 function NewVerificationTokenForm() {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
+
+  const password = searchParams.get('password') as string;
+  const email = searchParams.get('email') as string;
 
   const token = searchParams.get('token');
 
@@ -20,12 +24,13 @@ function NewVerificationTokenForm() {
     }
 
     newVerification(token)
-      .then((data) => {
+      .then(async (data) => {
         if (data.error) {
           setError(data?.error);
         }
         if (data.success) {
           setSuccess(data?.success);
+          await handleLogin();
         }
       })
       .catch(() => {
@@ -33,17 +38,17 @@ function NewVerificationTokenForm() {
       });
   }, [token]);
 
+  const handleLogin = async () => {
+    await LoginAction({ email, password });
+  };
+
   useEffect(() => {
     onSubmit();
   }, [onSubmit]);
 
   return (
-    <div className="flex w-full h-dvh flex-col justify-center items-center">
-      {error && <span className="text-rose-500">{error}</span>}
-      {success && <span className="text-teal-500">{success}</span>}
-      <h2 className="font-bold text-2xl">Verified Email</h2>
-      <BeatLoader loading={true} />
-      <Link href={'/auth/login'}>Login</Link>
+    <div className="flex w-full h-dvh flex-col justify-center items-center bg-white">
+      <MoonLoader loading={true} />
     </div>
   );
 }

@@ -35,7 +35,11 @@ export const RegisterAction = async (values: RegisterSchemaType) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  await sendVerificationEmail(
+    verificationToken.email,
+    verificationToken.token,
+    password
+  );
 
   return { success: 'Confirmation sent!' };
 };
