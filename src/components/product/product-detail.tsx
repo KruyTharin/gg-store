@@ -2,13 +2,19 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Image as ImageType } from '@prisma/client';
 import { useCardStore } from '@/stores/useCard';
 import { ProductCard } from '../customer/product-card';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function ProductDetail({
   data,
@@ -25,7 +31,7 @@ export default function ProductDetail({
 
   const addToCard = () => {
     if (!session?.user) return router.push('/auth/login');
-    card.addItem(data as any);
+    card.addItem({ ...data, quantity: count } as any);
   };
 
   const card = useCardStore();
@@ -37,6 +43,8 @@ export default function ProductDetail({
   const prevImage = () => {
     setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  const [count, setCount] = useState(1);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -74,8 +82,38 @@ export default function ProductDetail({
         </div>
         <div>
           <h1 className="text-3xl font-bold mb-4">{data.name ?? 'N/A'}</h1>
-          <p className="text-2xl font-semibold mb-4">${data.price ?? 'N/A'}</p>
-          <Button className="w-full mb-6" onClick={addToCard}>
+          <p className="text-2xl font-semibold mb-4">
+            Price: ${data.price ?? 'N/A'}
+          </p>
+
+          <div className="mb-5">
+            <h3 className="mb-5">
+              product in stock{' '}
+              <span className="text-yellow-500">{data.stockCount} left</span>
+            </h3>
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={count <= 1}
+              onClick={() => setCount((pre) => pre - 1)}
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+            <span className="mx-3">{count}</span>
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={count >= data.stockCount}
+              onClick={() => setCount((pre) => pre + 1)}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          <Button
+            className="w-full mb-6"
+            onClick={addToCard}
+            disabled={data.quantity === 0}
+          >
             <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
           </Button>
           <div className="mb-6">

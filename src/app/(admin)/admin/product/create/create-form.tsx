@@ -54,6 +54,7 @@ function CreateProductForm({
       isArchived: false,
       price: 0,
       sizeId: '',
+      stockCount: 10,
     },
   });
 
@@ -136,6 +137,24 @@ function CreateProductForm({
                   <FormControl>
                     <Input
                       placeholder="Product Price"
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="stockCount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Product Quantity"
                       type="number"
                       {...field}
                     />

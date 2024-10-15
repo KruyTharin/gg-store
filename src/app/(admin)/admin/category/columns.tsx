@@ -98,7 +98,7 @@ export default function useCategoryColumn() {
             <CategoryActionButton
               onEdit={() => router.push(`/admin/category/${id}/edit`)}
             >
-              <AuthRender role="ADMIN">
+              <AuthRender role="SUPER_ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({

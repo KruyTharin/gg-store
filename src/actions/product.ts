@@ -23,6 +23,7 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
     price,
     sizeId,
     description,
+    stockCount,
   } = validationField.data;
 
   if (!images || !images.length) {
@@ -52,6 +53,7 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
         },
       },
       isFeatured,
+      stockCount,
       sizeId,
       description,
     },
@@ -107,6 +109,7 @@ export const EditProductAction = async (
     price,
     sizeId,
     description,
+    stockCount,
   } = validationField.data;
 
   if (!images || !images.length) {
@@ -137,6 +140,7 @@ export const EditProductAction = async (
         deleteMany: {},
       },
       isFeatured,
+      stockCount,
       sizeId,
       description,
     },

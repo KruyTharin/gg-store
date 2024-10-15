@@ -7,6 +7,10 @@ export const checkRolePermission = (
 ) => {
   if (!session) return false;
 
-  // If the single given permission exist in any of user permissions
-  return session.user.role === role || false;
+  // If user is 'Super Admin' role
+  if (session.user.role === UserRole.SUPER_ADMIN) return true;
+
+  if (session.user.role === UserRole.ADMIN && role === 'ADMIN') return true;
+
+  return false;
 };

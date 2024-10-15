@@ -56,6 +56,7 @@ export function EditProductForm({
       isFeatured: defaultValues?.isFeatured,
       isArchived: defaultValues?.isArchived,
       price: defaultValues?.price as number | undefined,
+      stockCount: defaultValues?.stockCount as number | undefined,
     },
   });
 
@@ -135,10 +136,28 @@ export function EditProductForm({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Price</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Price"
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="stockCount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Product Quantity"
                       type="number"
                       {...field}
                     />

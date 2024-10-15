@@ -9,6 +9,7 @@ export const ProductSchema = z.object({
     })
     .array(),
   price: z.coerce.number().min(1),
+  stockCount: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
