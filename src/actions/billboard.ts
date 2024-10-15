@@ -13,7 +13,7 @@ export async function BillboardDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -47,7 +47,10 @@ export const CreateBillboardAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.USER ||
+    session.user.role === UserRole.DELIVERY
+  ) {
     return { error: 'You are not allowed to create billboard.' };
   }
 
@@ -85,8 +88,11 @@ export const EditBillboardAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create billboard.' };
+  if (
+    session.user.role === UserRole.USER ||
+    session.user.role === UserRole.DELIVERY
+  ) {
+    return { error: 'You are not allowed to update billboard.' };
   }
 
   await db.billboard.update({

@@ -21,8 +21,11 @@ export const CreateSizeAction = async (values: CreateSizeSchemaType) => {
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create billboard.' };
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
+    return { error: 'You are not allowed to create size.' };
   }
 
   await db.size.create({
@@ -41,7 +44,7 @@ export async function SizeDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -80,7 +83,10 @@ export const EditSizeAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
     return { error: 'You are not allowed to create sizes.' };
   }
 

@@ -15,6 +15,8 @@ const ProductList = async () => {
     },
   });
 
+  console.log(products);
+
   return (
     <div className="mt-12 container">
       <h3 className="text-2xl font-bold my-5">Feature Products</h3>
@@ -30,6 +32,7 @@ const ProductList = async () => {
             images={product.images}
             colors={product.color!.name}
             isFavarited={product.isFavarited}
+            stockCount={product.stockCount as any}
           />
         ))}
       </div>

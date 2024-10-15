@@ -21,6 +21,8 @@ export async function GET(req: NextRequest) {
         category: true,
       },
       where: {
+        isFavarited: false,
+
         ...(colors.length > 0 && {
           color: {
             value: {

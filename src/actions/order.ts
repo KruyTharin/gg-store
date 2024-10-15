@@ -18,7 +18,7 @@ export const EditOrderStatusAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (session.user.role === UserRole.USER) {
     return { error: 'You are not allowed to update Order Status.' };
   }
 

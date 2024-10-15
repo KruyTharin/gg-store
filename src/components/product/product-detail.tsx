@@ -134,6 +134,7 @@ export default function ProductDetail({
               images={product.images}
               colors={product.color.name}
               isFavarited={product.isFavarited}
+              stockCount={product.stockCount}
             />
           ))}
         </div>
