@@ -25,9 +25,6 @@ export default auth(async (req) => {
         new URL(ROUTES.DEFAULT_LOGIN_REDIRECT_URL, nextUrl)
       );
     }
-
-    console.log('called', isAdminRoute);
-    // return;
   }
 
   if (isAuthRoute) {
@@ -35,19 +32,19 @@ export default auth(async (req) => {
       return Response.redirect(
         new URL(ROUTES.DEFAULT_LOGIN_REDIRECT_URL, nextUrl)
       );
-
-      return;
     }
 
     return;
   }
 
   if (isAdminRoute && isLoggedIn) {
-    if ((req.auth!.user.role as any) !== UserRole.ADMIN) {
-      return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
+    if (
+      (req.auth!.user.role as any) === UserRole.SUPER_ADMIN ||
+      (req.auth!.user.role as any) === UserRole.ADMIN
+    ) {
+      return;
     }
-
-    return;
+    return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
   }
 
   return;

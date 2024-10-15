@@ -52,12 +52,14 @@ function NavIcons() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          {session?.user && session?.user.role === UserRole.ADMIN && (
-            <DropdownMenuItem>
-              <CalendarDays className="mr-2 h-4 w-4" />
-              <Link href={'/admin/overview'}>Dashboard</Link>
-            </DropdownMenuItem>
-          )}
+          {session?.user &&
+            (session?.user.role === UserRole.ADMIN ||
+              session?.user.role === UserRole.SUPER_ADMIN) && (
+              <DropdownMenuItem>
+                <CalendarDays className="mr-2 h-4 w-4" />
+                <Link href={'/admin/overview'}>Dashboard</Link>
+              </DropdownMenuItem>
+            )}
 
           {session?.user && (
             <DropdownMenuItem>

@@ -145,6 +145,7 @@ model Product{
   category Category? @relation("CategoryToProduct", fields: [categoryId], references: [id], onDelete: SetNull) 
   name String
   description String?
+  stockCount Decimal  @default(10)
   price Decimal
   isFeatured Boolean @default(false)
   isArchived Boolean @default(false)

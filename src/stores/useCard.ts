@@ -38,7 +38,10 @@ export const useCardStore = create(
               description: `Item "${product.name}" is already in cart`,
             });
           } else {
-            currentItems.push({ ...product, quantity: 1 });
+            currentItems.push({
+              ...product,
+              quantity: (product as any)?.quantity,
+            });
             toast({
               title: 'Success',
               description: `Item "${product.name}" added to cart`,

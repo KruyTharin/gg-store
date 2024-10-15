@@ -99,6 +99,7 @@ async function ProductPage({
     color: product?.color?.name!,
     createAt: product.createAt,
     url: product.images[0].url,
+    quantity: product.stockCount,
   }));
 
   return <DataTable data={productFormatted} meta={products.meta} />;

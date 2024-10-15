@@ -17,12 +17,9 @@ import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { Config } from '@prisma/client';
-import { Trash } from 'lucide-react';
-import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
-import { useMutation } from '@tanstack/react-query';
 import { AlertDeleteDialog } from '@/components/alert/delete';
 import { CreateConfigSchema, CreateConfigSchemaType } from '@/schema/config';
-import { ConfigDeleteAction, EditConfigAction } from '@/actions/config';
+import { EditConfigAction } from '@/actions/config';
 
 export function EditColorForm({
   defaultValues,
@@ -31,31 +28,6 @@ export function EditColorForm({
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const onDeleteShow = useDeleteAlertStore((state) => state.onShow);
-  const onShowClose = useDeleteAlertStore((state) => state.onClose);
-
-  const { mutate: onDeleteConfirm } = useMutation({
-    mutationFn: async (id: string) => await ConfigDeleteAction(id),
-
-    onSuccess: (data) => {
-      if (data?.success) {
-        toast({
-          title: 'Success',
-          description: data.success,
-        });
-      }
-
-      if (data?.error) {
-        toast({
-          title: 'Error',
-          description: data.error,
-        });
-      }
-
-      router.push('/admin/config');
-      onShowClose();
-    },
-  });
 
   const form = useForm<CreateConfigSchemaType>({
     resolver: zodResolver(CreateConfigSchema),
@@ -86,22 +58,9 @@ export function EditColorForm({
     <div className="container my-5">
       <div className="flex justify-between">
         <div>
-          <h2 className="font-bold text-2xl"> Edit config</h2>
-          <span>edit the configuration</span>
+          <h2 className="font-bold text-2xl"> Edit Footer</h2>
+          <span>edit the footer</span>
         </div>
-        <Button
-          variant={'destructive'}
-          className="space-x-1"
-          onClick={() =>
-            onDeleteShow({
-              text: 'Delete Color',
-              onAccept: () => onDeleteConfirm(defaultValues!.id),
-            })
-          }
-        >
-          <span>Delete</span>
-          <Trash className="size-4" />
-        </Button>
       </div>
       <div className="bg-gray-200 w-full h-[1px] mt-5"></div>
       <Form {...form}>

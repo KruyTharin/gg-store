@@ -85,7 +85,7 @@ export default function useSizeColumn() {
             <SizeActionButton
               onEdit={() => router.push(`/admin/size/${id}/edit`)}
             >
-              <AuthRender role="ADMIN">
+              <AuthRender role="SUPER_ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({

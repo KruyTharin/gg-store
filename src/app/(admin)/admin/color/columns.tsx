@@ -97,7 +97,7 @@ export default function useColorColumn() {
             <ColorActionButton
               onEdit={() => router.push(`/admin/color/${id}/edit`)}
             >
-              <AuthRender role="ADMIN">
+              <AuthRender role="SUPER_ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({

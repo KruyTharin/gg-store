@@ -91,6 +91,10 @@ export default function useColorColumn() {
         },
       },
       {
+        accessorKey: 'stockCount',
+        header: 'Quantity',
+      },
+      {
         accessorKey: 'category',
         header: 'Category',
       },
@@ -136,7 +140,7 @@ export default function useColorColumn() {
             <ProductActionButton
               onEdit={() => router.push(`/admin/product/${id}/edit`)}
             >
-              <AuthRender role="ADMIN">
+              <AuthRender role="SUPER_ADMIN">
                 <DropdownMenuItem
                   onClick={() =>
                     onDeleteShow({

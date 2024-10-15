@@ -88,7 +88,13 @@ function CardPage() {
                     <p className="text-sm text-gray-500">{item.colors}</p>
                   </div>
                   <div className="flex gap-5 items-center justify-center">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex justify-center items-center space-x-2">
+                      <h3>
+                        product in stock{' '}
+                        <span className="text-yellow-500">
+                          {item.stockCount} left
+                        </span>
+                      </h3>
                       <Button
                         variant="outline"
                         size="icon"
@@ -102,6 +108,7 @@ function CardPage() {
                         variant="outline"
                         size="icon"
                         onClick={() => cardStore.addQty(item)}
+                        disabled={item.quantity >= item.stockCount}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>

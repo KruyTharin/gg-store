@@ -70,10 +70,8 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
       <div className="mt-5">
         <div className="flex justify-between">
           <div>
-            <h2 className="font-bold text-2xl">
-              Configuration ({meta.totalItems})
-            </h2>
-            <span>Manage configuration for your store</span>
+            <h2 className="font-bold text-2xl">Footer ({meta.totalItems})</h2>
+            <span>Manage footer for your store</span>
           </div>
           <AuthRender role="ADMIN">
             <Button asChild variant={'default'}>
