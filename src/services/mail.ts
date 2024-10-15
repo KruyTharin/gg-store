@@ -44,7 +44,7 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
   });
 };
 
-export const sendOrder = async (paymentID: string, orderID: string) => {
+export const sendOrder = async (paymentID: string, orderID: any) => {
   await resend.emails.send({
     from: 'mail@ggstor.online',
     to: 'kruytharin17@gmail.com',

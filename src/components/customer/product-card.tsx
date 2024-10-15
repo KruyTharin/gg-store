@@ -21,10 +21,12 @@ interface Props {
   images: ImageType[];
   id: string;
   isFavarited: boolean;
+  stockCount: number;
+  quantity?: number;
 }
 
 export const ProductCard: React.FC<Props> = (props) => {
-  const { images, name, price, id: productId, isFavarited } = props;
+  const { images, name, price, id: productId, isFavarited, stockCount } = props;
 
   const router = useRouter();
   const card = useCardStore();
@@ -32,7 +34,7 @@ export const ProductCard: React.FC<Props> = (props) => {
 
   const addToCard = () => {
     if (!session?.user) return router.push('/auth/login');
-    card.addItem(props as any);
+    card.addItem({ ...props, quantity: 1 } as any);
   };
 
   // Handle redirection before triggering the mutation
@@ -108,7 +110,11 @@ export const ProductCard: React.FC<Props> = (props) => {
           </div>
         </div>
 
-        <Button className="w-full" onClick={addToCard}>
+        <Button
+          className="w-full"
+          onClick={addToCard}
+          disabled={stockCount === 0}
+        >
           <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
         </Button>
       </CardContent>

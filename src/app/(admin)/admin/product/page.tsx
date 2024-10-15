@@ -86,8 +86,6 @@ async function ProductPage({
     perPage,
   });
 
-  console.log(products.data[0].images[0]);
-
   const productFormatted = products?.data?.map((product) => ({
     id: product.id,
     name: product.name,

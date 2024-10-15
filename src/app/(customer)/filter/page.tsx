@@ -306,6 +306,7 @@ export default function FilterPage() {
                     images={product.images}
                     colors={product.color.name}
                     isFavarited={product.isFavarited}
+                    stockCount={product.stockCount}
                   />
                 ))
               ) : (

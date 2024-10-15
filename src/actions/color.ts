@@ -21,8 +21,11 @@ export const CreateColorAction = async (values: CreateColorSchemaType) => {
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create billboard.' };
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
+    return { error: 'You are not allowed to create color.' };
   }
 
   await db.color.create({
@@ -41,7 +44,7 @@ export async function ColorDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -80,8 +83,11 @@ export const EditColorAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create color.' };
+  if (
+    session.user.role === UserRole.USER ||
+    session.user.role === UserRole.DELIVERY
+  ) {
+    return { error: 'You are not allowed to update color.' };
   }
 
   await db.color.update({

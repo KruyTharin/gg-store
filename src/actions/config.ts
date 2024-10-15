@@ -19,7 +19,10 @@ export const CreateConfigAction = async (values: CreateConfigSchemaType) => {
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
     return { error: 'You are not allowed to create config.' };
   }
 
@@ -34,7 +37,7 @@ export async function ConfigDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -71,7 +74,10 @@ export const EditConfigAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
     return { error: 'You are not allowed to edit config.' };
   }
 

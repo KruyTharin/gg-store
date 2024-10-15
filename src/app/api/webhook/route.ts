@@ -36,11 +36,6 @@ export async function POST(req: NextRequest) {
   const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
   if (event.type === 'checkout.session.completed') {
-    // // Fetch the PaymentIntent to get the charge details
-    // const transaction = await stripe.issuing.transactions.retrieve(
-    //   'ipi_1MzFN1K8F4fqH0lBmFq8CjbU'
-    // );
-
     const order = await db.order.update({
       where: {
         id: session?.metadata?.orderId,
@@ -56,7 +51,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await sendOrder(event?.data?.object?.payment_intent as string, order.id);
+    for (const item of order?.orderItem) {
+      await db.product.update({
+        where: {
+          id: item.productId,
+        },
+        data: {
+          stockCount: {
+            decrement: item.quantity,
+          },
+        },
+      });
+    }
+
+    await sendOrder(
+      event?.data?.object?.payment_intent as string,
+      order.id as string
+    );
   }
 
   return new NextResponse(null, { status: 200 });

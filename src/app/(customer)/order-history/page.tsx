@@ -10,6 +10,7 @@ export default async function OrderHistory() {
   const orders = await db.order.findMany({
     where: {
       userId: session?.user.id,
+      isPaid: true,
     },
     include: {
       orderItem: true, // Don't include product here for a separate fetch

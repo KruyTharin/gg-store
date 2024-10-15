@@ -91,8 +91,8 @@ export default function useColorColumn() {
         },
       },
       {
-        accessorKey: 'stockCount',
-        header: 'Quantity',
+        accessorKey: 'quantity',
+        header: 'Stock Count',
       },
       {
         accessorKey: 'category',

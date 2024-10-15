@@ -13,7 +13,7 @@ export async function CategoryDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -51,8 +51,11 @@ export const CreateCategoryAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create billboard.' };
+  if (
+    session.user.role === UserRole.USER ||
+    session.user.role === UserRole.DELIVERY
+  ) {
+    return { error: 'You are not allowed to create category.' };
   }
 
   await db.category.create({
@@ -94,8 +97,11 @@ export const EditCategoryAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
-    return { error: 'You are not allowed to create billboard.' };
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
+    return { error: 'You are not allowed to edit category.' };
   }
 
   await db.category.update({

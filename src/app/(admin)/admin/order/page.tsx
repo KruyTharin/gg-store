@@ -25,6 +25,7 @@ const getPaginatedResults = async ({
           mode: 'insensitive',
           contains: search,
         },
+        isPaid: true,
       },
     }),
     db.order.findMany({
@@ -35,6 +36,7 @@ const getPaginatedResults = async ({
           mode: 'insensitive',
           contains: search,
         },
+        isPaid: true,
       },
       orderBy: {
         [column]: sortType ?? 'asc',

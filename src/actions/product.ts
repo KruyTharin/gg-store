@@ -36,7 +36,10 @@ export const CreateProductAction = async (values: ProductSchemaType) => {
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
     return { error: 'You are not allowed to create product.' };
   }
 
@@ -68,7 +71,7 @@ export async function ProductDeleteAction(id: string) {
   const session = await auth();
   const { role } = session?.user || {};
 
-  if (role !== UserRole.ADMIN) {
+  if (role !== UserRole.SUPER_ADMIN) {
     return { error: 'You do not have permission to delete!' };
   }
 
@@ -122,7 +125,10 @@ export const EditProductAction = async (
     return { error: 'unAuthorize!' };
   }
 
-  if (session.user.role !== UserRole.ADMIN) {
+  if (
+    session.user.role === UserRole.DELIVERY ||
+    session.user.role === UserRole.USER
+  ) {
     return { error: 'You are not allowed to edit product.' };
   }
 
