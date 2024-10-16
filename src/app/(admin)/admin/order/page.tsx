@@ -89,8 +89,6 @@ async function OrderPage({
     perPage,
   });
 
-  console.log(orders.data);
-
   return <DataTable data={orders.data} meta={orders.meta} />;
 }
 

@@ -19,6 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         category: {
           id: productDetail?.category?.id,
         },
+        isFeatured: false,
       },
       include: {
         images: true,

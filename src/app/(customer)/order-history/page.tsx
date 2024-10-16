@@ -31,7 +31,6 @@ const OrderHistory = async () => {
       });
     }
   }
-  console.log(orders[0].orderItem);
 
   return (
     <div className="container space-y-5 mt-5">
