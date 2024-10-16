@@ -51,18 +51,18 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // for (const item of order?.orderItem) {
-    //   await db.product.update({
-    //     where: {
-    //       id: item.productId,
-    //     },
-    //     data: {
-    //       stockCount: {
-    //         decrement: item.quantity,
-    //       },
-    //     },
-    //   });
-    // }
+    for (const item of order?.orderItem) {
+      await db.product.update({
+        where: {
+          id: item.productId,
+        },
+        data: {
+          stockCount: {
+            decrement: item.quantity,
+          },
+        },
+      });
+    }
 
     await sendOrder(
       event?.data?.object?.payment_intent as string,
