@@ -139,7 +139,7 @@ export default function FilterPage() {
                   <li key={category.name}>
                     <button
                       className={cn(
-                        'disabled:cursor-not-allowed disabled:opacity-60',
+                        'disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer hover:underline',
                         {
                           'font-bold': category.id === categoryParams,
                         }
