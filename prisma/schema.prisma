@@ -37,6 +37,7 @@ model User {
   twoFactorConfirmation TwoFactorConfirmation?
 
   order  Order[]
+  Product Product[]
  
   @@map("users")
 }
@@ -158,8 +159,11 @@ model Product{
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   OrderItem OrderItem[]
+  userId String?   
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([sizeId])
+  @@index([userId])
   @@index([colorId])
   @@index([categoryId])
 }

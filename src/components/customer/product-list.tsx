@@ -4,7 +4,6 @@ import { ProductCard } from './product-card';
 const ProductList = async () => {
   const products = await db.product.findMany({
     where: {
-      isFeatured: true,
       isFavarited: false,
     },
 
@@ -14,8 +13,6 @@ const ProductList = async () => {
       images: true,
     },
   });
-
-  console.log(products);
 
   return (
     <div className="mt-12 container">
