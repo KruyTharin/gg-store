@@ -14,6 +14,7 @@ export default auth(async (req) => {
   const isPublicRoute = ROUTES.PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = ROUTES.AUTH_ROUTES.includes(nextUrl.pathname);
   const isAdminRoute = nextUrl.pathname.startsWith(ROUTES.ADMIN_ROUTES);
+  const isDeliveryRoute = nextUrl.pathname.startsWith(ROUTES.DELIVERY_ROUTES); // Add a check for delivery route
 
   if (isApiAuthRoutes || isWebHookRoute) {
     return;
@@ -45,6 +46,16 @@ export default auth(async (req) => {
       return;
     }
     return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
+  }
+
+  // Check for delivery routes and restrict access to users with DELIVERY role
+  if (isDeliveryRoute && isLoggedIn) {
+    if (req.auth!.user.role === UserRole.DELIVERY) {
+      return;
+    }
+    return Response.redirect(
+      new URL(ROUTES.DEFAULT_LOGIN_REDIRECT_URL, nextUrl)
+    );
   }
 
   return;

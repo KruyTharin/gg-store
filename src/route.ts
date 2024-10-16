@@ -42,4 +42,7 @@ export const ROUTES = {
 
   //Admin routes
   ADMIN_ROUTES: '/admin',
+
+  // deliver routes
+  DELIVERY_ROUTES: '/delivery',
 };

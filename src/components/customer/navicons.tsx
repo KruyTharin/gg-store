@@ -8,6 +8,7 @@ import {
   Settings,
   ShoppingCart,
   LogIn,
+  TruckIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -102,7 +103,6 @@ function NavIcons() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-
       <Link className="relative " href={'/card'}>
         <ShoppingCart />
 
@@ -110,6 +110,11 @@ function NavIcons() {
           {card.items.length}
         </small>
       </Link>
+      {session?.user.role === 'DELIVERY' && (
+        <Link className="relative " href={'/delivery'}>
+          <TruckIcon className="size-9 p-2 text-yellow-500 border rounded-full" />
+        </Link>
+      )}
     </div>
   );
 }
