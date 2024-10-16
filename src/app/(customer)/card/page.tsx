@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import NoDataInCard from '@/components/customer/no-data-in-card';
@@ -25,6 +24,7 @@ function CardPage() {
   const searchParams = useSearchParams();
   const { data: session } = useSession();
   const router = useRouter();
+
   // State to track whether stock is exceeded for any item
   const [isStockExceeded, setIsStockExceeded] = useState(false);
 
@@ -65,14 +65,15 @@ function CardPage() {
         description: 'Something went wrong!',
       });
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    // Check if any item exceeds stock count
-    const stockIssue = cardStore.items.some(
-      (item) => item.quantity > Number(item.stockCount)
-    );
-    setIsStockExceeded(stockIssue); // Update the state if stock exceeds
+    // Ensure stockCount is a number before comparison
+    const stockIssue = items.some((item) => {
+      const stockCount = Number(item.stockCount); // Convert to number if it's not already
+      return item.quantity > stockCount;
+    });
+    setIsStockExceeded(stockIssue);
   }, [items]);
 
   return (
@@ -101,11 +102,12 @@ function CardPage() {
                   <div className="flex gap-5 items-center justify-center">
                     <div className="flex justify-center items-center space-x-2">
                       <h3>
-                        product in stock{' '}
+                        product in stock&#39;
                         <span className="text-yellow-500">
                           {item.stockCount} left
                         </span>
                       </h3>
+
                       <Button
                         variant="outline"
                         size="icon"
@@ -119,7 +121,7 @@ function CardPage() {
                         variant="outline"
                         size="icon"
                         onClick={() => cardStore.addQty(item)}
-                        disabled={item.quantity >= item.stockCount}
+                        disabled={item.quantity >= Number(item.stockCount)}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>
@@ -152,7 +154,7 @@ function CardPage() {
 
           {isStockExceeded && (
             <span className="text-rose-500 text-center flex justify-center">
-              The quantity you've selected exceeds the available stock.
+              The quantity you have selected exceeds the available stock.
             </span>
           )}
           <CardFooter>
