@@ -65,7 +65,7 @@ function CardPage() {
         description: 'Something went wrong!',
       });
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     // Check if any item exceeds stock count
