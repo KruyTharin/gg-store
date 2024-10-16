@@ -151,7 +151,7 @@ function CreateProductForm({
               name="stockCount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>StockCount</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Quantity"

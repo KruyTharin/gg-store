@@ -17,7 +17,7 @@ import { CreditCard, Minus, Plus, Trash } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function CardPage() {
   const cardStore = useCardStore();
@@ -25,6 +25,8 @@ function CardPage() {
   const searchParams = useSearchParams();
   const { data: session } = useSession();
   const router = useRouter();
+  // State to track whether stock is exceeded for any item
+  const [isStockExceeded, setIsStockExceeded] = useState(false);
 
   const totalPrice = items.reduce(
     (total, item) => total + Number(item.price) * item.quantity,
@@ -64,6 +66,15 @@ function CardPage() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    // Check if any item exceeds stock count
+    const stockIssue = cardStore.items.some(
+      (item) => item.quantity > Number(item.stockCount)
+    );
+    setIsStockExceeded(stockIssue); // Update the state if stock exceeds
+  }, [items]);
+
   return (
     <div className="container mt-5">
       {!!cardStore?.items.length ? (
@@ -138,8 +149,18 @@ function CardPage() {
               <span>${totalPrice}</span>
             </div>
           </CardContent>
+
+          {isStockExceeded && (
+            <span className="text-rose-500 text-center flex justify-center">
+              The quantity you've selected exceeds the available stock.
+            </span>
+          )}
           <CardFooter>
-            <Button className="w-full mt-5" onClick={() => onCheckOut()}>
+            <Button
+              className="w-full mt-5"
+              onClick={() => onCheckOut()}
+              disabled={isStockExceeded}
+            >
               <CreditCard className="mr-2 h-4 w-4" /> Pay ${totalPrice}
             </Button>
           </CardFooter>
