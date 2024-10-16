@@ -112,9 +112,9 @@ export default function ProductDetail({
           <Button
             className="w-full mb-6"
             onClick={addToCard}
-            disabled={data.quantity === 0}
+            disabled={Number(data.stockCount) === 0}
           >
-            <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+            <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart{' '}
           </Button>
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-2">Product Description</h2>

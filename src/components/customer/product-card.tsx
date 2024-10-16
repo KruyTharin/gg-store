@@ -104,16 +104,13 @@ export const ProductCard: React.FC<Props> = (props) => {
         <div className="flex justify-between mb-5 mt-3">
           <div>
             <h4 className="font-bold text-sm">Price {price}$</h4>
-            <span className="text-sm line-clamp-1 hover:underline cursor-pointer">
-              {name}
-            </span>
+            <span className="text-sm line-clamp-1 ">{name}</span>
           </div>
         </div>
-
         <Button
           className="w-full"
           onClick={addToCard}
-          disabled={stockCount === 0}
+          disabled={Number(stockCount) === 0}
         >
           <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
         </Button>

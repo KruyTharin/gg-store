@@ -23,35 +23,47 @@ export const sendVerificationEmail = async (
   });
 };
 
+const SENDER_EMAIL = 'mail@ggstor.online';
+
 export const sendResetPasswordEmail = async (email: string, token: string) => {
-  const passwordResetLink = `${process.env
-    .NEXT_PUBLIC_RESEND_BASE_URL!}/auth/new-password?token=${token}`;
+  const passwordResetLink = `${
+    process.env.NEXT_PUBLIC_RESEND_BASE_URL
+  }/auth/new-password?token=${encodeURIComponent(token)}`;
 
   await resend.emails.send({
-    from: 'mail@ggstor.online',
+    from: SENDER_EMAIL,
     to: email,
     subject: 'Reset your password!',
-    html: `<p>Click <a href=${passwordResetLink}>here</a> to reset password!</p>`,
+    html: `
+      <p>To reset your password, click <a href="${passwordResetLink}">here</a>.</p>
+      <p>If you didn’t request this, please ignore this email.</p>
+    `,
+    text: `To reset your password, visit the following link: ${passwordResetLink}. If you didn’t request this, please ignore this email.`, // Plain text version
   });
 };
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: 'mail@ggstor.online',
+    from: SENDER_EMAIL,
     to: email,
-    subject: '2FA Code',
-    html: `<p>Your 2FA code: ${token} </p>`,
+    subject: 'Your 2FA Code',
+    html: `<p>Your two-factor authentication code is: <strong>${token}</strong></p>`,
+    text: `Your two-factor authentication code is: ${token}`, // Plain text version
   });
 };
 
 export const sendOrder = async (paymentID: string, orderID: any) => {
   await resend.emails.send({
-    from: 'mail@ggstor.online',
-    to: 'kruytharin17@gmail.com',
-    subject: 'GG Store Order',
+    from: SENDER_EMAIL,
+    to: 'kruytharin17@gmail.com', // Consider making this dynamic for different recipients
+    subject: 'GG Store Order Confirmation',
     html: `
-        <p>PaymentID: <b>${paymentID}</b> </p>
-        <p>OrderID: <b>${orderID}</b> </p>
+      <p>Thank you for your order!</p>
+      <p>Payment ID: <strong>${paymentID}</strong></p>
+      <p>Order ID: <strong>${JSON.stringify(orderID)}</strong></p>
     `,
+    text: `Thank you for your order! Payment ID: ${paymentID}, Order ID: ${JSON.stringify(
+      orderID
+    )}`, // Plain text version
   });
 };

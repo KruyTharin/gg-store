@@ -4,7 +4,7 @@ import OrderHistoryCard from '@/components/customer/order-history-card';
 import NoOrderHistory from '@/components/no-order-history';
 import { db } from '@/lib/db';
 
-export default async function OrderHistory() {
+const OrderHistory = async () => {
   const session = await auth();
 
   const orders = await db.order.findMany({
@@ -31,6 +31,7 @@ export default async function OrderHistory() {
       });
     }
   }
+  console.log(orders[0].orderItem);
 
   return (
     <div className="container space-y-5 mt-5">
@@ -41,4 +42,6 @@ export default async function OrderHistory() {
       )}
     </div>
   );
-}
+};
+
+export default OrderHistory;
