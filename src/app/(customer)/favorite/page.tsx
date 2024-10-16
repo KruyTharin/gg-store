@@ -1,11 +1,15 @@
+import { auth } from '@/auth';
 import { ProductCard } from '@/components/customer/product-card';
 import NoFavorite from '@/components/no-favorite';
 import { db } from '@/lib/db';
 
 const ProductList = async () => {
+  const session = await auth();
+
   const products = await db.product.findMany({
     where: {
       isFavarited: true,
+      userId: session?.user.id,
     },
 
     include: {

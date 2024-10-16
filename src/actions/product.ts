@@ -172,11 +172,16 @@ export const EditProductAction = async (
 };
 
 export const FavoriteAction = async (value: boolean, id: string) => {
+  const session = await auth();
+
+  if (!session) return { error: 'Unauthorized' };
+
   try {
     if (value === false) {
       await db.product.update({
         data: {
           isFavarited: true,
+          userId: session.user.id,
         },
 
         where: {
@@ -191,6 +196,7 @@ export const FavoriteAction = async (value: boolean, id: string) => {
       await db.product.update({
         data: {
           isFavarited: false,
+          userId: session.user.id,
         },
 
         where: {
