@@ -102,7 +102,7 @@ function CardPage() {
                   <div className="flex gap-5 items-center justify-center">
                     <div className="flex justify-center items-center space-x-2">
                       <h3>
-                        product in stock&#39;
+                        product in stock{' '}
                         <span className="text-yellow-500">
                           {item.stockCount} left
                         </span>

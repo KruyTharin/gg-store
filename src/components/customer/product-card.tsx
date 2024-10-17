@@ -13,6 +13,7 @@ import { FavoriteAction } from '@/actions/product';
 import { toast } from '../ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { Badge } from '../ui/badge';
 
 interface Props {
   price: number;
@@ -92,6 +93,7 @@ export const ProductCard: React.FC<Props> = (props) => {
             className="object-cover cursor-pointer"
           />
         </div>
+        {stockCount <= 0 && <Badge variant={'destructive'}>Out of Stock</Badge>}
         <Heart
           className={cn('size-6 absolute top-2 right-3 cursor-pointer', {
             'text-rose-500': isFavarited === true,
