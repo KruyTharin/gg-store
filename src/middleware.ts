@@ -15,6 +15,7 @@ export default auth(async (req) => {
   const isAuthRoute = ROUTES.AUTH_ROUTES.includes(nextUrl.pathname);
   const isAdminRoute = nextUrl.pathname.startsWith(ROUTES.ADMIN_ROUTES);
   const isDeliveryRoute = nextUrl.pathname.startsWith(ROUTES.DELIVERY_ROUTES); // Add a check for delivery route
+  const isAdminUserRoute = nextUrl.pathname === '/admin/user'; // Add this specific route check
 
   if (isApiAuthRoutes || isWebHookRoute) {
     return;
@@ -36,6 +37,14 @@ export default auth(async (req) => {
     }
 
     return;
+  }
+
+  // Restrict /admin/user to SUPER_ADMIN only
+  if (isAdminUserRoute && isLoggedIn) {
+    if ((req.auth!.user.role as any) !== UserRole.SUPER_ADMIN) {
+      return Response.redirect(new URL(ROUTES.LOGIN, nextUrl));
+    }
+    return; // Allow SUPER_ADMIN
   }
 
   if (isAdminRoute && isLoggedIn) {

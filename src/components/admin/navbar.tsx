@@ -80,6 +80,17 @@ function AdminNavbar() {
               {route.label}
             </Link>
           ))}
+
+          {session?.user.role === UserRole.SUPER_ADMIN && (
+            <Link
+              href={'/admin/user'}
+              className={cn({
+                'font-bold': pathname.startsWith('/admin/user'),
+              })}
+            >
+              user
+            </Link>
+          )}
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -100,12 +111,13 @@ function AdminNavbar() {
               </Link>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {session?.user.role === UserRole.ADMIN && (
-              <DropdownMenuItem>
-                <CalendarDays className="mr-2 h-4 w-4" />
-                <Link href={'/'}>Home</Link>
-              </DropdownMenuItem>
-            )}
+            {session?.user.role === UserRole.ADMIN ||
+              (session?.user.role === UserRole.SUPER_ADMIN && (
+                <DropdownMenuItem>
+                  <CalendarDays className="mr-2 h-4 w-4" />
+                  <Link href={'/'}>Home</Link>
+                </DropdownMenuItem>
+              ))}
 
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />

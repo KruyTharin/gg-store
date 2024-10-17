@@ -35,6 +35,7 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
     to: email,
     subject: 'Reset your password!',
     html: `
+      <img src="https://gg-store-two.vercel.app/_next/image?url=%2Flogo.png&w=750&q=75" alt="Confirmation Image" style="width:300px;" />
       <p>To reset your password, click <a href="${passwordResetLink}">here</a>.</p>
       <p>If you didn’t request this, please ignore this email.</p>
     `,
@@ -58,12 +59,13 @@ export const sendOrder = async (paymentID: string, orderID: any) => {
     to: 'kruytharin17@gmail.com', // Consider making this dynamic for different recipients
     subject: 'GG Store Order Confirmation',
     html: `
+      <img src="https://gg-store-two.vercel.app/_next/image?url=%2Flogo.png&w=750&q=75" alt="Confirmation Image" style="width:300px;" />
       <p>Thank you for your order!</p>
       <p>Payment ID: <strong>${paymentID}</strong></p>
-      <p>Order ID: <strong>${JSON.stringify(orderID)}</strong></p>
+      <p>Order ID: <strong>${orderID}</strong></p>
     `,
     text: `Thank you for your order! Payment ID: ${paymentID}, Order ID: ${JSON.stringify(
       orderID
-    )}`, // Plain text version
+    )}`,
   });
 };
