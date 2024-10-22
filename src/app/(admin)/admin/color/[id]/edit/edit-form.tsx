@@ -10,7 +10,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -25,6 +24,7 @@ import { AlertDeleteDialog } from '@/components/alert/delete';
 import { CreateColorSchema, CreateColorSchemaType } from '@/schema/color';
 import { ColorDeleteAction, EditColorAction } from '@/actions/color';
 import { ColorPicker } from '@/components/ui/color-picker';
+import CustomLabel from '@/components/custom-label';
 
 export function EditColorForm({
   defaultValues,
@@ -117,7 +117,7 @@ export function EditColorForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel required>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Color name" {...field} />
                   </FormControl>
@@ -134,7 +134,7 @@ export function EditColorForm({
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Color</FormLabel>
+                  <CustomLabel required>Color</CustomLabel>
                   <FormControl>
                     <ColorPicker
                       onChange={field.onChange}

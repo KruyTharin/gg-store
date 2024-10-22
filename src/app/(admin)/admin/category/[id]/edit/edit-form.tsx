@@ -10,7 +10,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -35,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import CustomLabel from '@/components/custom-label';
 
 export function EditCategoryForm({
   defaultValues,
@@ -129,7 +129,7 @@ export function EditCategoryForm({
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Background Image</FormLabel>
+                <CustomLabel required>Background Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -148,7 +148,7 @@ export function EditCategoryForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <CustomLabel required>Label</CustomLabel>
                   <FormControl>
                     <Input placeholder="Category name" {...field} />
                   </FormControl>
@@ -165,7 +165,7 @@ export function EditCategoryForm({
               name="billboardId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billboard</FormLabel>
+                  <CustomLabel required>Billboard</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

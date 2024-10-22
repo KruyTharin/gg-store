@@ -10,7 +10,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -31,6 +30,7 @@ import { Trash } from 'lucide-react';
 import { useDeleteAlertStore } from '@/app/stores/useDeleteStore';
 import { useMutation } from '@tanstack/react-query';
 import { AlertDeleteDialog } from '@/components/alert/delete';
+import CustomLabel from '@/components/custom-label';
 
 export function EditBillboardForm({
   defaultValues,
@@ -124,7 +124,7 @@ export function EditBillboardForm({
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Background Image</FormLabel>
+                <CustomLabel required>Background Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -143,7 +143,7 @@ export function EditBillboardForm({
               name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <CustomLabel required>Label</CustomLabel>
                   <FormControl>
                     <Input placeholder="billboard label" {...field} />
                   </FormControl>

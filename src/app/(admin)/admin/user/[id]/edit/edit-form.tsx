@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -27,6 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ImageUpload from '@/components/ui/image-upload';
+import CustomLabel from '@/components/custom-label';
 
 export function EditUserForm({ defaultValues }: { defaultValues: User }) {
   const [isPending, startTransition] = useTransition();
@@ -82,7 +82,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Profile Image</FormLabel>
+                <CustomLabel>Profile Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -101,7 +101,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <CustomLabel>Username</CustomLabel>
                   <FormControl>
                     <Input placeholder="jonh doe" {...field} />
                   </FormControl>
@@ -115,7 +115,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <CustomLabel>Email</CustomLabel>
                   <FormControl>
                     <Input placeholder="example@gmail.com" {...field} />
                   </FormControl>
@@ -129,7 +129,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <CustomLabel>Password</CustomLabel>
                   <FormControl>
                     <Input placeholder="password" type="password" {...field} />
                   </FormControl>
@@ -143,7 +143,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <CustomLabel>New Password</CustomLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -161,7 +161,7 @@ export function EditUserForm({ defaultValues }: { defaultValues: User }) {
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billboard</FormLabel>
+                  <CustomLabel>Billboard</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -19,6 +18,7 @@ import { CreateUserAction } from '@/actions/user';
 import { userSchema, UserSchemaSchemaType } from '@/schema/user';
 import { useRouter } from 'next/navigation';
 import ImageUpload from '@/components/ui/image-upload';
+import CustomLabel from '@/components/custom-label';
 
 export function CreateUserForm() {
   const [isPending, startTransition] = useTransition();
@@ -72,7 +72,7 @@ export function CreateUserForm() {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Profile Image</FormLabel>
+                <CustomLabel>Profile Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -90,7 +90,7 @@ export function CreateUserForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <CustomLabel>Username</CustomLabel>
                   <FormControl>
                     <Input placeholder="jonh doe" {...field} />
                   </FormControl>
@@ -104,7 +104,7 @@ export function CreateUserForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <CustomLabel>Email</CustomLabel>
                   <FormControl>
                     <Input placeholder="example@gmail.com" {...field} />
                   </FormControl>
@@ -118,7 +118,7 @@ export function CreateUserForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <CustomLabel>Password</CustomLabel>
                   <FormControl>
                     <Input placeholder="password" type="password" {...field} />
                   </FormControl>

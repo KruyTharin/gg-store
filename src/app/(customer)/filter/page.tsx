@@ -125,7 +125,7 @@ export default function FilterPage() {
     <main className="container">
       <div className="flex items-baseline justify-between border-b pb-5 border-gray-200 mt-5">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-          Choose your favorite products
+          List of product by {categoryParams}
         </h1>
       </div>
 
@@ -141,10 +141,10 @@ export default function FilterPage() {
                       className={cn(
                         'disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer hover:underline',
                         {
-                          'font-bold': category.id === categoryParams,
+                          'font-bold': category.name === categoryParams,
                         }
                       )}
-                      onClick={() => filterByCat(category.id)}
+                      onClick={() => filterByCat(category.name)}
                     >
                       {category.name}
                     </button>

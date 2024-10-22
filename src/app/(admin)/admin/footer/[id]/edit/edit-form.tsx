@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -20,6 +19,7 @@ import { Config } from '@prisma/client';
 import { AlertDeleteDialog } from '@/components/alert/delete';
 import { CreateConfigSchema, CreateConfigSchemaType } from '@/schema/config';
 import { EditConfigAction } from '@/actions/config';
+import CustomLabel from '@/components/custom-label';
 
 export function EditColorForm({
   defaultValues,
@@ -71,7 +71,7 @@ export function EditColorForm({
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <CustomLabel>Phone Number</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Phone Number" {...field} />
                   </FormControl>
@@ -85,7 +85,7 @@ export function EditColorForm({
               name="slogan"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slogan</FormLabel>
+                  <CustomLabel>Slogan</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Slogan" {...field} />
                   </FormControl>
@@ -99,7 +99,7 @@ export function EditColorForm({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <CustomLabel>Email</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Email" {...field} />
                   </FormControl>
@@ -113,7 +113,7 @@ export function EditColorForm({
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>location</FormLabel>
+                  <CustomLabel>location</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product location" {...field} />
                   </FormControl>
@@ -127,7 +127,7 @@ export function EditColorForm({
               name="locationUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>locationUrl</FormLabel>
+                  <CustomLabel>locationUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product locationUrl" {...field} />
                   </FormControl>
@@ -141,7 +141,7 @@ export function EditColorForm({
               name="facebookUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>facebookUrl</FormLabel>
+                  <CustomLabel>facebookUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product facebookUrl" {...field} />
                   </FormControl>
@@ -155,7 +155,7 @@ export function EditColorForm({
               name="telegramUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>telegramUrl</FormLabel>
+                  <CustomLabel>telegramUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product telegramUrl" {...field} />
                   </FormControl>

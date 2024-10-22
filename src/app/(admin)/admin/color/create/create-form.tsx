@@ -1,6 +1,7 @@
 'use client';
 
 import { CreateColorAction } from '@/actions/color';
+import CustomLabel from '@/components/custom-label';
 import { Button } from '@/components/ui/button';
 import { ColorPicker } from '@/components/ui/color-picker';
 import {
@@ -69,7 +70,7 @@ function CreateColorForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel required>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Color name" {...field} />
                   </FormControl>
@@ -84,7 +85,7 @@ function CreateColorForm() {
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Color</FormLabel>
+                  <CustomLabel required>Color</CustomLabel>
                   <FormControl>
                     <ColorPicker
                       onChange={field.onChange}

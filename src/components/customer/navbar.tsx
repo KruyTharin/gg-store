@@ -83,17 +83,18 @@ const CustomerNavbar = () => {
               onValueChange={(value) => router.push(`/filter?cat=${value}`)}
             >
               <SelectTrigger className="w-fit border-none focus:outline-none ring-0">
-                <SelectValue placeholder="Categories" className="font-bold" />
+                {/* Always display "Categories" */}
+                <span>Categories</span>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   {categories?.length > 0 &&
                     categories?.map((category: any) => (
                       <SelectItem
-                        value={category.id}
+                        value={category.name}
                         key={category.id}
                         className={cn('', {
-                          'font-bold': category.id === categoryParams,
+                          'font-bold': category.name === categoryParams,
                         })}
                       >
                         {category?.name}

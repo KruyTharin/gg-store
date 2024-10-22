@@ -34,7 +34,7 @@ import { Meta } from '@/types/interface';
 import { TableFooter } from '@/components/table/footer';
 import { AuthRender } from '@/components/auth-render';
 import { AlertDeleteDialog } from '@/components/alert/delete';
-import useConfigColumn from './columns';
+import useColorColumn from './columns';
 
 interface DataTableProps<TData> {
   data: TData[];
@@ -42,7 +42,7 @@ interface DataTableProps<TData> {
 }
 
 export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
-  const { getColumns } = useConfigColumn();
+  const { getColumns } = useColorColumn();
 
   const columns: any = React.useMemo(
     () => getColumns({ meta: meta }),
@@ -70,17 +70,9 @@ export function DataTable<TData>({ data, meta }: DataTableProps<TData>) {
       <div className="mt-5">
         <div className="flex justify-between">
           <div>
-            <h2 className="font-bold text-2xl">Footer ({meta.totalItems})</h2>
-            <span>Manage footer for your store</span>
+            <h2 className="font-bold text-2xl">Stock Alert</h2>
+            <span>Manage stock product for your store.</span>
           </div>
-          <AuthRender role="ADMIN">
-            <Button asChild variant={'default'}>
-              <Link href={'/admin/footer/create'}>
-                <Plus className="w-5 h-5" />
-                <span>Add</span>
-              </Link>
-            </Button>
-          </AuthRender>
         </div>
         <div className="bg-gray-200 w-full h-[1px] mt-5"></div>
       </div>

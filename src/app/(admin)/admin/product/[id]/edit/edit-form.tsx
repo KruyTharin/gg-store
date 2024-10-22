@@ -1,6 +1,7 @@
 'use client';
 
 import { EditProductAction } from '@/actions/product';
+import CustomLabel from '@/components/custom-label';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -96,7 +97,7 @@ export function EditProductForm({
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product Image</FormLabel>
+                <CustomLabel>Product Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value.map((image) => image.url)}
@@ -121,7 +122,7 @@ export function EditProductForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product name" {...field} />
                   </FormControl>
@@ -136,7 +137,7 @@ export function EditProductForm({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <CustomLabel>Price</CustomLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Price"
@@ -154,7 +155,7 @@ export function EditProductForm({
               name="stockCount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Quantity</FormLabel>
+                  <CustomLabel>Quantity</CustomLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Quantity"
@@ -172,7 +173,7 @@ export function EditProductForm({
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <CustomLabel>Category</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -206,7 +207,7 @@ export function EditProductForm({
               name="colorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Color</FormLabel>
+                  <CustomLabel>Color</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -246,7 +247,7 @@ export function EditProductForm({
               name="sizeId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size</FormLabel>
+                  <CustomLabel>Size</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -325,7 +326,7 @@ export function EditProductForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <CustomLabel>Description</CustomLabel>
                   <FormControl>
                     <Textarea
                       placeholder="write description of the product"
