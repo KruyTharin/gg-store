@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 
         ...(category && {
           category: {
-            id: category,
+            name: category,
           },
         }),
 

@@ -1,13 +1,13 @@
 'use client';
 
 import { CreateConfigAction } from '@/actions/config';
+import CustomLabel from '@/components/custom-label';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -74,7 +74,7 @@ function CreateConfigForm() {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <CustomLabel>Phone Number</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Phone Number" {...field} />
                   </FormControl>
@@ -88,7 +88,7 @@ function CreateConfigForm() {
               name="slogan"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slogan</FormLabel>
+                  <CustomLabel>Slogan</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Slogan" {...field} />
                   </FormControl>
@@ -102,7 +102,7 @@ function CreateConfigForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <CustomLabel>Email</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product Email" {...field} />
                   </FormControl>
@@ -116,7 +116,7 @@ function CreateConfigForm() {
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>location</FormLabel>
+                  <CustomLabel>location</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product location" {...field} />
                   </FormControl>
@@ -130,7 +130,7 @@ function CreateConfigForm() {
               name="locationUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>locationUrl</FormLabel>
+                  <CustomLabel>locationUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product locationUrl" {...field} />
                   </FormControl>
@@ -144,7 +144,7 @@ function CreateConfigForm() {
               name="facebookUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>facebookUrl</FormLabel>
+                  <CustomLabel>facebookUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product facebookUrl" {...field} />
                   </FormControl>
@@ -158,7 +158,7 @@ function CreateConfigForm() {
               name="telegramUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>telegramUrl</FormLabel>
+                  <CustomLabel>telegramUrl</CustomLabel>
                   <FormControl>
                     <Input placeholder="Product telegramUrl" {...field} />
                   </FormControl>

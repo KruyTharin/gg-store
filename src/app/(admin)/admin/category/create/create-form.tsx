@@ -1,6 +1,7 @@
 'use client';
 
 import { CreateCategoryAction } from '@/actions/category';
+import CustomLabel from '@/components/custom-label';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -8,7 +9,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import ImageUpload from '@/components/ui/image-upload';
@@ -85,7 +85,7 @@ function CreateCategoryForm({
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Background Image</FormLabel>
+                <CustomLabel required>Background Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -104,7 +104,7 @@ function CreateCategoryForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel required>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Category name" {...field} />
                   </FormControl>
@@ -119,7 +119,7 @@ function CreateCategoryForm({
               name="billboardId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billboard</FormLabel>
+                  <CustomLabel required>Billboard</CustomLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

@@ -1,6 +1,7 @@
 'use client';
 
 import { CreateSizeAction } from '@/actions/size';
+import CustomLabel from '@/components/custom-label';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -8,7 +9,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -68,7 +68,7 @@ function CreateSizeForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Size name" {...field} />
                   </FormControl>
@@ -83,7 +83,7 @@ function CreateSizeForm() {
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <CustomLabel>Value</CustomLabel>
                   <FormControl>
                     <Input placeholder="Size value..." {...field} />
                   </FormControl>

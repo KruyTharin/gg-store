@@ -10,7 +10,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -23,6 +22,7 @@ import { useTransition } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { CreateBillboardAction } from '@/actions/billboard';
+import CustomLabel from '@/components/custom-label';
 
 export function CreateBillboardForm() {
   const [isPending, startTransition] = useTransition();
@@ -74,7 +74,7 @@ export function CreateBillboardForm() {
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Background Image</FormLabel>
+                <CustomLabel required>Background Image</CustomLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -93,7 +93,7 @@ export function CreateBillboardForm() {
               name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <CustomLabel required>Label</CustomLabel>
                   <FormControl>
                     <Input placeholder="billboard label" {...field} />
                   </FormControl>

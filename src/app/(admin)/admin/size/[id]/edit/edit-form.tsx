@@ -10,7 +10,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -25,6 +24,7 @@ import { AlertDeleteDialog } from '@/components/alert/delete';
 
 import { CreateSizeSchema, CreateSizeSchemaType } from '@/schema/size';
 import { EditSizeAction, SizeDeleteAction } from '@/actions/size';
+import CustomLabel from '@/components/custom-label';
 
 export function EditSizeForm({
   defaultValues,
@@ -117,7 +117,7 @@ export function EditSizeForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <CustomLabel>Name</CustomLabel>
                   <FormControl>
                     <Input placeholder="Size name" {...field} />
                   </FormControl>
@@ -134,7 +134,7 @@ export function EditSizeForm({
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <CustomLabel>Value</CustomLabel>
                   <FormControl>
                     <Input placeholder="Size value" {...field} />
                   </FormControl>
