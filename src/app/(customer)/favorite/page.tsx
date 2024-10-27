@@ -36,6 +36,7 @@ const ProductList = async () => {
               colors={product?.color?.name!}
               isFavarited={product.isFavarited}
               stockCount={product.stockCount as any}
+              isDisabled={false}
             />
           ))}
         </div>

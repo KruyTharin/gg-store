@@ -10,32 +10,27 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  CheckCircleIcon,
-  PackageIcon,
-  TruckIcon,
-  XCircleIcon,
-} from 'lucide-react';
+import { CheckCircleIcon, PackageIcon, TruckIcon } from 'lucide-react';
 import { EditOrderStatusAction } from '@/actions/order';
 import { OrderStatus } from '@prisma/client';
 import { toast } from '@/components/ui/use-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { httpClient } from '@/lib/axios';
+import { EditOrderDeliveryStatusAction } from '@/actions/delivery';
+import { EditOrderDeliveryLocationAction } from '@/actions/delivery-location';
 
 export default function useOrderColumn() {
   const getStatusIcon = (status: any) => {
     switch (status) {
       case 'PROCESSING':
         return <PackageIcon className="h-5 w-5 text-blue-500" />;
-      case 'SHIPPED':
-        return <TruckIcon className="h-5 w-5 text-yellow-500" />;
       case 'DELIVERED':
+        return <TruckIcon className="h-5 w-5 text-yellow-500" />;
+      case 'SUCCESS':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
-      case 'CANCELLED':
-        return <XCircleIcon className="h-5 w-5 text-red-500" />;
       default:
         return null;
     }
@@ -61,6 +56,76 @@ export default function useOrderColumn() {
       }
     },
   });
+
+  const { mutate: onUpdateDeliveryConfirm } = useMutation({
+    mutationFn: async ({ userId, id }: { userId: string; id: string }) =>
+      await EditOrderDeliveryStatusAction(userId, id),
+
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast({
+          title: 'Success',
+          description: data.success,
+        });
+      }
+
+      if (data?.error) {
+        toast({
+          title: 'Error',
+          description: data.error,
+        });
+      }
+    },
+  });
+
+  const { mutate: onUpdateDeliveryLocationConfirm } = useMutation({
+    mutationFn: async ({
+      deliveryLocationId,
+      id,
+    }: {
+      deliveryLocationId: number;
+      id: string;
+    }) => await EditOrderDeliveryLocationAction(deliveryLocationId, id),
+
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast({
+          title: 'Success',
+          description: data.success,
+        });
+      }
+
+      if (data?.error) {
+        toast({
+          title: 'Error',
+          description: data.error,
+        });
+      }
+    },
+  });
+
+  const { data: deliveries } = useQuery({
+    queryKey: ['deliveries'],
+    queryFn: async () => {
+      const response = await httpClient.get('/api/delivery');
+      return response.data;
+    },
+  });
+
+  const { data: deliveriesLocation } = useQuery({
+    queryKey: ['deliveriesLocation'],
+    queryFn: async () => {
+      const response = await httpClient.get('/api/delivery-location');
+      return response.data;
+    },
+  });
+
+  const mappedData = deliveriesLocation?.map((item: any) => ({
+    id: item.id,
+    name: item.province === 'Phnom Penh' ? item.district : item.province,
+  }));
+
+  console.log(mappedData);
 
   function getColumns({ meta }: { meta: Meta }): ColumnDef<any>[] {
     const offset = (meta.currentPage - 1) * meta.itemsPerPage;
@@ -106,6 +171,74 @@ export default function useOrderColumn() {
         },
       },
       {
+        accessorKey: 'deliveryLocationId',
+        header: 'Location',
+        cell: ({ row }) => {
+          return (
+            <Select
+              defaultValue={row.original.deliveryLocationId}
+              onValueChange={(e: any) => {
+                console.log('Row ID:', row.original.id); // Check if this is logged
+                onUpdateDeliveryLocationConfirm({
+                  deliveryLocationId: e,
+                  id: row.original.id,
+                }); // Continue with the current implementation
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {!!mappedData?.length &&
+                    mappedData.map((item: any) => {
+                      return (
+                        <SelectItem value={item?.id} key={item?.id}>
+                          <div className="flex gap-2">
+                            <span>{item?.name}</span>
+                          </div>
+                        </SelectItem>
+                      );
+                    })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          );
+        },
+      },
+      {
+        header: 'Delivery By',
+        cell: ({ row }) => {
+          return (
+            <Select
+              defaultValue={row.original.deliveryBy}
+              onValueChange={(e: any) => {
+                console.log('Row ID:', row.original.id); // Check if this is logged
+                onUpdateDeliveryConfirm({ userId: e, id: row.original.id }); // Continue with the current implementation
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a delivery" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {!!deliveries?.length &&
+                    deliveries.map((item: any) => {
+                      return (
+                        <SelectItem value={item?.id} key={item?.id}>
+                          <div className="flex gap-2">
+                            <span>{item?.name}</span>
+                          </div>
+                        </SelectItem>
+                      );
+                    })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          );
+        },
+      },
+      {
         accessorKey: 'status',
         header: 'Status',
         cell: ({ row }) => {
@@ -122,10 +255,9 @@ export default function useOrderColumn() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value="PROCESSING">
+                  <SelectItem value="PROCESSING" disabled>
                     <div className="flex gap-2">
-                      {getStatusIcon('PROCESSING')} <span>PROCESSING </span>
+                      {getStatusIcon('PROCESSING')} <span>PROCESSING</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="DELIVERED">
@@ -133,14 +265,9 @@ export default function useOrderColumn() {
                       {getStatusIcon('DELIVERED')} <span>DELIVERED</span>
                     </div>
                   </SelectItem>
-                  <SelectItem value="SHIPPED">
+                  <SelectItem value="SUCCESS">
                     <div className="flex gap-2">
-                      {getStatusIcon('SHIPPED')} <span>SHIPPED</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="CANCELLED">
-                    <div className="flex gap-2">
-                      {getStatusIcon('CANCELLED')} <span>CANCELLED</span>
+                      {getStatusIcon('SUCCESS')} <span>SUCCESS</span>
                     </div>
                   </SelectItem>
                 </SelectGroup>

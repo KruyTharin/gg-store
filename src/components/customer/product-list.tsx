@@ -3,10 +3,6 @@ import { ProductCard } from './product-card';
 
 const ProductList = async () => {
   const products = await db.product.findMany({
-    where: {
-      isFavarited: false,
-    },
-
     include: {
       color: true,
       size: true,

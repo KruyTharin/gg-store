@@ -20,8 +20,7 @@ enum UserRole {
 enum OrderStatus {
   PROCESSING
   DELIVERED
-  SHIPPED
-  CANCELLED
+  SUCCESS
 }
 
 model User {
@@ -191,7 +190,10 @@ model Order{
   createAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
- 
+  deliveryBy  String @default("")
+   // Add deliveryLocationId field to relate to DeliveryLocation
+  deliveryLocationId Int?             // Optional field
+  deliveryLocation   DeliveryLocation? @relation(fields: [deliveryLocationId], references: [id], onDelete: Cascade) // One order can have one delivery location
 }
 
 model OrderItem{
@@ -219,4 +221,24 @@ model Config{
   telegramUrl String
   createAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+}
+
+model DeliveryLocation {
+  id           Int      @id @default(autoincrement())
+  address      String   // Detailed address, like street name, house number
+  commune      String   // Example: Sangkat Toul Svay Prey I
+
+  // Fields for Phnom Penh's structure
+  district     String?  // Only applies if province is Phnom Penh; Example: Khan Chamkar Mon
+
+  // Province applies to all locations
+  province     String   // Example: Phnom Penh or Kandal
+  postalCode   String?  // Postal code, optional
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders       Order[]
+
+  @@index([province, district, commune], map: "location_index")
 }

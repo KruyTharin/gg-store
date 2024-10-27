@@ -12,8 +12,6 @@ async function DeliveryPersonnelPage() {
     },
   });
 
-  console.log(orders);
-
   return <DeliveryPersonnel orders={orders} />;
 }
 
