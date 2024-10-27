@@ -24,10 +24,19 @@ interface Props {
   isFavarited: boolean;
   stockCount: number;
   quantity?: number;
+  isDisabled?: boolean;
 }
 
 export const ProductCard: React.FC<Props> = (props) => {
-  const { images, name, price, id: productId, isFavarited, stockCount } = props;
+  const {
+    images,
+    name,
+    price,
+    isDisabled = true,
+    isFavarited,
+    id: productId,
+    stockCount,
+  } = props;
 
   const router = useRouter();
   const card = useCardStore();
@@ -94,15 +103,20 @@ export const ProductCard: React.FC<Props> = (props) => {
           />
         </div>
         {stockCount <= 0 && <Badge variant={'destructive'}>Out of Stock</Badge>}
-        <Heart
-          className={cn('size-6 absolute top-2 right-3 cursor-pointer', {
-            'text-rose-500': isFavarited === true,
-            'text-black': isFavarited === false,
-          })}
-          onClick={() =>
-            handleToggleFavorite({ isFavorite: isFavarited, id: productId })
-          }
-        />
+        <button
+          disabled={isDisabled && isFavarited}
+          className="disabled:cursor-not-allowed"
+        >
+          <Heart
+            className={cn('size-6 absolute top-2 right-3 cursor-pointer', {
+              'text-rose-500': isFavarited === true,
+              'text-black': isFavarited === false,
+            })}
+            onClick={() =>
+              handleToggleFavorite({ isFavorite: isFavarited, id: productId })
+            }
+          />
+        </button>
         <div className="flex justify-between mb-5 mt-3">
           <div>
             <h4 className="font-bold text-sm">Price {price}$</h4>

@@ -50,12 +50,10 @@ export default function DeliveryPersonnel({ orders }: { orders: any[] }) {
     switch (status) {
       case 'PROCESSING':
         return <PackageIcon className="h-5 w-5 text-blue-500" />;
-      case 'SHIPPED':
-        return <TruckIcon className="h-5 w-5 text-yellow-500" />;
       case 'DELIVERED':
+        return <TruckIcon className="h-5 w-5 text-yellow-500" />;
+      case 'SUCCESS':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
-      case 'CANCELLED':
-        return <XCircleIcon className="h-5 w-5 text-red-500" />;
       default:
         return null;
     }
@@ -127,15 +125,15 @@ export default function DeliveryPersonnel({ orders }: { orders: any[] }) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    {delivery.status === 'DELIVERED' ? (
+                    {delivery.status === 'SUCCESS' ? (
                       <Button size="sm" disabled className="w-full">
-                        Delivered
+                        SUCCESS
                       </Button>
                     ) : (
                       <Button
                         onClick={() =>
                           onStatusConfirm({
-                            status: 'DELIVERED',
+                            status: 'SUCCESS',
                             id: delivery.id,
                           })
                         }
