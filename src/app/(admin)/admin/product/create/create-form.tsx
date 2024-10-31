@@ -252,7 +252,7 @@ function CreateProductForm({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a color" />
+                        <SelectValue placeholder="Select a size" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
