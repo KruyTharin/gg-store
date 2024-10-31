@@ -36,7 +36,7 @@ interface CategoryCardProps {
 const CategoryCard: React.FC<CategoryCardProps> = ({ imageUrl, title, id }) => {
   return (
     <Link
-      href={`/filter?cat=${id}`}
+      href={`/filter?cat=${title}`}
       className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6"
     >
       <div className="aspect-w-4 aspect-h-5">
