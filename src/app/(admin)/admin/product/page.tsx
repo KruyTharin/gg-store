@@ -95,6 +95,7 @@ async function ProductPage({
     category: product?.category?.name!,
     size: product?.size?.name!,
     color: product?.color?.name!,
+    colorCode: product?.color?.value!,
     createAt: product.createAt,
     url: product.images[0].url,
     quantity: product.stockCount,
