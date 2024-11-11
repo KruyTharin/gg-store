@@ -21,6 +21,7 @@ interface ProductColumn {
   size: string;
   category: string;
   color: string;
+  colorCode: string;
   isFeatured: boolean;
   createAt: string;
 }
@@ -103,10 +104,9 @@ export default function useColorColumn() {
         header: 'Size',
       },
       {
-        accessorKey: 'value',
         header: 'Color',
         cell: ({ row }) => {
-          const color = row.original.color;
+          const color = row.original.colorCode;
           return (
             <div className="flex gap-2 items-center">
               <div
